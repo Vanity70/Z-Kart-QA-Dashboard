@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZKart · Test & Issues Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #F7F5F2;
+    --surface:   #FFFFFF;
+    --surface2:  #F2EFE9;
+    --border:    #E4DFD7;
+    --border2:   #CEC8BF;
+    --text:      #1A1714;
+    --text2:     #6B6560;
+    --text3:     #9B948C;
+    --accent:    #D4541A;
+    --accent-lt: #FBF0EB;
+    --accent2:   #8B4513;
+    --green:     #2D6A4F;
+    --green-lt:  #EAF4EF;
+    --amber:     #92400E;
+    --amber-lt:  #FEF3C7;
+    --red:       #9B1C1C;
+    --red-lt:    #FEF2F2;
+    --blue:      #1E3A5F;
+    --blue-lt:   #EFF6FF;
+    --purple:    #4C1D95;
+    --purple-lt: #F5F3FF;
+    --teal:      #0D4A45;
+    --teal-lt:   #F0FDFA;
+    --radius:    8px;
+    --radius-lg: 12px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .site-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 58px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .logo-mark {
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+  }
+  .header-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--text3);
+  }
+  .sync-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--green);
+    background: var(--green-lt);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-weight: 500;
+  }
+  .sync-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* ── Layout ── */
+  .container { max-width: 1280px; margin: 0 auto; padding: 2rem 2.5rem; }
+
+  /* ── Page intro ── */
+  .page-intro {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .page-intro h1 {
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .page-intro p {
+    font-size: 14px;
+    color: var(--text2);
+    margin-top: 4px;
+    font-weight: 300;
+  }
+  .last-sync {
+    font-size: 12px;
+    color: var(--text3);
+    font-family: 'DM Mono', monospace;
+    white-space: nowrap;
+  }
+
+  /* ── Stat cards ── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 2rem;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1rem 1.25rem;
+    transition: border-color 0.15s;
+  }
+  .stat-card:hover { border-color: var(--border2); }
+  .stat-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 6px;
+  }
+  .stat-value {
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+  }
+  .stat-sub {
+    font-size: 11px;
+    color: var(--text3);
+    margin-top: 4px;
+  }
+
+  /* ── Tabs ── */
+  .tabs {
+    display: flex;
+    gap: 2px;
+    background: var(--surface2);
+    border-radius: var(--radius-lg);
+    padding: 4px;
+    margin-bottom: 1.5rem;
+    width: fit-content;
+    border: 1px solid var(--border);
+  }
+  .tab-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text2);
+    padding: 7px 16px;
+    border-radius: var(--radius);
+    transition: all 0.15s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .tab-btn:hover { color: var(--text); background: var(--surface); }
+  .tab-btn.active {
+    background: var(--surface);
+    color: var(--text);
+    font-weight: 500;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  .tab-count {
+    font-size: 11px;
+    background: var(--surface2);
+    color: var(--text3);
+    border-radius: 10px;
+    padding: 1px 6px;
+    font-family: 'DM Mono', monospace;
+  }
+  .tab-btn.active .tab-count { background: var(--accent-lt); color: var(--accent); }
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
+
+  /* ── Filters row ── */
+  .filters-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .search-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 200px;
+    max-width: 360px;
+  }
+  .search-wrap svg {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text3);
+    pointer-events: none;
+  }
+  .search-input {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    width: 100%;
+    height: 36px;
+    padding: 0 12px 0 34px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .search-input:focus { border-color: var(--accent); }
+  .filter-select {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    height: 36px;
+    padding: 0 28px 0 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239B948C' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    transition: border-color 0.15s;
+  }
+  .filter-select:focus { border-color: var(--accent); }
+  .result-count {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--text3);
+    font-family: 'DM Mono', monospace;
+    white-space: nowrap;
+  }
+
+  /* ── Table ── */
+  .table-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    table-layout: fixed;
+  }
+  .data-table thead tr {
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table th {
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text3);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .data-table td {
+    padding: 11px 14px;
+    vertical-align: top;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    word-break: break-word;
+    line-height: 1.5;
+  }
+  .data-table tbody tr:last-child td { border-bottom: none; }
+  .data-table tbody tr:hover td { background: var(--surface2); }
+  .data-table tbody tr { transition: background 0.1s; }
+
+  /* ID cell */
+  .id-cell {
+    font-family: 'DM Mono', monospace;
+    font-size: 11.5px;
+    color: var(--text3);
+    white-space: nowrap;
+  }
+
+  /* Title cell */
+  .title-cell { font-weight: 500; color: var(--text); }
+  .title-sub { font-size: 12px; color: var(--text2); font-weight: 300; margin-top: 2px; }
+
+  /* Steps cell */
+  .steps-cell {
+    font-size: 12px;
+    color: var(--text2);
+    white-space: pre-line;
+  }
+
+  /* ── Badges ── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 20px;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+  .badge-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .badge-p0    { background: #FEF2F2; color: #9B1C1C; }
+  .badge-p0 .badge-dot { background: #9B1C1C; }
+  .badge-p1    { background: #FEF3C7; color: #92400E; }
+  .badge-p1 .badge-dot { background: #D97706; }
+  .badge-p2    { background: #EFF6FF; color: #1E3A5F; }
+  .badge-p2 .badge-dot { background: #3B82F6; }
+
+  .badge-critical { background: #FEF2F2; color: #9B1C1C; }
+  .badge-critical .badge-dot { background: #9B1C1C; }
+  .badge-high     { background: #FFF7ED; color: #9A3412; }
+  .badge-high .badge-dot { background: #EA580C; }
+  .badge-medium   { background: #FEFCE8; color: #854D0E; }
+  .badge-medium .badge-dot { background: #CA8A04; }
+  .badge-low      { background: #F0FDF4; color: #14532D; }
+  .badge-low .badge-dot { background: #16A34A; }
+
+  .badge-open     { background: #FEF2F2; color: #9B1C1C; }
+  .badge-open .badge-dot { background: #EF4444; }
+  .badge-in-progress { background: #FEF3C7; color: #92400E; }
+  .badge-in-progress .badge-dot { background: #F59E0B; }
+  .badge-fixed    { background: #F0FDF4; color: #14532D; }
+  .badge-fixed .badge-dot { background: #22C55E; }
+  .badge-not-run  { background: var(--surface2); color: var(--text3); }
+  .badge-not-run .badge-dot { background: var(--text3); }
+  .badge-passed   { background: #F0FDF4; color: #14532D; }
+  .badge-passed .badge-dot { background: #22C55E; }
+  .badge-failed   { background: #FEF2F2; color: #9B1C1C; }
+  .badge-failed .badge-dot { background: #EF4444; }
+
+  /* module badge */
+  .mod-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 400;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--surface2);
+    color: var(--text2);
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  /* ── Loading / Error ── */
+  .state-msg {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text3);
+    font-size: 14px;
+  }
+  .state-msg .spinner {
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin: 0 auto 12px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Issues card view ── */
+  .issues-grid {
+    display: grid;
+    gap: 12px;
+  }
+  .issue-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    transition: border-color 0.15s;
+    cursor: default;
+  }
+  .issue-card:hover { border-color: var(--border2); }
+  .issue-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .issue-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .issue-id {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text3);
+    margin-bottom: 2px;
+  }
+  .issue-badges {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .issue-desc {
+    font-size: 13px;
+    color: var(--text2);
+    font-weight: 300;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+  .issue-footer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .issue-meta {
+    font-size: 12px;
+    color: var(--text3);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .issue-meta svg { opacity: 0.6; }
+
+  /* ── Steps expand ── */
+  .expand-btn {
+    background: none;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--accent);
+    cursor: pointer;
+    padding: 0;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .expand-content {
+    display: none;
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: var(--surface2);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+  .expand-content.open { display: block; }
+  .expand-section { margin-bottom: 10px; }
+  .expand-section:last-child { margin-bottom: 0; }
+  .expand-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 4px;
+  }
+  .expand-text {
+    font-size: 12.5px;
+    color: var(--text2);
+    white-space: pre-line;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+  .dev-hint {
+    background: var(--accent-lt);
+    border-left: 2px solid var(--accent);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 8px 10px;
+    font-size: 12px;
+    color: var(--accent2);
+    white-space: pre-line;
+    font-weight: 300;
+  }
+
+  /* ── Summary tab ── */
+  .module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+  }
+  .module-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: border-color 0.15s;
+  }
+  .module-card:hover { border-color: var(--border2); }
+  .module-icon {
+    font-size: 22px;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    background: var(--surface2);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+  }
+  .module-name { font-size: 13.5px; font-weight: 500; }
+  .module-meta { font-size: 12px; color: var(--text3); margin-top: 2px; }
+  .module-count {
+    margin-left: auto;
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text);
+    flex-shrink: 0;
+  }
+
+  /* ── Progress bar ── */
+  .progress-bar {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 6px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+
+  /* ── Footer ── */
+  .site-footer {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 3rem;
+    font-size: 12px;
+    color: var(--text3);
+  }
+  .footer-link {
+    color: var(--accent);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .footer-link:hover { text-decoration: underline; }
+
+  /* ── Responsive ── */
+  @media (max-width: 700px) {
+    .container { padding: 1.5rem 1rem; }
+    .site-header { padding: 0 1rem; }
+    .site-footer { padding: 1.25rem 1rem; flex-direction: column; gap: 8px; }
+    .page-intro { flex-direction: column; align-items: flex-start; }
+    .data-table { font-size: 12px; }
+    .data-table th, .data-table td { padding: 8px 10px; }
+    .tabs { overflow-x: auto; width: 100%; }
+  }
+
+  /* hidden util */
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="logo" href="#">
+    <div class="logo-mark">ZK</div>
+    ZKart QA
+  </a>
+  <div class="header-meta">
+    <div class="sync-badge">
+      <span class="sync-dot"></span>
+      <span id="sync-status">Synced with Google Sheets</span>
+    </div>
+    <span id="header-date" style="font-size:12px; color:var(--text3);"></span>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="page-intro">
+    <div>
+      <h1>Test Cases &amp; Issues</h1>
+      <p>Zolve · ZKart feature · React Native WebView · Shopify + Manual fulfillment</p>
+    </div>
+    <span class="last-sync" id="last-sync-time">Fetching data…</span>
+  </div>
+
+  <!-- Stat cards -->
+  <div class="stats-grid" id="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">Total TCs</div>
+      <div class="stat-value" id="stat-total-tc">—</div>
+      <div class="stat-sub">across all modules</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">P0 Blockers</div>
+      <div class="stat-value" id="stat-p0">—</div>
+      <div class="stat-sub">must pass for release</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Open Issues</div>
+      <div class="stat-value" id="stat-open">—</div>
+      <div class="stat-sub">pending fix</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Modules</div>
+      <div class="stat-value">10</div>
+      <div class="stat-sub">feature areas</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Fulfillment</div>
+      <div class="stat-value" style="font-size:18px; letter-spacing:-0.02em;">Shopify</div>
+      <div class="stat-sub">+ Manual vendor</div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" data-tab="summary" role="tab">
+      Overview <span class="tab-count" id="tc-summary">—</span>
+    </button>
+    <button class="tab-btn" data-tab="testcases" role="tab">
+      Test Cases <span class="tab-count" id="tc-count">—</span>
+    </button>
+    <button class="tab-btn" data-tab="issues" role="tab">
+      Issues <span class="tab-count" id="iss-count">—</span>
+    </button>
+  </div>
+
+  <!-- ── SUMMARY TAB ── -->
+  <div class="tab-pane active" id="tab-summary">
+    <div class="module-grid" id="module-grid">
+      <div class="state-msg"><div class="spinner"></div>Loading modules…</div>
+    </div>
+  </div>
+
+  <!-- ── TEST CASES TAB ── -->
+  <div class="tab-pane" id="tab-testcases">
+    <div class="filters-row">
+      <div class="search-wrap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input class="search-input" id="tc-search" type="search" placeholder="Search test cases…" autocomplete="off">
+      </div>
+      <select class="filter-select" id="tc-filter-module">
+        <option value="">All modules</option>
+      </select>
+      <select class="filter-select" id="tc-filter-priority">
+        <option value="">All priorities</option>
+        <option value="P0">P0 – Blocker</option>
+        <option value="P1">P1 – Major</option>
+        <option value="P2">P2 – Minor</option>
+      </select>
+      <span class="result-count" id="tc-result-count"></span>
+    </div>
+    <div class="table-wrap">
+      <div class="state-msg" id="tc-loading"><div class="spinner"></div>Loading test cases…</div>
+      <table class="data-table hidden" id="tc-table">
+        <thead>
+          <tr>
+            <th style="width:90px;">ID</th>
+            <th style="width:24%;">Scenario</th>
+            <th style="width:20%;">Preconditions</th>
+            <th style="width:22%;">Steps</th>
+            <th style="width:22%;">Expected Result</th>
+            <th style="width:70px;">Priority</th>
+            <th style="width:80px;">Status</th>
+          </tr>
+        </thead>
+        <tbody id="tc-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── ISSUES TAB ── -->
+  <div class="tab-pane" id="tab-issues">
+    <div class="filters-row">
+      <div class="search-wrap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input class="search-input" id="iss-search" type="search" placeholder="Search issues…" autocomplete="off">
+      </div>
+      <select class="filter-select" id="iss-filter-sev">
+        <option value="">All severities</option>
+        <option value="Critical">Critical</option>
+        <option value="High">High</option>
+        <option value="Medium">Medium</option>
+        <option value="Low">Low</option>
+      </select>
+      <select class="filter-select" id="iss-filter-status">
+        <option value="">All statuses</option>
+        <option value="Open">Open</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Fixed">Fixed</option>
+      </select>
+      <span class="result-count" id="iss-result-count"></span>
+    </div>
+    <div class="issues-grid" id="issues-grid">
+      <div class="state-msg"><div class="spinner"></div>Loading issues…</div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="site-footer">
+  <span>ZKart QA Dashboard · Zolve Engineering</span>
+  <a class="footer-link" href="https://docs.google.com/spreadsheets/d/10X_Hxwbzw-G8WF2vrnkCUjMobOMXBVNP-9VYQ8cDO34/edit?usp=sharing" target="_blank" rel="noopener">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    View Google Sheet
+  </a>
+</footer>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────────────────────
+const SHEET_ID = '10X_Hxwbzw-G8WF2vrnkCUjMobOMXBVNP-9VYQ8cDO34';
+
+// Sheet GIDs — find them in the URL when you click each tab in Google Sheets
+// Format: ...#gid=XXXXXXXXX
+// Update these GIDs to match your actual sheet tabs
+const SHEETS = {
+  summary:   { name: '📋 Summary',        gid: '0'          },
+  home:      { name: '🏠 Home & Nav',      gid: '1'          },
+  search:    { name: '🔍 Search & Browse', gid: '2'          },
+  pdp:       { name: '📦 Product Detail',  gid: '3'          },
+  cart:      { name: '🛒 Cart',            gid: '4'          },
+  checkout:  { name: '💳 Checkout',        gid: '5'          },
+  payment:   { name: '💰 Payment',         gid: '6'          },
+  orders:    { name: '📋 My Orders',       gid: '7'          },
+  flash:     { name: '⚡ Flash Sale',      gid: '8'          },
+  shopify:   { name: '🏪 Shopify & Fulfil',gid: '9'          },
+  onboard:   { name: '👋 Onboarding',      gid: '10'         },
+  issues:    { name: '🐛 Issues',          gid: '11'         },
+};
+
+// IMPORTANT: For live sync, you need to:
+// 1. In Google Sheets → File → Share → Publish to web → Publish as CSV
+// 2. Copy each tab's GID from its URL (e.g. ...#gid=1234567890)
+// 3. Replace the GID values above with your real ones
+
+function csvUrl(gid) {
+  return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${gid}`;
+}
+
+// ── CSV PARSER ──────────────────────────────────────────────────────────────
+function parseCSV(text) {
+  const rows = [];
+  let cur = '', inQ = false, cells = [];
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i], n = text[i+1];
+    if (c === '"') {
+      if (inQ && n === '"') { cur += '"'; i++; }
+      else inQ = !inQ;
+    } else if (c === ',' && !inQ) {
+      cells.push(cur.trim()); cur = '';
+    } else if ((c === '\n' || (c === '\r' && n === '\n')) && !inQ) {
+      if (c === '\r') i++;
+      cells.push(cur.trim()); cur = '';
+      if (cells.some(x => x)) rows.push(cells);
+      cells = [];
+    } else { cur += c; }
+  }
+  if (cur || cells.length) { cells.push(cur.trim()); if (cells.some(x=>x)) rows.push(cells); }
+  return rows;
+}
+
+async function fetchSheet(gid) {
+  const res = await fetch(csvUrl(gid));
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const text = await res.text();
+  const rows = parseCSV(text);
+  if (rows.length < 2) return [];
+  const headers = rows[0].map(h => h.toLowerCase().replace(/[^a-z0-9]/g,'_').replace(/_+/g,'_'));
+  return rows.slice(1).map(row => {
+    const obj = {};
+    headers.forEach((h, i) => obj[h] = row[i] || '');
+    return obj;
+  });
+}
+
+// ── BADGE HELPERS ────────────────────────────────────────────────────────────
+function priorityBadge(p) {
+  const cls = { P0: 'badge-p0', P1: 'badge-p1', P2: 'badge-p2' }[p] || 'badge-not-run';
+  return `<span class="badge ${cls}"><span class="badge-dot"></span>${p || '—'}</span>`;
+}
+function severityBadge(s) {
+  const cls = { Critical:'badge-critical', High:'badge-high', Medium:'badge-medium', Low:'badge-low' }[s] || 'badge-not-run';
+  return `<span class="badge ${cls}"><span class="badge-dot"></span>${s || '—'}</span>`;
+}
+function statusBadge(s) {
+  const map = { Open:'badge-open', 'In Progress':'badge-in-progress', Fixed:'badge-fixed',
+                'Not Run':'badge-not-run', Passed:'badge-passed', Failed:'badge-failed' };
+  const cls = map[s] || 'badge-not-run';
+  return `<span class="badge ${cls}"><span class="badge-dot"></span>${s || 'Not Run'}</span>`;
+}
+function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ── MODULE META ──────────────────────────────────────────────────────────────
+const MODULE_META = [
+  { icon: '🏠', name: 'Home & Navigation',       priority: 'P0/P1', count: 8  },
+  { icon: '🔍', name: 'Search & Browse',          priority: 'P0/P1', count: 7  },
+  { icon: '📦', name: 'Product Detail Page',      priority: 'P0/P1', count: 9  },
+  { icon: '🛒', name: 'Cart Management',          priority: 'P0/P1', count: 8  },
+  { icon: '💳', name: 'Checkout',                 priority: 'P0',    count: 9  },
+  { icon: '💰', name: 'Payment Processing',       priority: 'P0',    count: 8  },
+  { icon: '📋', name: 'My Orders',                priority: 'P1',    count: 8  },
+  { icon: '⚡', name: 'Flash Sale / Daily Essentials', priority: 'P1', count: 7 },
+  { icon: '🏪', name: 'Shopify & Fulfillment',    priority: 'P0',    count: 10 },
+  { icon: '👋', name: 'Onboarding Modal',         priority: 'P2',    count: 4  },
+];
+
+// ── GLOBAL STATE ─────────────────────────────────────────────────────────────
+let allTestCases = [];
+let allIssues    = [];
+
+// ── RENDER SUMMARY ───────────────────────────────────────────────────────────
+function renderSummary() {
+  const grid = document.getElementById('module-grid');
+  const total = MODULE_META.reduce((s, m) => s + m.count, 0);
+  grid.innerHTML = MODULE_META.map(m => {
+    const pct = Math.round((m.count / total) * 100 * 3);
+    return `
+    <div class="module-card">
+      <div class="module-icon">${m.icon}</div>
+      <div style="flex:1; min-width:0;">
+        <div class="module-name">${esc(m.name)}</div>
+        <div class="module-meta">Priority focus: ${esc(m.priority)}</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${Math.min(pct,100)}%"></div></div>
+      </div>
+      <div class="module-count">${m.count}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('tc-summary').textContent = total;
+}
+
+// ── RENDER TEST CASES ─────────────────────────────────────────────────────────
+function renderTestCases(data) {
+  allTestCases = data;
+  const moduleSet = [...new Set(data.map(r => r.module_ || r.module || '').filter(Boolean))];
+  const sel = document.getElementById('tc-filter-module');
+  sel.innerHTML = '<option value="">All modules</option>' +
+    moduleSet.map(m => `<option value="${esc(m)}">${esc(m)}</option>`).join('');
+
+  document.getElementById('tc-count').textContent = data.length;
+  document.getElementById('stat-total-tc').textContent = data.length;
+  document.getElementById('stat-p0').textContent = data.filter(r => (r.priority||'').includes('P0')).length;
+  applyTCFilters();
+}
+
+function applyTCFilters() {
+  const q   = document.getElementById('tc-search').value.toLowerCase();
+  const mod = document.getElementById('tc-filter-module').value;
+  const pri = document.getElementById('tc-filter-priority').value;
+
+  const filtered = allTestCases.filter(r => {
+    const text = Object.values(r).join(' ').toLowerCase();
+    if (q && !text.includes(q)) return false;
+    if (mod && (r.module_ || r.module || '') !== mod) return false;
+    if (pri && !(r.priority||'').includes(pri)) return false;
+    return true;
+  });
+
+  document.getElementById('tc-result-count').textContent = `${filtered.length} result${filtered.length !== 1 ? 's' : ''}`;
+
+  const tbody = document.getElementById('tc-tbody');
+  if (!filtered.length) {
+    tbody.innerHTML = '<tr><td colspan="7" class="state-msg" style="padding:3rem;">No test cases match your filters.</td></tr>';
+  } else {
+    tbody.innerHTML = filtered.map(r => {
+      const id       = r.tc_id || r.id_ || r.id || '';
+      const scenario = r.test_scenario || r.scenario || '';
+      const pre      = r.preconditions || r.precondition || '';
+      const steps    = r.test_steps || r.steps || '';
+      const expected = r.expected_result || r.expected || '';
+      const priority = r.priority || '';
+      const status   = r.status || r.actual_result || 'Not Run';
+      const module_  = r.module_ || r.module || '';
+      return `<tr>
+        <td class="id-cell">${esc(id)}</td>
+        <td><div class="title-cell">${esc(scenario)}</div>${module_ ? `<span class="mod-badge">${esc(module_)}</span>` : ''}</td>
+        <td class="steps-cell">${esc(pre)}</td>
+        <td class="steps-cell">${esc(steps)}</td>
+        <td class="steps-cell">${esc(expected)}</td>
+        <td>${priorityBadge(priority)}</td>
+        <td>${statusBadge(status)}</td>
+      </tr>`;
+    }).join('');
+  }
+  document.getElementById('tc-loading').classList.add('hidden');
+  document.getElementById('tc-table').classList.remove('hidden');
+}
+
+// ── RENDER ISSUES ─────────────────────────────────────────────────────────────
+function renderIssues(data) {
+  allIssues = data;
+  document.getElementById('iss-count').textContent = data.length;
+  document.getElementById('stat-open').textContent = data.filter(r => (r.status||'').toLowerCase() === 'open').length;
+  applyIssueFilters();
+}
+
+function applyIssueFilters() {
+  const q      = document.getElementById('iss-search').value.toLowerCase();
+  const sev    = document.getElementById('iss-filter-sev').value;
+  const status = document.getElementById('iss-filter-status').value;
+
+  const filtered = allIssues.filter(r => {
+    const text = Object.values(r).join(' ').toLowerCase();
+    if (q && !text.includes(q)) return false;
+    if (sev    && (r.severity||'') !== sev)    return false;
+    if (status && (r.status||'')   !== status) return false;
+    return true;
+  });
+
+  document.getElementById('iss-result-count').textContent = `${filtered.length} issue${filtered.length !== 1 ? 's' : ''}`;
+
+  const grid = document.getElementById('issues-grid');
+  if (!filtered.length) {
+    grid.innerHTML = '<div class="state-msg">No issues match your filters.</div>';
+    return;
+  }
+  grid.innerHTML = filtered.map((r, i) => {
+    const id       = r.issue_id || r.id_ || r.id || '';
+    const title    = r.title || '';
+    const desc     = r.description || '';
+    const steps    = r.steps_to_reproduce || r.steps || '';
+    const expected = r.expected_behaviour || r.expected || '';
+    const actual   = r.actual_behaviour || r.actual || '';
+    const screens  = r.affected_screen_s_ || r.screens || '';
+    const sev      = r.severity || '';
+    const pri      = r.priority || '';
+    const platform = r.platform___device || r.platform || '';
+    const status   = r.status || '';
+    const notes    = r.notes___dev_hints || r.notes || '';
+
+    return `
+    <div class="issue-card">
+      <div class="issue-card-header">
+        <div>
+          <div class="issue-id">${esc(id)}</div>
+          <div class="issue-title">${esc(title)}</div>
+        </div>
+        <div class="issue-badges">
+          ${severityBadge(sev)}
+          ${priorityBadge(pri)}
+          ${statusBadge(status)}
+        </div>
+      </div>
+      <div class="issue-desc">${esc(desc)}</div>
+      <div class="issue-footer">
+        ${screens ? `<span class="issue-meta">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          ${esc(screens)}
+        </span>` : ''}
+        ${platform ? `<span class="issue-meta">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg>
+          ${esc(platform)}
+        </span>` : ''}
+        <button class="expand-btn" onclick="toggleExpand(this, ${i})" aria-expanded="false">
+          Details
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" id="chevron-${i}"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+      </div>
+      <div class="expand-content" id="expand-${i}">
+        ${steps ? `<div class="expand-section">
+          <div class="expand-label">Steps to reproduce</div>
+          <div class="expand-text">${esc(steps)}</div>
+        </div>` : ''}
+        ${expected ? `<div class="expand-section">
+          <div class="expand-label">Expected</div>
+          <div class="expand-text">${esc(expected)}</div>
+        </div>` : ''}
+        ${actual ? `<div class="expand-section">
+          <div class="expand-label">Actual</div>
+          <div class="expand-text">${esc(actual)}</div>
+        </div>` : ''}
+        ${notes ? `<div class="expand-section">
+          <div class="expand-label">Dev hint</div>
+          <div class="dev-hint">${esc(notes)}</div>
+        </div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleExpand(btn, i) {
+  const content  = document.getElementById(`expand-${i}`);
+  const chevron  = document.getElementById(`chevron-${i}`);
+  const isOpen   = content.classList.toggle('open');
+  btn.setAttribute('aria-expanded', isOpen);
+  chevron.style.transform = isOpen ? 'rotate(180deg)' : '';
+  chevron.style.transition = 'transform 0.2s';
+  btn.childNodes[0].textContent = isOpen ? 'Close ' : 'Details ';
+}
+
+// ── TABS ──────────────────────────────────────────────────────────────────────
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ── FILTER LISTENERS ──────────────────────────────────────────────────────────
+['tc-search','tc-filter-module','tc-filter-priority'].forEach(id => {
+  document.getElementById(id).addEventListener('input', applyTCFilters);
+});
+['iss-search','iss-filter-sev','iss-filter-status'].forEach(id => {
+  document.getElementById(id).addEventListener('input', applyIssueFilters);
+});
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+async function init() {
+  // Date
+  const now = new Date();
+  document.getElementById('header-date').textContent = now.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' });
+  document.getElementById('last-sync-time').textContent = 'Last synced ' + now.toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
+
+  renderSummary();
+
+  // Fetch all TC sheets in parallel
+  const tcSheets = ['home','search','pdp','cart','checkout','payment','orders','flash','shopify','onboard'];
+  try {
+    const allSheets = await Promise.all(tcSheets.map(key => fetchSheet(SHEETS[key].gid).catch(() => [])));
+    // Annotate with module name
+    const allRows = allSheets.flatMap((rows, i) => rows.map(r => ({ ...r, module_: tcSheets[i].charAt(0).toUpperCase() + tcSheets[i].slice(1) })));
+    renderTestCases(allRows);
+  } catch (e) {
+    console.warn('TC fetch failed, using static data', e);
+    renderFallbackTCs();
+  }
+
+  // Fetch issues sheet
+  try {
+    const issRows = await fetchSheet(SHEETS.issues.gid);
+    renderIssues(issRows.length ? issRows : FALLBACK_ISSUES);
+  } catch (e) {
+    console.warn('Issues fetch failed, using static data', e);
+    renderIssues(FALLBACK_ISSUES);
+  }
+
+  document.getElementById('sync-status').textContent = 'Synced with Google Sheets';
+}
+
+// ── FALLBACK STATIC DATA (shown if Sheet not published to web) ────────────────
+function renderFallbackTCs() {
+  const data = [
+    { tc_id:'ZK-HM-01', test_scenario:'ZKart tab entry & home load', preconditions:'User logged into Zolve app', test_steps:'1. Tap ZKart in bottom nav\n2. Observe page load', expected_result:'ZKart home loads with logo, search bar, categories, Daily Essentials banner', priority:'P0', status:'Not Run', module_:'Home' },
+    { tc_id:'ZK-HM-02', test_scenario:'Daily Essentials countdown timer', preconditions:'On ZKart home', test_steps:'1. Note timer value\n2. Wait 5 seconds\n3. Re-observe', expected_result:'Timer ticks down in real-time', priority:'P1', status:'Not Run', module_:'Home' },
+    { tc_id:'ZK-SR-01', test_scenario:'Search bar tap opens search screen', preconditions:'ZKart home loaded', test_steps:'1. Tap Search for Products bar', expected_result:'Navigates to Search screen with keyboard active', priority:'P0', status:'Not Run', module_:'Search' },
+    { tc_id:'ZK-PD-01', test_scenario:'PDP loads with correct product info', preconditions:'Navigate to any product', test_steps:'1. Tap product from listing\n2. Observe all PDP elements', expected_result:'Shows image, name, rating, discounted price, original price, savings badge, delivery estimate, Add to Cart CTA', priority:'P0', status:'Not Run', module_:'PDP' },
+    { tc_id:'ZK-PD-03', test_scenario:'Add to Cart CTA changes state after add', preconditions:'On product PDP, item not in cart', test_steps:'1. Tap Add to Cart button\n2. Observe button change', expected_result:'Button changes to qty stepper (– 1 +) and View Cart button. Cart icon badge shows 1.', priority:'P0', status:'Not Run', module_:'PDP' },
+    { tc_id:'ZK-CT-04', test_scenario:'Order summary price math is correct', preconditions:'Echo Dot in cart (qty 1)', test_steps:'1. View Order Summary section\n2. Verify all line items', expected_result:'Item total $60, Discount -$14.41, Delivery FREE, Total $45.59, Saving $44.41', priority:'P0', status:'Not Run', module_:'Cart' },
+    { tc_id:'ZK-CK-09', test_scenario:'Double tap Pay now prevention', preconditions:'On checkout, slow network', test_steps:'1. Tap Pay now twice rapidly\n2. Check orders created', expected_result:'Only 1 order created. Button disabled after first tap.', priority:'P0', status:'Not Run', module_:'Checkout' },
+    { tc_id:'ZK-PM-02', test_scenario:'Successful payment reaches Order Placed screen', preconditions:'Valid payment, Shopify stock available', test_steps:'1. Complete checkout\n2. Observe post-processing screen', expected_result:'Order Placed screen with green checkmark, Order ID, Paid status, amount, item count', priority:'P0', status:'Not Run', module_:'Payment' },
+    { tc_id:'ZK-SH-01', test_scenario:'Order auto-fulfilled via Shopify when in stock', preconditions:'Product available on Shopify', test_steps:'1. Place order\n2. Monitor order status', expected_result:'Status transitions: Confirmed → Shopify fulfillment → Shipped', priority:'P0', status:'Not Run', module_:'Shopify' },
+    { tc_id:'ZK-SH-02', test_scenario:'Order routed to manual when out of stock on Shopify', preconditions:'Product NOT in Shopify inventory', test_steps:'1. Place order for OOS product\n2. Monitor backend + order status', expected_result:'Order flagged for manual fulfillment. Ops team notified. User sees Confirmed.', priority:'P0', status:'Not Run', module_:'Shopify' },
+    { tc_id:'ZK-FS-03', test_scenario:'$1 price locks when cart >= $20', preconditions:'Flash Sale page, cart below $20', test_steps:'1. Add non-flash items totalling $20+\n2. Return to Flash Sale\n3. Add $1 item', expected_result:'Flash Sale item added at $1.00', priority:'P0', status:'Not Run', module_:'Flash' },
+    { tc_id:'ZK-FS-04', test_scenario:'$1 item blocked when cart < $20', preconditions:'Cart total below $20', test_steps:'1. Attempt to add Flash Sale item without $20 minimum', expected_result:'Toast/error shown. $20 minimum required. Item not added at $1.', priority:'P0', status:'Not Run', module_:'Flash' },
+  ];
+  renderTestCases(data);
+}
+
+const FALLBACK_ISSUES = [
+  { issue_id:'BUG-01', title:'Product ratings are inconsistent & change on each tap', description:'Star ratings on PDP change every time user navigates to the product. Values are not deterministic.', steps_to_reproduce:'1. Go to ZKart home\n2. Tap any product and note rating\n3. Go back\n4. Tap same product again\n5. Observe rating value', expected_behaviour:'Rating should be static and consistent for the same product across visits.', actual_behaviour:'Rating value changes on each PDP visit (e.g. 4.3 → 4.1 → 4.5).', affected_screen_s_:'Product Detail Page', severity:'High', priority:'P1', platform___device:'Android (All devices)', status:'Open', notes___dev_hints:'Likely fetching unsorted/random rating on each API call. Ensure rating is deterministic — cache or sort consistently from backend.' },
+  { issue_id:'BUG-02', title:'Back navigation from Cart is broken after multi-screen browsing', description:'WebView history stack accumulates when user bounces between Cart and PDPs. Back button drills through history instead of going home.', steps_to_reproduce:'1. Add item to cart\n2. Go to My Cart\n3. Tap product → PDP\n4. Tap View Cart\n5. Tap another product → PDP\n6. Tap View Cart again\n7. Tap back arrow on My Cart\n8. Observe where it goes', expected_behaviour:'Back CTA on My Cart always navigates to ZKart Homepage.', actual_behaviour:'Back navigates through stacked WebView history (PDP → PDP → ...).', affected_screen_s_:'My Cart, Product Detail Page', severity:'High', priority:'P1', platform___device:'Android (All devices)', status:'Open', notes___dev_hints:'Override back navigation on My Cart to pop to ZKart home root, not previous WebView history entry.' },
+  { issue_id:'BUG-03', title:'Broken product images in Beauty section and other categories', description:'Product images fail to load in Beauty section. Broken icon or blank space shown instead of thumbnail.', steps_to_reproduce:'1. Open ZKart home\n2. Scroll to BEAUTY PICKS\n3. Observe product card images\n4. Check Snacks and other categories too', expected_behaviour:'All product images load. Graceful fallback placeholder shown on error.', actual_behaviour:'Broken icons or blank areas in Beauty section.', affected_screen_s_:'ZKart Home (Beauty), Category listing pages', severity:'Medium', priority:'P1', platform___device:'Android & iOS', status:'Open', notes___dev_hints:'Audit CDN URLs for affected products. Add onError handler in React for all <Image> components with a standardised fallback image.' },
+  { issue_id:'BUG-04', title:'Blank screen appears on Android after closing Kapture screen', description:'After opening and closing the Kapture feedback overlay, a blank white screen renders. App does not recover without manual navigation.', steps_to_reproduce:'1. Open ZKart on Android\n2. Trigger Kapture screen\n3. Close/dismiss Kapture\n4. Observe app state', expected_behaviour:'User returned to exact screen they were on before Kapture, no visual disruption.', actual_behaviour:'Blank white screen. App appears frozen. Must navigate away to recover.', affected_screen_s_:'All ZKart screens (on Kapture dismiss)', severity:'High', priority:'P0', platform___device:'Android only', status:'Open', notes___dev_hints:'WebView may not repaint after Kapture native overlay is removed. Check if WebView needs a reload/repaint call post-intent dismiss.' },
+  { issue_id:'BUG-05', title:'Return policy message shown for digital & non-returnable items', description:'Standard return policy section shown on PDP for Gift Cards and non-returnable items, creating false expectations.', steps_to_reproduce:'1. Navigate to any Gift Card PDP\n2. Scroll down\n3. Observe return/refund policy section', expected_behaviour:'Return policy hidden for digital/non-returnable items. Or show: "This item is non-returnable."', actual_behaviour:'Standard return policy message shown for Gift Cards, implying they can be returned.', affected_screen_s_:'Product Detail Page (Gift Cards, digital items)', severity:'Medium', priority:'P1', platform___device:'Android & iOS', status:'Open', notes___dev_hints:'Add returnable: false or product_type: digital flag. Conditionally render return policy section based on this flag.' },
+  { issue_id:'BUG-06', title:'Sticky bottom cart bar overlaps prices of bottom-most products', description:'The persistent Add to Cart bar at the bottom hides prices of last-row product cards in listings.', steps_to_reproduce:'1. Open any product category listing\n2. Scroll to the bottom\n3. Observe last row of product cards', expected_behaviour:'Scroll container has sufficient bottom padding so all product prices are visible above sticky bar.', actual_behaviour:'Sticky bar overlaps price tags and card content of bottom-most products.', affected_screen_s_:'Category Listing, Search Results, ZKart Home', severity:'Medium', priority:'P2', platform___device:'Android (All devices)', status:'Open', notes___dev_hints:'Add paddingBottom to ScrollView/FlatList equal to sticky bar height (~80–90px). Account for gesture navigation bar extra inset (~20–34px).' },
+  { issue_id:'BUG-07', title:'Black screen flashes on back navigation from My Orders', description:'Tapping back on My Orders causes a jarring black screen flash before the transition resolves.', steps_to_reproduce:'1. Navigate to My Orders\n2. Tap the back arrow (←)\n3. Observe the screen transition', expected_behaviour:'Smooth back transition, no black flash. Previous screen renders immediately.', actual_behaviour:'Black screen flashes for ~200–500ms during back navigation from My Orders.', affected_screen_s_:'My Orders (back navigation)', severity:'Medium', priority:'P1', platform___device:'Android only', status:'Open', notes___dev_hints:'WebView background color unset reveals native black screen. Set backgroundColor: #FFFFFF on WebView container and React Native screen.' },
+  { issue_id:'BUG-08', title:'Rapid scrolling causes blank white screen', description:'Very fast scrolling through product listings renders blank white areas where product cards should appear.', steps_to_reproduce:'1. Open ZKart home or category listing\n2. Scroll rapidly up and down\n3. Observe if sections go blank white', expected_behaviour:'Cards render smoothly. At minimum, skeleton shimmer shown while images load.', actual_behaviour:'Blank white rectangles appear in place of product cards during fast scroll.', affected_screen_s_:'ZKart Home, Category listings, Search results', severity:'Low', priority:'P2', platform___device:'Android (All devices)', status:'Open', notes___dev_hints:'(1) Tune FlatList: initialNumToRender and maxToRenderPerBatch. (2) Add skeleton shimmer placeholders. (3) Consider FastImage for better caching.' },
+  { issue_id:'BUG-09', title:'Gap between Add to Cart bar and bottom nav on Samsung A37', description:'Visible gap (white/grey strip) between sticky Add to Cart CTA and the bottom navigation bar on certain Android devices.', steps_to_reproduce:'1. Open ZKart on Samsung A37 (or similar mid-range Android)\n2. Navigate to any Product Detail Page\n3. Observe area between Add to Cart bar and bottom nav', expected_behaviour:'Add to Cart bar sits flush against bottom nav bar. No visible gap on any device.', actual_behaviour:'White/grey gap visible between sticky bar and bottom nav on Samsung A37.', affected_screen_s_:'Product Detail Page (Add to Cart bar)', severity:'Low', priority:'P2', platform___device:'Android – Samsung A37 & similar', status:'Open', notes___dev_hints:'Use useSafeAreaInsets() from react-native-safe-area-context to add correct bottom padding dynamically. Avoid hardcoded bottom values. Test on gesture nav vs button nav devices.' },
+];
+
+init();
+</script>
+</body>
+</html>
