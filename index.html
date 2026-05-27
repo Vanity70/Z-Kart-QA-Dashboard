@@ -196,7 +196,7 @@ tbody tr:hover{background:var(--paper)!important}
 
 <div class="hdr">
   <div class="hdr-brand">
-     <img src="image.png" class="hdr-logo" alt="Zolve"/>
+    <img src="image.png" class="hdr-logo" alt="Zolve"/>
     <div>
       <h1>ZKart — QA Test Dashboard</h1>
       <p>Live sync from Google Sheets &nbsp;·&nbsp; Auto-refreshes every 60 s</p>
@@ -329,8 +329,16 @@ tbody tr:hover{background:var(--paper)!important}
 </div>
 
 <script>
-// ── CONFIG ───────────────────────────────────────────────────────────────────
-const SHEET_ID = '1q9Ho0aqzK0YbSxzZzkXKaTByUC4N1GNKKxiWRxsxDco';
+// ── CONFIG ─────────────────────────────────────────────────────────────────
+// These come from File → Share → Publish to web in Google Sheets.
+// Select each tab, choose CSV, click Publish — the URL shown contains the gid.
+// PUBLISHED_BASE: the long ID in the /e/.../ part of the published URL
+const PUBLISHED_BASE = '2PACX-1vQM_vn33VAOrRfKfLVsx0oAJOOc3VYccUC13ngNSBeA0XKuK3bXvowt1xDpu-tw3Jz0KmA4qT4KfCS-';
+// GIDs: the ?gid=XXXXXXX number in the published URL for each tab
+// To find each gid: File → Share → Publish to web → select that tab → copy the gid from the URL shown
+const GID_TC   = '1554980188'; // ZKart_TestCases_v3 tab  ← from your URL (verify this is the right tab)
+const GID_BUGS = '376835004';          // Bugs tab              ← REPLACE with gid from your published Bugs URL
+const GID_IMP  = '572735192';           // Improvements tab      ← REPLACE with gid from your published Improvements URL
 const PROXY    = 'https://corsproxy.io/?';
 
 const TC_MODULES = [
@@ -409,41 +417,41 @@ function parseCSV(txt){
 
 function encodeSheet(n){return n.split('').map(c=>c===' '?'%20':c==='&'?'%26':c==='+'?'%2B':c==='/'?'%2F':c==='?'?'%3F':c==='#'?'%23':c==='%'?'%25':c).join('');}
 
-async function fetchSheet(name){
-  const enc = encodeSheet(name);
-  // Strategy 1 & 2: gviz CSV (direct + CORS proxy)
-  const gviz  = 'https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:csv&sheet='+enc;
-  // Strategy 3 & 4: export CSV (direct + CORS proxy) — works when sheet is shared but individual tabs not published
-  const exprt = 'https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/export?format=csv&sheet='+enc;
+async function fetchByGid(label, gid){
+  if(!gid || gid === ''){
+    throw new Error(
+      `GID for "${label}" is not set in the dashboard config.\n\n` +
+      `HOW TO FIX:\n` +
+      `1. In Google Sheets go to File → Share → Publish to web\n` +
+      `2. Select the "${label}" tab in the first dropdown\n` +
+      `3. Select "Comma-separated values (.csv)" in the second dropdown\n` +
+      `4. Click Publish\n` +
+      `5. Copy the number after ?gid= in the URL shown\n` +
+      `6. Open this HTML file and paste it into the matching GID constant at the top of the <script> block`
+    );
+  }
+  const pubUrl = `https://docs.google.com/spreadsheets/d/e/${PUBLISHED_BASE}/pub?gid=${gid}&single=true&output=csv`;
 
   const go = async u => {
     const r = await fetch(u, {cache:'no-store'});
     if(!r.ok) throw new Error('HTTP '+r.status);
     const t = await r.text();
-    if(t.trim().startsWith('<!') || t.includes('<html')) throw new Error('Got HTML — sheet tab may not be published');
-    if(t.trim().length < 5) throw new Error('Empty response');
+    if(t.trim().startsWith('<!') || t.includes('<html')){
+      throw new Error(
+        `Got an HTML page instead of CSV for "${label}" (gid=${gid}).\n` +
+        `This means the tab is not published yet.\n` +
+        `Go to File → Share → Publish to web → select the "${label}" tab → CSV → Publish.`
+      );
+    }
+    if(t.trim().length < 5) throw new Error('Empty response — the tab may be empty');
     return parseCSV(t);
   };
 
-  const attempts = [
-    () => go(gviz),
-    () => go(PROXY + encodeURIComponent(gviz)),
-    () => go(exprt),
-    () => go(PROXY + encodeURIComponent(exprt)),
-  ];
-
-  let lastErr;
-  for(const fn of attempts){
-    try{ return await fn(); } catch(err){ lastErr = err; }
+  // Try direct first, then CORS proxy as fallback
+  try{ return await go(pubUrl); } catch(e){
+    try{ return await go(PROXY + encodeURIComponent(pubUrl)); }
+    catch(e2){ throw new Error(`"${label}": ${e2.message}`); }
   }
-  throw new Error(
-    `Could not load tab "${name}". All 4 fetch strategies failed.\n` +
-    `Last error: ${lastErr.message}\n\n` +
-    `FIX: In your Google Sheet go to File → Share → Publish to web.\n` +
-    `Select each tab (ZKart_TestCases_v3, Bugs, Improvements) individually,\n` +
-    `choose "Comma-separated values (.csv)", then click Publish.\n` +
-    `Also make sure the sheet sharing is set to "Anyone with the link can view".`
-  );
 }
 
 // ── BADGE HELPERS ────────────────────────────────────────────────────────────
@@ -669,9 +677,9 @@ async function loadAll(){
 
   // Fetch all 3 sheets independently — one failure will not block the others
   const [tcRes, bugRes, impRes] = await Promise.allSettled([
-    fetchSheet('ZKart_TestCases_v3'),
-    fetchSheet('Bugs'),
-    fetchSheet('Improvements'),
+    fetchByGid('ZKart_TestCases_v3', GID_TC),
+    fetchByGid('Bugs',               GID_BUGS),
+    fetchByGid('Improvements',       GID_IMP),
   ]);
 
   if(tcRes.status==='fulfilled'){
