@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<link rel="icon" type="image/png" href="image.png"> 
 <title>ZKart — QA Dashboard</title>
+<link rel="icon" type="image/png" href="image.png">
 <style>
 :root{
   --black:#1A1A1A;--ink:#2C2C2C;--charcoal:#4A4A4A;--mid:#7A7A7A;
@@ -196,7 +196,7 @@ tbody tr:hover{background:var(--paper)!important}
 
 <div class="hdr">
   <div class="hdr-brand">
-    <img src="image.png" class="hdr-logo" alt="Zolve"/>
+     <img src="image.png" class="hdr-logo" alt="Zolve"/>
     <div>
       <h1>ZKart — QA Test Dashboard</h1>
       <p>Live sync from Google Sheets &nbsp;·&nbsp; Auto-refreshes every 60 s</p>
@@ -410,11 +410,40 @@ function parseCSV(txt){
 function encodeSheet(n){return n.split('').map(c=>c===' '?'%20':c==='&'?'%26':c==='+'?'%2B':c==='/'?'%2F':c==='?'?'%3F':c==='#'?'%23':c==='%'?'%25':c).join('');}
 
 async function fetchSheet(name){
-  const enc=encodeSheet(name);
-  const url='https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:csv&sheet='+enc;
-  const go=async u=>{const r=await fetch(u);if(!r.ok)throw new Error('HTTP '+r.status);const t=await r.text();if(t.includes('<!DOCTYPE')||t.includes('<html'))throw new Error('Sheet not published (got HTML). Use File → Share → Publish to web → CSV.');return parseCSV(t);};
-  try{return await go(url);}catch(_){}
-  try{return await go(PROXY+encodeURIComponent(url));}catch(e){throw new Error('"'+name+'": '+e.message);}
+  const enc = encodeSheet(name);
+  // Strategy 1 & 2: gviz CSV (direct + CORS proxy)
+  const gviz  = 'https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:csv&sheet='+enc;
+  // Strategy 3 & 4: export CSV (direct + CORS proxy) — works when sheet is shared but individual tabs not published
+  const exprt = 'https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/export?format=csv&sheet='+enc;
+
+  const go = async u => {
+    const r = await fetch(u, {cache:'no-store'});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const t = await r.text();
+    if(t.trim().startsWith('<!') || t.includes('<html')) throw new Error('Got HTML — sheet tab may not be published');
+    if(t.trim().length < 5) throw new Error('Empty response');
+    return parseCSV(t);
+  };
+
+  const attempts = [
+    () => go(gviz),
+    () => go(PROXY + encodeURIComponent(gviz)),
+    () => go(exprt),
+    () => go(PROXY + encodeURIComponent(exprt)),
+  ];
+
+  let lastErr;
+  for(const fn of attempts){
+    try{ return await fn(); } catch(err){ lastErr = err; }
+  }
+  throw new Error(
+    `Could not load tab "${name}". All 4 fetch strategies failed.\n` +
+    `Last error: ${lastErr.message}\n\n` +
+    `FIX: In your Google Sheet go to File → Share → Publish to web.\n` +
+    `Select each tab (ZKart_TestCases_v3, Bugs, Improvements) individually,\n` +
+    `choose "Comma-separated values (.csv)", then click Publish.\n` +
+    `Also make sure the sheet sharing is set to "Anyone with the link can view".`
+  );
 }
 
 // ── BADGE HELPERS ────────────────────────────────────────────────────────────
@@ -619,69 +648,111 @@ function buildImpSummary(){
 
 function showErr(id,msg){
   const el=document.getElementById(id);if(!el)return;
-  el.innerHTML=`<div class="err-box"><h3>Could not load from Google Sheets</h3><p>Ensure the sheet is published: <strong>File → Share → Publish to web → select each tab → CSV format → Publish</strong>.<br/>Also serve via HTTP/HTTPS, not <code>file://</code>.</p><p style="margin-top:8px;font-size:.71rem;color:var(--mid)">Error: ${msg}</p></div>`;
+  el.innerHTML=`<div class="err-box">
+    <h3>⚠ Could not load data from Google Sheets</h3>
+    <p style="margin-top:10px"><strong>Required steps to fix:</strong></p>
+    <ol style="margin:8px 0 0 16px;line-height:2">
+      <li>Open your Google Sheet</li>
+      <li>Go to <strong>File → Share → Publish to web</strong></li>
+      <li>In the first dropdown, select <strong>each tab one at a time</strong>:<br/>
+          <code>ZKart_TestCases_v3</code>, <code>Bugs</code>, <code>Improvements</code></li>
+      <li>In the second dropdown select <strong>Comma-separated values (.csv)</strong></li>
+      <li>Click <strong>Publish</strong> for each tab</li>
+      <li>Also confirm <strong>File → Share → Share with people</strong> is set to <em>Anyone with the link — Viewer</em></li>
+    </ol>
+    <p style="margin-top:12px;font-size:.71rem;color:var(--mid);white-space:pre-wrap">Technical detail: ${msg.replace(/</g,'&lt;')}</p>
+  </div>`;
 }
 
 async function loadAll(){
-  setSyncState('loading','Loading\u2026');
-  try{
-    const[tcRaw,bugRaw,impRaw]=await Promise.all([
-      fetchSheet('ZKart_TestCases_v3'),
-      fetchSheet('Bugs'),
-      fetchSheet('Improvements'),
-    ]);
-    tcRows=tcRaw.slice(2);
+  setSyncState('loading','Loading…');
+
+  // Fetch all 3 sheets independently — one failure will not block the others
+  const [tcRes, bugRes, impRes] = await Promise.allSettled([
+    fetchSheet('ZKart_TestCases_v3'),
+    fetchSheet('Bugs'),
+    fetchSheet('Improvements'),
+  ]);
+
+  if(tcRes.status==='fulfilled'){
+    tcRows = tcRes.value.slice(2);
     TC_MODULES.forEach(({key,prefix})=>{
       tcByKey[key]=tcRows.filter(r=>(r[0]||'').trim().startsWith(prefix));
     });
-    bugRows=bugRaw.slice(1);
-    impRows=impRaw.slice(1);
-    const now=new Date();
-    const ts='Updated '+now.toLocaleTimeString();
-    document.getElementById('tc-sum-area').innerHTML=buildTCSummary();
-    document.getElementById('tc-sum-ts').textContent=ts;
-    TC_MODULES.forEach(({key})=>{
-      const{html,count}=buildTCTable(tcByKey[key]||[],key);
-      document.getElementById('wrap-tc-'+key).innerHTML=html;
-      document.getElementById('tc-'+key+'-c').textContent=count+' test cases';
-      const b=document.getElementById('tb-tc-'+key);if(b)b.textContent=count;
-      applyTCFilter(key);
-    });
-    document.getElementById('bug-sum-area').innerHTML=buildBugSummary();
-    document.getElementById('bug-sum-ts').textContent=ts;
-    {const{html,count}=buildBugTable(bugRows,'all');
-    document.getElementById('wrap-bugs-all').innerHTML=html;
-    document.getElementById('bugs-all-c').textContent=count+' bugs';
-    const b=document.getElementById('tb-bugs-all');if(b)b.textContent=count;
-    applyBugFilter('all');}
-    BUG_AREA_TABS.forEach(({key,match})=>{
-      const filtered=bugRows.filter(r=>(r[1]||'').trim().toLowerCase()===match);
-      const{html,count}=buildBugTable(filtered,key);
-      document.getElementById('wrap-bugs-'+key).innerHTML=html;
-      document.getElementById('bugs-'+key+'-c').textContent=count+' bugs';
-      const b=document.getElementById('tb-bugs-'+key);if(b)b.textContent=count;
-      applyBugFilter(key);
-    });
-    document.getElementById('imp-sum-area').innerHTML=buildImpSummary();
-    document.getElementById('imp-sum-ts').textContent=ts;
-    {const{html,count}=buildImpTable(impRows,'all');
-    document.getElementById('wrap-imp-all').innerHTML=html;
-    document.getElementById('imp-all-c').textContent=count+' items';
-    const b=document.getElementById('tb-imp-all');if(b)b.textContent=count;
-    applyImpFilter('all');}
-    IMP_TYPE_TABS.forEach(({key})=>{
-      const filtered=impRows.filter(r=>impTypeKey(r[3])===key);
-      const{html,count}=buildImpTable(filtered,key);
-      document.getElementById('wrap-imp-'+key).innerHTML=html;
-      document.getElementById('imp-'+key+'-c').textContent=count+' items';
-      const b=document.getElementById('tb-imp-'+key);if(b)b.textContent=count;
-      applyImpFilter(key);
-    });
+  } else {
+    showErr('tc-sum-area', tcRes.reason.message);
+  }
+
+  if(bugRes.status==='fulfilled'){
+    bugRows = bugRes.value.slice(1);
+  } else {
+    showErr('bug-sum-area', bugRes.reason.message);
+  }
+
+  if(impRes.status==='fulfilled'){
+    impRows = impRes.value.slice(1);
+  } else {
+    showErr('imp-sum-area', impRes.reason.message);
+  }
+
+  const now = new Date();
+  const ts = 'Updated '+now.toLocaleTimeString();
+  const anyOk = tcRes.status==='fulfilled' || bugRes.status==='fulfilled' || impRes.status==='fulfilled';
+
+  try{
+    if(tcRes.status==='fulfilled'){
+      document.getElementById('tc-sum-area').innerHTML=buildTCSummary();
+      document.getElementById('tc-sum-ts').textContent=ts;
+      TC_MODULES.forEach(({key})=>{
+        const{html,count}=buildTCTable(tcByKey[key]||[],key);
+        document.getElementById('wrap-tc-'+key).innerHTML=html;
+        document.getElementById('tc-'+key+'-c').textContent=count+' test cases';
+        const b=document.getElementById('tb-tc-'+key);if(b)b.textContent=count;
+        applyTCFilter(key);
+      });
+    }
+
+    if(bugRes.status==='fulfilled'){
+      document.getElementById('bug-sum-area').innerHTML=buildBugSummary();
+      document.getElementById('bug-sum-ts').textContent=ts;
+      {const{html,count}=buildBugTable(bugRows,'all');
+      document.getElementById('wrap-bugs-all').innerHTML=html;
+      document.getElementById('bugs-all-c').textContent=count+' bugs';
+      const b=document.getElementById('tb-bugs-all');if(b)b.textContent=count;
+      applyBugFilter('all');}
+      BUG_AREA_TABS.forEach(({key,match})=>{
+        const filtered=bugRows.filter(r=>(r[1]||'').trim().toLowerCase()===match);
+        const{html,count}=buildBugTable(filtered,key);
+        document.getElementById('wrap-bugs-'+key).innerHTML=html;
+        document.getElementById('bugs-'+key+'-c').textContent=count+' bugs';
+        const b=document.getElementById('tb-bugs-'+key);if(b)b.textContent=count;
+        applyBugFilter(key);
+      });
+    }
+
+    if(impRes.status==='fulfilled'){
+      document.getElementById('imp-sum-area').innerHTML=buildImpSummary();
+      document.getElementById('imp-sum-ts').textContent=ts;
+      {const{html,count}=buildImpTable(impRows,'all');
+      document.getElementById('wrap-imp-all').innerHTML=html;
+      document.getElementById('imp-all-c').textContent=count+' items';
+      const b=document.getElementById('tb-imp-all');if(b)b.textContent=count;
+      applyImpFilter('all');}
+      IMP_TYPE_TABS.forEach(({key})=>{
+        const filtered=impRows.filter(r=>impTypeKey(r[3])===key);
+        const{html,count}=buildImpTable(filtered,key);
+        document.getElementById('wrap-imp-'+key).innerHTML=html;
+        document.getElementById('imp-'+key+'-c').textContent=count+' items';
+        const b=document.getElementById('tb-imp-'+key);if(b)b.textContent=count;
+        applyImpFilter(key);
+      });
+    }
+
     document.getElementById('last-sync').textContent='Synced '+now.toLocaleTimeString();
-    setSyncState('live','Live');
-  }catch(err){
+    const allOk = tcRes.status==='fulfilled' && bugRes.status==='fulfilled' && impRes.status==='fulfilled';
+    setSyncState(allOk?'live':'error', allOk?'Live':'Partial — see error below');
+  } catch(err){
     console.error(err);
-    ['tc-sum-area','bug-sum-area','imp-sum-area'].forEach(id=>showErr(id,err.message));
     setSyncState('error','Error');
   }
 }
