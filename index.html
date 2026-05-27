@@ -184,6 +184,22 @@ tbody tr:hover{background:var(--paper)!important}
 .legend-lbl{font-size:.7rem;font-weight:600;color:var(--mid);text-transform:uppercase;letter-spacing:.5px;margin-right:4px}
 .legend-item{display:flex;align-items:center;gap:7px;background:var(--paper);border:1px solid var(--brd);padding:6px 12px;border-radius:var(--r);font-size:.74rem}
 .ldot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* ── LOADING STATUS ── */
+.load-status{margin:24px 32px;display:flex;flex-direction:column;gap:10px}
+.ls-row{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:8px;background:var(--linen);border:1px solid var(--brd);font-size:.8rem}
+.ls-icon{width:18px;height:18px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px}
+.ls-icon.spinning{border:2px solid var(--bone);border-top-color:var(--charcoal);animation:spin .7s linear infinite}
+.ls-icon.ok{background:var(--green2);color:var(--pass)}
+.ls-icon.err{background:var(--red2);color:var(--red)}
+.ls-name{font-weight:600;color:var(--ink);min-width:160px}
+.ls-msg{color:var(--mid);font-size:.74rem;flex:1}
+.ls-msg.error{color:var(--red);white-space:pre-wrap;word-break:break-word}
+.setup-box{margin:0 32px 24px;padding:18px 20px;background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;border-left:4px solid #F59E0B}
+.setup-box h3{font-size:.85rem;font-weight:600;color:#92400E;margin-bottom:10px}
+.setup-box ol{margin-left:18px;line-height:2;font-size:.78rem;color:#78350F}
+.setup-box code{background:#FEF3C7;padding:1px 6px;border-radius:4px;font-family:monospace;font-size:.72rem}
+
 @media(max-width:860px){
   .hdr,.super-tab-bar,.tab-bar{padding-left:16px;padding-right:16px}
   .content{margin-left:0;margin-right:0}
@@ -196,7 +212,7 @@ tbody tr:hover{background:var(--paper)!important}
 
 <div class="hdr">
   <div class="hdr-brand">
-    <img src="image.png" class="hdr-logo" alt="Zolve"/>
+  <img src="image.png" class="hdr-logo" alt="Zolve"/> 
     <div>
       <h1>ZKart — QA Test Dashboard</h1>
       <p>Live sync from Google Sheets &nbsp;·&nbsp; Auto-refreshes every 60 s</p>
@@ -249,7 +265,22 @@ tbody tr:hover{background:var(--paper)!important}
     <div class="tab" onclick="showTab(this,'tc','sy')">Sync <span class="tab-badge" id="tb-tc-sy">—</span></div>
   </div>
   <div class="content" id="content-tc">
-    <div class="pane active" id="pane-tc-summary"><div class="sw"><div class="sw-hdr"><h2>Test Execution Progress by Module</h2><span id="tc-sum-ts">Fetching&#8230;</span></div><div id="tc-sum-area"><div class="loading-wrap"><div class="spinner"></div><p>Loading from Google Sheets…</p></div></div></div></div>
+    <div class="pane active" id="pane-tc-summary"><div class="sw"><div class="sw-hdr"><h2>Test Execution Progress by Module</h2><span id="tc-sum-ts">Fetching&#8230;</span></div><div id="tc-sum-area"><div class="setup-box" id="setup-instructions">
+  <h3>⚡ First-time setup — do this once to connect your Google Sheet</h3>
+  <ol>
+    <li>Open your Google Sheet → <strong>File → Share → Share with people</strong><br/>
+        Change to <code>Anyone with the link</code> → <code>Viewer</code> → click <strong>Done</strong></li>
+    <li><strong>File → Share → Publish to web</strong><br/>
+        For <em>each</em> tab (<code>ZKart_TestCases_v3</code>, <code>Bugs</code>, <code>Improvements</code>):<br/>
+        select the tab → <code>Comma-separated values (.csv)</code> → click <strong>Publish</strong></li>
+    <li>Wait 30 seconds, then click <strong>Refresh</strong> in the top-right of this dashboard</li>
+  </ol>
+</div>
+<div class="load-status" id="load-status-tc">
+  <div class="ls-row" id="ls-tc"><div class="ls-icon spinning" id="ls-tc-icon"></div><span class="ls-name">ZKart_TestCases_v3</span><span class="ls-msg" id="ls-tc-msg">Connecting…</span></div>
+  <div class="ls-row" id="ls-bugs"><div class="ls-icon spinning" id="ls-bugs-icon"></div><span class="ls-name">Bugs</span><span class="ls-msg" id="ls-bugs-msg">Connecting…</span></div>
+  <div class="ls-row" id="ls-imp"><div class="ls-icon spinning" id="ls-imp-icon"></div><span class="ls-name">Improvements</span><span class="ls-msg" id="ls-imp-msg">Connecting…</span></div>
+</div><div class="loading-wrap" id="tc-initial-spinner"><div class="spinner"></div><p>Loading from Google Sheets…</p></div></div></div></div>
     <div class="pane" id="pane-tc-hm"><div class="fb"><label>Status:</label><select id="f-tc-hm-s" onchange="applyTCFilter('hm')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-tc-hm-p" onchange="applyTCFilter('hm')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option><option value="p3">P3</option></select><input id="f-tc-hm-q" type="text" placeholder="Search…" oninput="applyTCFilter('hm')"/><span class="fc" id="tc-hm-c"></span></div><div class="tbl-wrap" id="wrap-tc-hm"><div class="loading-wrap"><div class="spinner"></div><p>Loading…</p></div></div></div>
     <div class="pane" id="pane-tc-fd"><div class="fb"><label>Status:</label><select id="f-tc-fd-s" onchange="applyTCFilter('fd')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-tc-fd-p" onchange="applyTCFilter('fd')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option></select><input id="f-tc-fd-q" type="text" placeholder="Search…" oninput="applyTCFilter('fd')"/><span class="fc" id="tc-fd-c"></span></div><div class="tbl-wrap" id="wrap-tc-fd"><div class="loading-wrap"><div class="spinner"></div><p>Loading…</p></div></div></div>
     <div class="pane" id="pane-tc-sr"><div class="fb"><label>Status:</label><select id="f-tc-sr-s" onchange="applyTCFilter('sr')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-tc-sr-p" onchange="applyTCFilter('sr')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option></select><input id="f-tc-sr-q" type="text" placeholder="Search…" oninput="applyTCFilter('sr')"/><span class="fc" id="tc-sr-c"></span></div><div class="tbl-wrap" id="wrap-tc-sr"><div class="loading-wrap"><div class="spinner"></div><p>Loading…</p></div></div></div>
@@ -330,128 +361,94 @@ tbody tr:hover{background:var(--paper)!important}
 
 <script>
 // ── CONFIG ─────────────────────────────────────────────────────────────────
-// These come from File → Share → Publish to web in Google Sheets.
-// Select each tab, choose CSV, click Publish — the URL shown contains the gid.
-// PUBLISHED_BASE: the long ID in the /e/.../ part of the published URL
+// Sheet must be shared: File → Share → Share with people → Anyone with link → Viewer
+// AND published:        File → Share → Publish to web → each tab → CSV → Publish
+const SHEET_ID       = '1q9Ho0aqzK0YbSxzZzkXKaTByUC4N1GNKKxiWRxsxDco';
 const PUBLISHED_BASE = '2PACX-1vQM_vn33VAOrRfKfLVsx0oAJOOc3VYccUC13ngNSBeA0XKuK3bXvowt1xDpu-tw3Jz0KmA4qT4KfCS-';
-// GIDs: the ?gid=XXXXXXX number in the published URL for each tab
-// To find each gid: File → Share → Publish to web → select that tab → copy the gid from the URL shown
-const GID_TC   = '1554980188'; // ZKart_TestCases_v3 tab  ← from your URL (verify this is the right tab)
-const GID_BUGS = '376835004';          // Bugs tab              ← REPLACE with gid from your published Bugs URL
-const GID_IMP  = '572735192';           // Improvements tab      ← REPLACE with gid from your published Improvements URL
-const PROXY    = 'https://corsproxy.io/?';
-
-const TC_MODULES = [
-  {key:'hm',prefix:'ZK-HM',label:'Homepage'},
-  {key:'fd',prefix:'ZK-FD',label:'Flash Deals'},
-  {key:'sr',prefix:'ZK-SR',label:'Search'},
-  {key:'ca',prefix:'ZK-CA',label:'Categories'},
-  {key:'pr',prefix:'ZK-PR',label:'Profile'},
-  {key:'or',prefix:'ZK-OR',label:'My Orders'},
-  {key:'ad',prefix:'ZK-AD',label:'Address'},
-  {key:'ct',prefix:'ZK-CT',label:'Cart & Checkout'},
-  {key:'pd',prefix:'ZK-PD',label:'PDP'},
-  {key:'nv',prefix:'ZK-NV',label:'Navigation'},
-  {key:'sy',prefix:'ZK-SY',label:'Sync'},
+// GIDs from File → Share → Publish to web (number after ?gid= for each tab)
+const GIDS = {
+  'ZKart_TestCases_v3': '1554980188',  // update if wrong
+  'Bugs':               '376835004',            // paste gid here
+  'Improvements':       '572735192',            // paste gid here
+};
+// CORS proxies tried in order as fallback
+const PROXIES = [
+  u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
+  u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+  u => `https://thingproxy.freeboard.io/fetch/${u}`,
 ];
 
-// Bug areas: key → display label → area string in data
-const BUG_AREA_TABS = [
-  {key:'addr',    label:'Address',    match:'address'},
-  {key:'home',    label:'Home',       match:'home'},
-  {key:'search',  label:'Search',     match:'search'},
-  {key:'cart',    label:'Cart',       match:'cart'},
-  {key:'checkout',label:'Checkout',   match:'checkout'},
-  {key:'orders',  label:'Orders',     match:'orders'},
-  {key:'nav',     label:'Navigation', match:'navigation'},
-  {key:'pdp',     label:'PDP',        match:'pdp'},
-];
-
-const IMP_TYPE_TABS = [
-  {key:'ux',   match:'ux & layout',     label:'UX & Layout'},
-  {key:'copy', match:'copy & labels',   label:'Copy & Labels'},
-  {key:'nav',  match:'navigation',      label:'Navigation'},
-  {key:'feat', match:'missing feature', label:'Missing Feature'},
-];
-
-let tcRows=[], bugRows=[], impRows=[], tcByKey={};
-
-// ── SUPER TAB SWITCH ─────────────────────────────────────────────────────────
-function switchSuper(t){
-  ['tc','bugs','imp'].forEach(x=>{
-    document.getElementById('st-'+x).classList.toggle('active',x===t);
-    document.getElementById('section-'+x).style.display=x===t?'':'none';
-  });
+function encodeSheet(n){
+  return n.split('').map(c=>
+    c===' '?'%20':c==='&'?'%26':c==='+'?'%2B':
+    c==='/'?'%2F':c==='?'?'%3F':c==='#'?'%23':c==='%'?'%25':c
+  ).join('');
 }
 
-// ── SUB TAB SWITCH ───────────────────────────────────────────────────────────
-function showTab(el,section,id){
-  document.querySelectorAll('#tabbar-'+section+' .tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  document.querySelectorAll('#content-'+section+' .pane').forEach(p=>p.classList.remove('active'));
-  const p=document.getElementById('pane-'+section+'-'+id);
-  if(p) p.classList.add('active');
+// Try a single URL, return parsed CSV or throw with message
+async function tryUrl(url) {
+  const r = await fetch(url, {cache:'no-store'});
+  if(!r.ok) throw new Error('HTTP '+r.status);
+  const t = await r.text();
+  if(t.trim().startsWith('<!') || t.includes('<html') || t.includes('<HTML>'))
+    throw new Error('Got HTML page — sheet not shared/published');
+  if(t.trim().length < 10) throw new Error('Empty response');
+  return parseCSV(t);
 }
 
-// ── CSV PARSER ───────────────────────────────────────────────────────────────
-function parseCSV(txt){
-  const rows=[];let i=0,n=txt.length;
-  while(i<n){
-    const row=[];
-    while(i<n&&txt[i]!=='\n'){
-      if(txt[i]==='"'){
-        let c='';i++;
-        while(i<n){if(txt[i]==='"'&&txt[i+1]==='"'){c+='"';i+=2;}else if(txt[i]==='"'){i++;break;}else c+=txt[i++];}
-        row.push(c.trim());
-      }else{
-        let c='';while(i<n&&txt[i]!==','&&txt[i]!=='\n')c+=txt[i++];
-        row.push(c.trim());
-      }
-      if(i<n&&txt[i]===',')i++;
+async function fetchByGid(name, gid) {
+  const urls = [];
+  // Strategy A: gviz/tq by sheet name (works when sheet is shared as "Anyone with link")
+  const gvizName = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeSheet(name)}`;
+  urls.push(['gviz+name direct',  gvizName]);
+  // Strategy B: published /e/ URL by GID (works when published to web)
+  if(gid) {
+    const pubUrl = `https://docs.google.com/spreadsheets/d/e/${PUBLISHED_BASE}/pub?gid=${gid}&single=true&output=csv`;
+    urls.push(['published+gid direct', pubUrl]);
+  }
+  // Strategy C: gviz via each proxy
+  for(const proxy of PROXIES) {
+    urls.push(['gviz via '+proxy(gvizName).split('?')[0].split('/').pop(), proxy(gvizName)]);
+  }
+  // Strategy D: published via each proxy (if gid known)
+  if(gid) {
+    const pubUrl = `https://docs.google.com/spreadsheets/d/e/${PUBLISHED_BASE}/pub?gid=${gid}&single=true&output=csv`;
+    for(const proxy of PROXIES) {
+      urls.push(['pub via proxy', proxy(pubUrl)]);
     }
-    if(i<n)i++;
-    if(row.some(c=>c!==''))rows.push(row);
   }
-  return rows;
-}
 
-function encodeSheet(n){return n.split('').map(c=>c===' '?'%20':c==='&'?'%26':c==='+'?'%2B':c==='/'?'%2F':c==='?'?'%3F':c==='#'?'%23':c==='%'?'%25':c).join('');}
-
-async function fetchByGid(label, gid){
-  if(!gid || gid === ''){
-    throw new Error(
-      `GID for "${label}" is not set in the dashboard config.\n\n` +
-      `HOW TO FIX:\n` +
-      `1. In Google Sheets go to File → Share → Publish to web\n` +
-      `2. Select the "${label}" tab in the first dropdown\n` +
-      `3. Select "Comma-separated values (.csv)" in the second dropdown\n` +
-      `4. Click Publish\n` +
-      `5. Copy the number after ?gid= in the URL shown\n` +
-      `6. Open this HTML file and paste it into the matching GID constant at the top of the <script> block`
-    );
-  }
-  const pubUrl = `https://docs.google.com/spreadsheets/d/e/${PUBLISHED_BASE}/pub?gid=${gid}&single=true&output=csv`;
-
-  const go = async u => {
-    const r = await fetch(u, {cache:'no-store'});
-    if(!r.ok) throw new Error('HTTP '+r.status);
-    const t = await r.text();
-    if(t.trim().startsWith('<!') || t.includes('<html')){
-      throw new Error(
-        `Got an HTML page instead of CSV for "${label}" (gid=${gid}).\n` +
-        `This means the tab is not published yet.\n` +
-        `Go to File → Share → Publish to web → select the "${label}" tab → CSV → Publish.`
-      );
+  const errors = [];
+  for(const [label, url] of urls) {
+    try {
+      const data = await tryUrl(url);
+      console.log(`[ZKart] "${name}" loaded via: ${label}`);
+      return data;
+    } catch(err) {
+      errors.push(`${label}: ${err.message}`);
     }
-    if(t.trim().length < 5) throw new Error('Empty response — the tab may be empty');
-    return parseCSV(t);
-  };
-
-  // Try direct first, then CORS proxy as fallback
-  try{ return await go(pubUrl); } catch(e){
-    try{ return await go(PROXY + encodeURIComponent(pubUrl)); }
-    catch(e2){ throw new Error(`"${label}": ${e2.message}`); }
   }
+
+  // All failed — build a helpful error
+  throw new Error(
+    `Failed to load "${name}" after ${urls.length} attempts.
+
+` +
+    `MOST LIKELY FIX:
+` +
+    `1. Open your Google Sheet
+` +
+    `2. File → Share → Share with people → change to "Anyone with the link" → Viewer → Done
+` +
+    `3. File → Share → Publish to web → select "${name}" tab → CSV → Publish
+` +
+    `4. Wait 30 seconds then refresh this page
+
+` +
+    `Errors tried:
+${errors.join('
+')}`
+  );
 }
 
 // ── BADGE HELPERS ────────────────────────────────────────────────────────────
@@ -672,14 +669,31 @@ function showErr(id,msg){
   </div>`;
 }
 
+function setLS(key, state, msg){
+  const icon = document.getElementById('ls-'+key+'-icon');
+  const msgEl = document.getElementById('ls-'+key+'-msg');
+  if(icon){ icon.className = 'ls-icon '+(state==='ok'?'ok':state==='err'?'err':'spinning'); icon.textContent = state==='ok'?'✓':state==='err'?'✗':''; }
+  if(msgEl){ msgEl.textContent = msg; msgEl.className = 'ls-msg'+(state==='err'?' error':''); }
+}
+function hideSetup(){
+  // Hide setup box once at least one sheet loads successfully
+  const box = document.getElementById('setup-instructions');
+  const spinner = document.getElementById('tc-initial-spinner');
+  if(box) box.style.display='none';
+  if(spinner) spinner.style.display='none';
+}
+
 async function loadAll(){
   setSyncState('loading','Loading…');
+  setLS('tc','spinning','Connecting to Google Sheets…');
+  setLS('bugs','spinning','Connecting to Google Sheets…');
+  setLS('imp','spinning','Connecting to Google Sheets…');
 
   // Fetch all 3 sheets independently — one failure will not block the others
   const [tcRes, bugRes, impRes] = await Promise.allSettled([
-    fetchByGid('ZKart_TestCases_v3', GID_TC),
-    fetchByGid('Bugs',               GID_BUGS),
-    fetchByGid('Improvements',       GID_IMP),
+    fetchByGid('ZKart_TestCases_v3', GIDS['ZKart_TestCases_v3']),
+    fetchByGid('Bugs', GIDS['Bugs']),
+    fetchByGid('Improvements', GIDS['Improvements']),
   ]);
 
   if(tcRes.status==='fulfilled'){
@@ -687,19 +701,28 @@ async function loadAll(){
     TC_MODULES.forEach(({key,prefix})=>{
       tcByKey[key]=tcRows.filter(r=>(r[0]||'').trim().startsWith(prefix));
     });
+    setLS('tc','ok', tcRows.length + ' rows loaded');
+    hideSetup();
   } else {
+    setLS('tc','err', tcRes.reason.message);
     showErr('tc-sum-area', tcRes.reason.message);
   }
 
   if(bugRes.status==='fulfilled'){
     bugRows = bugRes.value.slice(1);
+    setLS('bugs','ok', bugRows.length + ' bugs loaded');
+    hideSetup();
   } else {
+    setLS('bugs','err', bugRes.reason.message);
     showErr('bug-sum-area', bugRes.reason.message);
   }
 
   if(impRes.status==='fulfilled'){
     impRows = impRes.value.slice(1);
+    setLS('imp','ok', impRows.length + ' improvements loaded');
+    hideSetup();
   } else {
+    setLS('imp','err', impRes.reason.message);
     showErr('imp-sum-area', impRes.reason.message);
   }
 
@@ -758,7 +781,7 @@ async function loadAll(){
 
     document.getElementById('last-sync').textContent='Synced '+now.toLocaleTimeString();
     const allOk = tcRes.status==='fulfilled' && bugRes.status==='fulfilled' && impRes.status==='fulfilled';
-    setSyncState(allOk?'live':'error', allOk?'Live':'Partial — see error below');
+    setSyncState(allOk?'live':'error', allOk?'Live':'Partial — check errors');
   } catch(err){
     console.error(err);
     setSyncState('error','Error');
