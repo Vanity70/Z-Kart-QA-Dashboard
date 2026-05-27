@@ -21,8 +21,6 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
-
-/* ── HEADER ── */
 .hdr{background:var(--black);padding:20px 40px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;border-bottom:1px solid #333}
 .hdr-brand{display:flex;align-items:center;gap:12px}
 .hdr-logo{width:34px;height:34px;border-radius:6px;background:linear-gradient(135deg,#4B3B8C,#7C5CBF);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;letter-spacing:-1px;flex-shrink:0}
@@ -39,8 +37,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;background:
 .refresh-btn{background:rgba(255,255,255,.08);color:var(--silver);border:1px solid rgba(255,255,255,.14);padding:5px 13px;border-radius:20px;font-size:.7rem;font-weight:500;cursor:pointer;transition:all .15s}
 .refresh-btn:hover{background:rgba(255,255,255,.14);color:var(--white)}
 #last-sync{color:rgba(255,255,255,.35);font-size:.68rem;white-space:nowrap}
-
-/* ── SUPER TABS ── */
 .super-tab-bar{background:var(--black);padding:0 40px;display:flex;gap:0;border-bottom:2px solid #333}
 .super-tab{padding:10px 22px;cursor:pointer;font-size:.78rem;font-weight:500;color:rgba(255,255,255,.45);border:none;background:transparent;border-bottom:3px solid transparent;transition:all .18s;letter-spacing:.2px;user-select:none;white-space:nowrap;margin-bottom:-2px}
 .super-tab:hover{color:rgba(255,255,255,.75)}
@@ -50,8 +46,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;background:
 .st-dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-left:5px;vertical-align:middle}
 .st-dot.red{background:#F87171}
 .st-dot.teal{background:#6EE7B7}
-
-/* ── KPI BAR ── */
 .kpi-bar{display:flex;gap:1px;background:var(--brd);border-bottom:1px solid var(--brd)}
 .kpi{background:var(--white);padding:18px 24px;flex:1;min-width:110px;display:flex;flex-direction:column;gap:5px;transition:background .15s;border-top:3px solid transparent}
 .kpi:hover{background:var(--linen)}
@@ -63,8 +57,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;background:
 .kpi-bar.bug-kpis .kpi.k-total{border-color:var(--bug-accent)}
 .kpi-bar.imp-kpis .kpi.k-total .kn{color:var(--imp-accent)}
 .kpi-bar.imp-kpis .kpi.k-total{border-color:var(--imp-accent)}
-
-/* ── SUB TABS ── */
 .tab-bar{display:flex;padding:0 40px;gap:0;overflow-x:auto;background:var(--linen);border-bottom:1px solid var(--brd);scrollbar-width:none}
 .tab-bar::-webkit-scrollbar{display:none}
 .tab{padding:12px 16px;cursor:pointer;font-size:.77rem;font-weight:500;color:var(--mid);background:transparent;border:none;border-bottom:2px solid transparent;transition:all .15s;user-select:none;white-space:nowrap;flex-shrink:0}
@@ -72,14 +64,10 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;background:
 .tab.active{color:var(--black);border-bottom-color:var(--black);font-weight:600;background:var(--white)}
 .tab-badge{display:inline-block;background:var(--bone);color:var(--charcoal);border-radius:20px;padding:1px 7px;font-size:.62rem;margin-left:5px;font-weight:600}
 .tab.active .tab-badge{background:var(--black);color:var(--white)}
-/* Bug tab colours */
 .tab-bar.bug-tabs .tab.active{color:var(--bug-accent);border-bottom-color:var(--bug-accent)}
 .tab-bar.bug-tabs .tab.active .tab-badge{background:var(--bug-accent);color:var(--white)}
-/* Imp tab colours */
 .tab-bar.imp-tabs .tab.active{color:var(--imp-accent);border-bottom-color:var(--imp-accent)}
 .tab-bar.imp-tabs .tab.active .tab-badge{background:var(--imp-accent);color:var(--white)}
-
-/* ── CONTENT ── */
 .content{background:var(--white);margin:0 40px 40px;border-radius:0 0 var(--r2) var(--r2);box-shadow:var(--sh2);border:1px solid var(--brd);border-top:none;overflow:hidden;min-height:360px}
 .content.bug-content{border-top:2px solid var(--bug-accent)}
 .content.imp-content{border-top:2px solid var(--imp-accent)}
@@ -92,8 +80,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;background:
 .err-box h3{color:var(--red);font-size:.85rem;margin-bottom:7px;font-weight:600}
 .err-box p{font-size:.78rem;color:#7B2A23;line-height:1.7}
 .err-box code{background:#F2D3D0;padding:2px 6px;border-radius:3px;font-size:.72rem;font-family:'Courier New',monospace}
-
-/* ── FILTER BAR ── */
 .fb{display:flex;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid var(--brd);flex-wrap:wrap;background:var(--paper)}
 .fb.bug-fb{background:var(--bug-accent2)}
 .fb.imp-fb{background:var(--imp-accent2)}
@@ -104,8 +90,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;background:
 .imp-fb select:focus,.imp-fb input:focus{border-color:var(--imp-accent)}
 .fb input{min-width:190px}
 .fc{margin-left:auto;font-size:.7rem;color:var(--silver);font-style:italic}
-
-/* ── TABLES ── */
 .tbl-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:.78rem}
 thead tr{background:var(--black)}
@@ -120,8 +104,6 @@ tbody tr:hover{background:var(--paper)!important}
 .steps{white-space:pre-line;font-size:.72rem;color:var(--charcoal);line-height:1.6}
 .exp{font-size:.72rem;color:#1E4D35;line-height:1.55}
 .notes{font-size:.68rem;color:var(--silver);font-style:italic}
-
-/* ── BADGES ── */
 .pri{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.64rem;font-weight:600;white-space:nowrap}
 .p1{background:var(--amber2);color:var(--amber);border:1px solid #D4B87A}
 .p2{background:var(--linen);color:var(--charcoal);border:1px solid var(--brd2)}
@@ -130,21 +112,16 @@ tbody tr:hover{background:var(--paper)!important}
 .s-pass{background:var(--green2);color:var(--pass);border:1px solid #A8CFB8}
 .s-fail{background:var(--red2);color:var(--fail);border:1px solid #DBA9A5}
 .s-na{background:var(--linen);color:var(--na);border:1px solid var(--brd2)}
-/* severity */
 .sev-high{background:var(--red2);color:var(--red);border:1px solid #DBA9A5;display:inline-block;padding:2px 9px;border-radius:20px;font-size:.64rem;font-weight:600}
 .sev-med{background:var(--amber2);color:var(--amber);border:1px solid #D4B87A;display:inline-block;padding:2px 9px;border-radius:20px;font-size:.64rem;font-weight:600}
 .sev-low{background:var(--green2);color:var(--green);border:1px solid #A8CFB8;display:inline-block;padding:2px 9px;border-radius:20px;font-size:.64rem;font-weight:600}
-/* bug status */
 .bug-open{background:var(--bug-accent2);color:var(--bug-accent);border:1px solid #E8B4BB;display:inline-block;padding:3px 10px;border-radius:20px;font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
 .bug-fixed{background:var(--green2);color:var(--pass);border:1px solid #A8CFB8;display:inline-block;padding:3px 10px;border-radius:20px;font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
-/* improvement priority */
 .imp-high{background:#FEF3E2;color:#92400E;border:1px solid #F6C97A;display:inline-block;padding:2px 9px;border-radius:20px;font-size:.64rem;font-weight:600}
 .imp-med{background:var(--imp-accent2);color:var(--imp-accent);border:1px solid #9DD6CC;display:inline-block;padding:2px 9px;border-radius:20px;font-size:.64rem;font-weight:600}
 .imp-low{background:var(--linen);color:var(--mid);border:1px solid var(--brd2);display:inline-block;padding:2px 9px;border-radius:20px;font-size:.64rem;font-weight:600}
-/* improvement status */
 .imp-open{background:var(--imp-accent2);color:var(--imp-accent);border:1px solid #9DD6CC;display:inline-block;padding:3px 10px;border-radius:20px;font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
 .imp-done{background:var(--green2);color:var(--pass);border:1px solid #A8CFB8;display:inline-block;padding:3px 10px;border-radius:20px;font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
-/* area badge */
 .area-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.62rem;font-weight:600;white-space:nowrap}
 .a-address{background:#FBF5E6;color:#8A5A00;border:1px solid #D4B87A}
 .a-home{background:#EEEAF8;color:#4B3B8C;border:1px solid #C9BEF0}
@@ -154,13 +131,10 @@ tbody tr:hover{background:var(--paper)!important}
 .a-orders{background:#EAF3EE;color:#2D6A4F;border:1px solid #A8CFB8}
 .a-navigation{background:#F3E8FF;color:#6B21A8;border:1px solid #D8B4FE}
 .a-pdp{background:#E6F4F1;color:#0F6B5C;border:1px solid #9DD6CC}
-/* improvement type badge */
 .type-ux{background:#FEF9E7;color:#7D5A00;border:1px solid #F0D580;display:inline-block;padding:2px 8px;border-radius:20px;font-size:.62rem;font-weight:600}
 .type-copy{background:#EBF5FB;color:#1A6E9E;border:1px solid #A8D5EE;display:inline-block;padding:2px 8px;border-radius:20px;font-size:.62rem;font-weight:600}
 .type-nav{background:#F3E8FF;color:#6B21A8;border:1px solid #D8B4FE;display:inline-block;padding:2px 8px;border-radius:20px;font-size:.62rem;font-weight:600}
 .type-feat{background:var(--imp-accent2);color:var(--imp-accent);border:1px solid #9DD6CC;display:inline-block;padding:2px 8px;border-radius:20px;font-size:.62rem;font-weight:600}
-
-/* ── SUMMARY SECTION ── */
 .sw{padding:28px 32px}
 .sw-hdr{display:flex;align-items:baseline;gap:16px;margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid var(--brd);flex-wrap:wrap}
 .sw-hdr h2{font-size:1rem;font-weight:600;color:var(--black);letter-spacing:-.2px}
@@ -184,8 +158,6 @@ tbody tr:hover{background:var(--paper)!important}
 .legend-lbl{font-size:.7rem;font-weight:600;color:var(--mid);text-transform:uppercase;letter-spacing:.5px;margin-right:4px}
 .legend-item{display:flex;align-items:center;gap:7px;background:var(--paper);border:1px solid var(--brd);padding:6px 12px;border-radius:var(--r);font-size:.74rem}
 .ldot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-
-/* ── LOADING STATUS ── */
 .load-status{margin:24px 32px;display:flex;flex-direction:column;gap:10px}
 .ls-row{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:8px;background:var(--linen);border:1px solid var(--brd);font-size:.8rem}
 .ls-icon{width:18px;height:18px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px}
@@ -199,7 +171,6 @@ tbody tr:hover{background:var(--paper)!important}
 .setup-box h3{font-size:.85rem;font-weight:600;color:#92400E;margin-bottom:10px}
 .setup-box ol{margin-left:18px;line-height:2;font-size:.78rem;color:#78350F}
 .setup-box code{background:#FEF3C7;padding:1px 6px;border-radius:4px;font-family:monospace;font-size:.72rem}
-
 @media(max-width:860px){
   .hdr,.super-tab-bar,.tab-bar{padding-left:16px;padding-right:16px}
   .content{margin-left:0;margin-right:0}
@@ -212,7 +183,7 @@ tbody tr:hover{background:var(--paper)!important}
 
 <div class="hdr">
   <div class="hdr-brand">
-  <img src="image.png" class="hdr-logo" alt="Zolve"/> 
+    <div class="hdr-logo">ZK</div>
     <div>
       <h1>ZKart — QA Test Dashboard</h1>
       <p>Live sync from Google Sheets &nbsp;·&nbsp; Auto-refreshes every 60 s</p>
@@ -240,7 +211,7 @@ tbody tr:hover{background:var(--paper)!important}
   </div>
 </div>
 
-<!-- ══════════════════════ TEST CASES ══════════════════════ -->
+<!-- TEST CASES -->
 <div id="section-tc">
   <div class="kpi-bar">
     <div class="kpi k-total"><div class="kn" id="k-total">—</div><div class="kl">Total TCs</div></div>
@@ -265,22 +236,22 @@ tbody tr:hover{background:var(--paper)!important}
     <div class="tab" onclick="showTab(this,'tc','sy')">Sync <span class="tab-badge" id="tb-tc-sy">—</span></div>
   </div>
   <div class="content" id="content-tc">
-    <div class="pane active" id="pane-tc-summary"><div class="sw"><div class="sw-hdr"><h2>Test Execution Progress by Module</h2><span id="tc-sum-ts">Fetching&#8230;</span></div><div id="tc-sum-area"><div class="setup-box" id="setup-instructions">
-  <h3>⚡ First-time setup — do this once to connect your Google Sheet</h3>
-  <ol>
-    <li>Open your Google Sheet → <strong>File → Share → Share with people</strong><br/>
-        Change to <code>Anyone with the link</code> → <code>Viewer</code> → click <strong>Done</strong></li>
-    <li><strong>File → Share → Publish to web</strong><br/>
-        For <em>each</em> tab (<code>ZKart_TestCases_v3</code>, <code>Bugs</code>, <code>Improvements</code>):<br/>
-        select the tab → <code>Comma-separated values (.csv)</code> → click <strong>Publish</strong></li>
-    <li>Wait 30 seconds, then click <strong>Refresh</strong> in the top-right of this dashboard</li>
-  </ol>
-</div>
-<div class="load-status" id="load-status-tc">
-  <div class="ls-row" id="ls-tc"><div class="ls-icon spinning" id="ls-tc-icon"></div><span class="ls-name">ZKart_TestCases_v3</span><span class="ls-msg" id="ls-tc-msg">Connecting…</span></div>
-  <div class="ls-row" id="ls-bugs"><div class="ls-icon spinning" id="ls-bugs-icon"></div><span class="ls-name">Bugs</span><span class="ls-msg" id="ls-bugs-msg">Connecting…</span></div>
-  <div class="ls-row" id="ls-imp"><div class="ls-icon spinning" id="ls-imp-icon"></div><span class="ls-name">Improvements</span><span class="ls-msg" id="ls-imp-msg">Connecting…</span></div>
-</div><div class="loading-wrap" id="tc-initial-spinner"><div class="spinner"></div><p>Loading from Google Sheets…</p></div></div></div></div>
+    <div class="pane active" id="pane-tc-summary"><div class="sw"><div class="sw-hdr"><h2>Test Execution Progress by Module</h2><span id="tc-sum-ts">Fetching&#8230;</span></div><div id="tc-sum-area">
+      <div class="setup-box" id="setup-instructions">
+        <h3>⚡ First-time setup — do this once to connect your Google Sheet</h3>
+        <ol>
+          <li>Open your Google Sheet → <strong>File → Share → Share with people</strong><br/>Change to <code>Anyone with the link</code> → <code>Viewer</code> → click <strong>Done</strong></li>
+          <li><strong>File → Share → Publish to web</strong><br/>For <em>each</em> tab (<code>ZKart_TestCases_v3</code>, <code>Bugs</code>, <code>Improvements</code>):<br/>select the tab → <code>Comma-separated values (.csv)</code> → click <strong>Publish</strong></li>
+          <li>Wait 30 seconds, then click <strong>Refresh</strong> in the top-right of this dashboard</li>
+        </ol>
+      </div>
+      <div class="load-status" id="load-status-tc">
+        <div class="ls-row" id="ls-tc"><div class="ls-icon spinning" id="ls-tc-icon"></div><span class="ls-name">ZKart_TestCases_v3</span><span class="ls-msg" id="ls-tc-msg">Connecting…</span></div>
+        <div class="ls-row" id="ls-bugs"><div class="ls-icon spinning" id="ls-bugs-icon"></div><span class="ls-name">Bugs</span><span class="ls-msg" id="ls-bugs-msg">Connecting…</span></div>
+        <div class="ls-row" id="ls-imp"><div class="ls-icon spinning" id="ls-imp-icon"></div><span class="ls-name">Improvements</span><span class="ls-msg" id="ls-imp-msg">Connecting…</span></div>
+      </div>
+      <div class="loading-wrap" id="tc-initial-spinner"><div class="spinner"></div><p>Loading from Google Sheets…</p></div>
+    </div></div></div>
     <div class="pane" id="pane-tc-hm"><div class="fb"><label>Status:</label><select id="f-tc-hm-s" onchange="applyTCFilter('hm')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-tc-hm-p" onchange="applyTCFilter('hm')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option><option value="p3">P3</option></select><input id="f-tc-hm-q" type="text" placeholder="Search…" oninput="applyTCFilter('hm')"/><span class="fc" id="tc-hm-c"></span></div><div class="tbl-wrap" id="wrap-tc-hm"><div class="loading-wrap"><div class="spinner"></div><p>Loading…</p></div></div></div>
     <div class="pane" id="pane-tc-fd"><div class="fb"><label>Status:</label><select id="f-tc-fd-s" onchange="applyTCFilter('fd')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-tc-fd-p" onchange="applyTCFilter('fd')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option></select><input id="f-tc-fd-q" type="text" placeholder="Search…" oninput="applyTCFilter('fd')"/><span class="fc" id="tc-fd-c"></span></div><div class="tbl-wrap" id="wrap-tc-fd"><div class="loading-wrap"><div class="spinner"></div><p>Loading…</p></div></div></div>
     <div class="pane" id="pane-tc-sr"><div class="fb"><label>Status:</label><select id="f-tc-sr-s" onchange="applyTCFilter('sr')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-tc-sr-p" onchange="applyTCFilter('sr')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option></select><input id="f-tc-sr-q" type="text" placeholder="Search…" oninput="applyTCFilter('sr')"/><span class="fc" id="tc-sr-c"></span></div><div class="tbl-wrap" id="wrap-tc-sr"><div class="loading-wrap"><div class="spinner"></div><p>Loading…</p></div></div></div>
@@ -295,7 +266,7 @@ tbody tr:hover{background:var(--paper)!important}
   </div>
 </div>
 
-<!-- ══════════════════════ BUGS ══════════════════════ -->
+<!-- BUGS -->
 <div id="section-bugs" style="display:none">
   <div class="kpi-bar bug-kpis">
     <div class="kpi k-total"><div class="kn" id="bk-total">—</div><div class="kl">Total Bugs</div></div>
@@ -331,7 +302,7 @@ tbody tr:hover{background:var(--paper)!important}
   </div>
 </div>
 
-<!-- ══════════════════════ IMPROVEMENTS ══════════════════════ -->
+<!-- IMPROVEMENTS -->
 <div id="section-imp" style="display:none">
   <div class="kpi-bar imp-kpis">
     <div class="kpi k-total"><div class="kn" id="ik-total">—</div><div class="kl">Total Items</div></div>
@@ -360,66 +331,141 @@ tbody tr:hover{background:var(--paper)!important}
 </div>
 
 <script>
-// ── CONFIG ─────────────────────────────────────────────────────────────────
-// Sheet must be shared: File → Share → Share with people → Anyone with link → Viewer
-// AND published:        File → Share → Publish to web → each tab → CSV → Publish
+// ── CONFIG ────────────────────────────────────────────────────────────────────
 const SHEET_ID       = '1q9Ho0aqzK0YbSxzZzkXKaTByUC4N1GNKKxiWRxsxDco';
 const PUBLISHED_BASE = '2PACX-1vQM_vn33VAOrRfKfLVsx0oAJOOc3VYccUC13ngNSBeA0XKuK3bXvowt1xDpu-tw3Jz0KmA4qT4KfCS-';
-// GIDs from File → Share → Publish to web (number after ?gid= for each tab)
 const GIDS = {
-  'ZKart_TestCases_v3': '1554980188',  // update if wrong
-  'Bugs':               '376835004',            // paste gid here
-  'Improvements':       '572735192',            // paste gid here
+  'ZKart_TestCases_v3': '1554980188',
+  'Bugs':               '376835004',
+  'Improvements':       '572735192',
 };
-// CORS proxies tried in order as fallback
 const PROXIES = [
   u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
   u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
   u => `https://thingproxy.freeboard.io/fetch/${u}`,
 ];
 
-function encodeSheet(n){
-  return n.split('').map(c=>
+// ── DATA DECLARATIONS (FIX #1: these were missing) ───────────────────────────
+let tcRows  = [];
+let tcByKey = {};
+let bugRows = [];
+let impRows = [];
+
+const TC_MODULES = [
+  {key:'hm', label:'Homepage',       prefix:'ZK-HM-'},
+  {key:'fd', label:'Flash Deals',    prefix:'ZK-FD-'},
+  {key:'sr', label:'Search',         prefix:'ZK-SR-'},
+  {key:'ca', label:'Categories',     prefix:'ZK-CA-'},
+  {key:'pr', label:'Profile',        prefix:'ZK-PR-'},
+  {key:'or', label:'My Orders',      prefix:'ZK-OR-'},
+  {key:'ad', label:'Address',        prefix:'ZK-AD-'},
+  {key:'ct', label:'Cart & Checkout',prefix:'ZK-CT-'},
+  {key:'pd', label:'PDP',            prefix:'ZK-PD-'},
+  {key:'nv', label:'Navigation',     prefix:'ZK-NV-'},
+  {key:'sy', label:'Sync',           prefix:'ZK-SY-'},
+];
+
+const BUG_AREA_TABS = [
+  {key:'addr',     match:'address'},
+  {key:'home',     match:'home'},
+  {key:'search',   match:'search'},
+  {key:'cart',     match:'cart'},
+  {key:'checkout', match:'checkout'},
+  {key:'orders',   match:'orders'},
+  {key:'nav',      match:'navigation'},
+  {key:'pdp',      match:'pdp'},
+];
+
+const IMP_TYPE_TABS = [
+  {key:'ux'},
+  {key:'copy'},
+  {key:'nav'},
+  {key:'feat'},
+];
+
+// ── SUPER TAB SWITCHING ───────────────────────────────────────────────────────
+function switchSuper(which) {
+  ['tc','bugs','imp'].forEach(s => {
+    document.getElementById('section-'+s).style.display = s===which ? '' : 'none';
+    document.getElementById('st-'+s).classList.toggle('active', s===which);
+  });
+}
+
+// ── SUB TAB SWITCHING ─────────────────────────────────────────────────────────
+function showTab(el, section, key) {
+  const bar = el.closest('.tab-bar');
+  bar.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const content = document.getElementById('content-'+section);
+  content.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+  const pane = document.getElementById('pane-'+section+'-'+key);
+  if (pane) pane.classList.add('active');
+}
+
+// ── CSV PARSER (FIX #2: was missing entirely) ─────────────────────────────────
+function parseCSV(text) {
+  const rows = [];
+  const lines = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  let i = 0, len = lines.length;
+  while (i < len) {
+    const row = [];
+    while (i < len && lines[i] !== '\n') {
+      if (lines[i] === '"') {
+        i++; // skip opening quote
+        let cell = '';
+        while (i < len) {
+          if (lines[i] === '"' && lines[i+1] === '"') { cell += '"'; i += 2; }
+          else if (lines[i] === '"') { i++; break; }
+          else { cell += lines[i++]; }
+        }
+        row.push(cell);
+        if (i < len && lines[i] === ',') i++;
+      } else {
+        let cell = '';
+        while (i < len && lines[i] !== ',' && lines[i] !== '\n') cell += lines[i++];
+        row.push(cell);
+        if (i < len && lines[i] === ',') i++;
+      }
+    }
+    if (i < len) i++; // skip \n
+    if (row.length > 0 && !(row.length === 1 && row[0] === '')) rows.push(row);
+  }
+  return rows;
+}
+
+// ── FETCH HELPERS ─────────────────────────────────────────────────────────────
+function encodeSheet(n) {
+  return n.split('').map(c =>
     c===' '?'%20':c==='&'?'%26':c==='+'?'%2B':
     c==='/'?'%2F':c==='?'?'%3F':c==='#'?'%23':c==='%'?'%25':c
   ).join('');
 }
 
-// Try a single URL, return parsed CSV or throw with message
 async function tryUrl(url) {
   const r = await fetch(url, {cache:'no-store'});
-  if(!r.ok) throw new Error('HTTP '+r.status);
+  if (!r.ok) throw new Error('HTTP ' + r.status);
   const t = await r.text();
-  if(t.trim().startsWith('<!') || t.includes('<html') || t.includes('<HTML>'))
-    throw new Error('Got HTML page — sheet not shared/published');
-  if(t.trim().length < 10) throw new Error('Empty response');
+  if (t.trim().startsWith('<!') || t.includes('<html') || t.includes('<HTML>'))
+    throw new Error('Got HTML — sheet not shared/published yet');
+  if (t.trim().length < 10) throw new Error('Empty response');
   return parseCSV(t);
 }
 
 async function fetchByGid(name, gid) {
   const urls = [];
-  // Strategy A: gviz/tq by sheet name (works when sheet is shared as "Anyone with link")
   const gvizName = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeSheet(name)}`;
-  urls.push(['gviz+name direct',  gvizName]);
-  // Strategy B: published /e/ URL by GID (works when published to web)
-  if(gid) {
+  urls.push(['gviz+name direct', gvizName]);
+  if (gid) {
     const pubUrl = `https://docs.google.com/spreadsheets/d/e/${PUBLISHED_BASE}/pub?gid=${gid}&single=true&output=csv`;
     urls.push(['published+gid direct', pubUrl]);
   }
-  // Strategy C: gviz via each proxy
-  for(const proxy of PROXIES) {
-    urls.push(['gviz via '+proxy(gvizName).split('?')[0].split('/').pop(), proxy(gvizName)]);
-  }
-  // Strategy D: published via each proxy (if gid known)
-  if(gid) {
+  for (const proxy of PROXIES) urls.push(['gviz via proxy', proxy(gvizName)]);
+  if (gid) {
     const pubUrl = `https://docs.google.com/spreadsheets/d/e/${PUBLISHED_BASE}/pub?gid=${gid}&single=true&output=csv`;
-    for(const proxy of PROXIES) {
-      urls.push(['pub via proxy', proxy(pubUrl)]);
-    }
+    for (const proxy of PROXIES) urls.push(['pub via proxy', proxy(pubUrl)]);
   }
-
   const errors = [];
-  for(const [label, url] of urls) {
+  for (const [label, url] of urls) {
     try {
       const data = await tryUrl(url);
       console.log(`[ZKart] "${name}" loaded via: ${label}`);
@@ -428,56 +474,44 @@ async function fetchByGid(name, gid) {
       errors.push(`${label}: ${err.message}`);
     }
   }
-
-  // All failed — build a helpful error
   throw new Error(
-    `Failed to load "${name}" after ${urls.length} attempts.
-
-` +
-    `MOST LIKELY FIX:
-` +
-    `1. Open your Google Sheet
-` +
-    `2. File → Share → Share with people → change to "Anyone with the link" → Viewer → Done
-` +
-    `3. File → Share → Publish to web → select "${name}" tab → CSV → Publish
-` +
-    `4. Wait 30 seconds then refresh this page
-
-` +
-    `Errors tried:
-${errors.join('
-')}`
+    `Failed to load "${name}" after ${urls.length} attempts.\n\n` +
+    `Fix: File → Share → Publish to web → select "${name}" tab → CSV → Publish\n` +
+    `Also ensure: File → Share → Anyone with the link → Viewer\n\n` +
+    `Errors:\n${errors.join('\n')}`
   );
 }
 
-// ── BADGE HELPERS ────────────────────────────────────────────────────────────
-const e=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-const priKey=p=>{const s=(p||'').trim().toLowerCase();return s.startsWith('p1')?'p1':s.startsWith('p2')?'p2':'p3';};
-const statusKey=s=>{const st=(s||'').trim().toLowerCase();return st==='pass'?'pass':st==='fail'?'fail':'na';};
-const sevKey=s=>{const st=(s||'').trim().toLowerCase();return st==='high'?'high':st==='med'||st==='medium'?'med':'low';};
-const impPriKey=p=>{const s=(p||'').trim().toLowerCase();return s==='high'?'high':s==='med'?'med':'low';};
-const impTypeKey=t=>{const s=(t||'').trim().toLowerCase();if(s.includes('ux'))return'ux';if(s.includes('copy'))return'copy';if(s.includes('nav'))return'nav';return'feat';};
-const isFixed=s=>{const st=(s||'').trim().toLowerCase();return st==='fixed'||st==='done'||st==='closed';};
+// ── BADGE HELPERS ─────────────────────────────────────────────────────────────
+const e = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const priKey    = p => { const s=(p||'').trim().toLowerCase(); return s.startsWith('p1')?'p1':s.startsWith('p2')?'p2':'p3'; };
+const statusKey = s => { const st=(s||'').trim().toLowerCase(); return st==='pass'?'pass':st==='fail'?'fail':'na'; };
+const sevKey    = s => { const st=(s||'').trim().toLowerCase(); return st==='high'?'high':st==='med'||st==='medium'?'med':'low'; };
+const impPriKey = p => { const s=(p||'').trim().toLowerCase(); return s==='high'?'high':s==='med'?'med':'low'; };
+const impTypeKey= t => { const s=(t||'').trim().toLowerCase(); if(s.includes('ux'))return'ux'; if(s.includes('copy'))return'copy'; if(s.includes('nav'))return'nav'; return'feat'; };
+const isFixed   = s => { const st=(s||'').trim().toLowerCase(); return st==='fixed'||st==='done'||st==='closed'; };
 
-function priBadge(p){const k=priKey(p);return`<span class="pri ${k}">${k.toUpperCase()}</span>`;}
-function statusBadge(s){const k=statusKey(s);const l={pass:'Pass',fail:'Fail',na:'Not Run'};const c={pass:'s-pass',fail:'s-fail',na:'s-na'};return`<span class="status-badge ${c[k]}">${l[k]}</span>`;}
-function sevBadge(s){const k=sevKey(s);const c={high:'sev-high',med:'sev-med',low:'sev-low'};return`<span class="${c[k]}">${k==='med'?'Med':k.charAt(0).toUpperCase()+k.slice(1)}</span>`;}
-function bugStatBadge(s){return isFixed(s)?'<span class="bug-fixed">Fixed</span>':'<span class="bug-open">Open</span>';}
-function impPriBadge(p){const k=impPriKey(p);const c={high:'imp-high',med:'imp-med',low:'imp-low'};return`<span class="${c[k]}">${k.charAt(0).toUpperCase()+k.slice(1)}</span>`;}
-function impStatBadge(s){return isFixed(s)?'<span class="imp-done">Done</span>':'<span class="imp-open">Open</span>';}
-function typeBadge(t){const k=impTypeKey(t);const m={ux:'<span class="type-ux">UX &amp; Layout</span>',copy:'<span class="type-copy">Copy &amp; Labels</span>',nav:'<span class="type-nav">Navigation</span>',feat:'<span class="type-feat">Missing Feature</span>'};return m[k]||t;}
-function areaBadge(a){const k=(a||'').toLowerCase().replace(/\s+/g,'');const m={address:'a-address',home:'a-home',search:'a-search',cart:'a-cart',checkout:'a-checkout',orders:'a-orders',navigation:'a-navigation',pdp:'a-pdp'};return`<span class="area-badge ${m[k]||'a-home'}">${e(a)}</span>`;}
+function priBadge(p)     { const k=priKey(p); return `<span class="pri ${k}">${k.toUpperCase()}</span>`; }
+function statusBadge(s)  { const k=statusKey(s); const l={pass:'Pass',fail:'Fail',na:'Not Run'}; const c={pass:'s-pass',fail:'s-fail',na:'s-na'}; return `<span class="status-badge ${c[k]}">${l[k]}</span>`; }
+function sevBadge(s)     { const k=sevKey(s); const c={high:'sev-high',med:'sev-med',low:'sev-low'}; return `<span class="${c[k]}">${k==='med'?'Med':k.charAt(0).toUpperCase()+k.slice(1)}</span>`; }
+function bugStatBadge(s) { return isFixed(s)?'<span class="bug-fixed">Fixed</span>':'<span class="bug-open">Open</span>'; }
+function impPriBadge(p)  { const k=impPriKey(p); const c={high:'imp-high',med:'imp-med',low:'imp-low'}; return `<span class="${c[k]}">${k.charAt(0).toUpperCase()+k.slice(1)}</span>`; }
+function impStatBadge(s) { return isFixed(s)?'<span class="imp-done">Done</span>':'<span class="imp-open">Open</span>'; }
+function typeBadge(t)    { const k=impTypeKey(t); const m={ux:'<span class="type-ux">UX &amp; Layout</span>',copy:'<span class="type-copy">Copy &amp; Labels</span>',nav:'<span class="type-nav">Navigation</span>',feat:'<span class="type-feat">Missing Feature</span>'}; return m[k]||e(t); }
+function areaBadge(a)    { const k=(a||'').toLowerCase().replace(/\s+/g,''); const m={address:'a-address',home:'a-home',search:'a-search',cart:'a-cart',checkout:'a-checkout',orders:'a-orders',navigation:'a-navigation',pdp:'a-pdp'}; return `<span class="area-badge ${m[k]||'a-home'}">${e(a)}</span>`; }
 
-// ── BUILD: TC TABLE ───────────────────────────────────────────────────────────
-function buildTCTable(rows,key){
-  let html=`<table><thead><tr><th>TC ID</th><th>Status</th><th style="min-width:110px">Module</th><th style="min-width:210px">Test Case Title</th><th style="min-width:150px">Preconditions</th><th style="min-width:200px">Test Steps</th><th style="min-width:190px">Expected Result</th><th>Priority</th><th style="min-width:70px">API</th><th style="min-width:140px">Notes</th></tr></thead><tbody id="body-tc-${key}">`;
-  let count=0;
-  rows.forEach(r=>{
-    const id=(r[0]||'').trim();if(!id.match(/^ZK-/))return;count++;
-    const bg=count%2===0?'var(--paper)':'';
-    html+=`<tr style="background:${bg}" data-s="${statusKey(r[8])}" data-p="${priKey(r[7])}" data-q="${(r[2]+' '+r[1]+' '+r[9]).toLowerCase()}">
-      <td class="tc-id">${e(id)}</td><td>${statusBadge(r[8])}</td>
+// ── TABLE BUILDERS ────────────────────────────────────────────────────────────
+function buildTCTable(rows, key) {
+  let html = `<table><thead><tr><th>TC ID</th><th>Status</th><th style="min-width:110px">Module</th><th style="min-width:210px">Test Case Title</th><th style="min-width:150px">Preconditions</th><th style="min-width:200px">Test Steps</th><th style="min-width:190px">Expected Result</th><th>Priority</th><th style="min-width:70px">API</th><th style="min-width:140px">Notes</th></tr></thead><tbody id="body-tc-${key}">`;
+  let count = 0;
+  rows.forEach(r => {
+    const id = (r[0]||'').trim();
+    if (!id.match(/^ZK-/)) return;
+    count++;
+    const bg = count%2===0 ? 'var(--paper)' : '';
+    html += `<tr style="background:${bg}" data-s="${statusKey(r[8])}" data-p="${priKey(r[7])}" data-q="${(r[2]+' '+r[1]+' '+(r[9]||'')).toLowerCase()}">
+      <td class="tc-id">${e(id)}</td>
+      <td>${statusBadge(r[8])}</td>
       <td style="font-size:.71rem;color:var(--mid);font-weight:500">${e(r[1])}</td>
       <td style="font-weight:500">${e(r[2])}</td>
       <td style="font-size:.71rem;color:var(--charcoal)">${e(r[3])}</td>
@@ -487,18 +521,19 @@ function buildTCTable(rows,key){
       <td style="font-size:.68rem;color:var(--blue);font-family:monospace">${e(r[6])}</td>
       <td class="notes">${e(r[9])}</td></tr>`;
   });
-  return{html:html+'</tbody></table>',count};
+  return {html: html+'</tbody></table>', count};
 }
 
-// ── BUILD: BUG TABLE ──────────────────────────────────────────────────────────
-function buildBugTable(rows,key){
-  let html=`<table><thead><tr class="bug-thead"><th>Bug ID</th><th>Area</th><th>Severity</th><th style="min-width:270px">Description</th><th style="min-width:270px">Steps to Reproduce</th><th>Status</th></tr></thead><tbody id="body-bugs-${key}">`;
-  let count=0;
-  rows.forEach(r=>{
-    const id=(r[0]||'').trim();if(!id.match(/^ZK-/))return;count++;
-    const bg=count%2===0?'var(--paper)':'';
-    const area=(r[1]||'').trim();
-    html+=`<tr style="background:${bg}" data-sev="${sevKey(r[2])}" data-area="${area.toLowerCase()}" data-status="${isFixed(r[5])?'fixed':'open'}" data-q="${(r[3]+' '+area+' '+r[4]).toLowerCase()}">
+function buildBugTable(rows, key) {
+  let html = `<table><thead><tr class="bug-thead"><th>Bug ID</th><th>Area</th><th>Severity</th><th style="min-width:270px">Description</th><th style="min-width:270px">Steps to Reproduce</th><th>Status</th></tr></thead><tbody id="body-bugs-${key}">`;
+  let count = 0;
+  rows.forEach(r => {
+    const id = (r[0]||'').trim();
+    if (!id.match(/^ZK-/)) return;
+    count++;
+    const bg = count%2===0 ? 'var(--paper)' : '';
+    const area = (r[1]||'').trim();
+    html += `<tr style="background:${bg}" data-sev="${sevKey(r[2])}" data-area="${area.toLowerCase()}" data-status="${isFixed(r[5])?'fixed':'open'}" data-q="${(r[3]+' '+area+' '+(r[4]||'')).toLowerCase()}">
       <td class="tc-id bug-id">${e(id)}</td>
       <td>${areaBadge(area)}</td>
       <td>${sevBadge(r[2])}</td>
@@ -506,19 +541,19 @@ function buildBugTable(rows,key){
       <td class="steps">${e(r[4])}</td>
       <td>${bugStatBadge(r[5])}</td></tr>`;
   });
-  return{html:html+'</tbody></table>',count};
+  return {html: html+'</tbody></table>', count};
 }
 
-// ── BUILD: IMP TABLE ──────────────────────────────────────────────────────────
-function buildImpTable(rows,key){
-  // Columns from sheet: Imp ID | Area | Priority | Type | Title | Current Behaviour | Expected / Desired | Status
-  let html=`<table><thead><tr class="imp-thead"><th>ID</th><th>Area</th><th>Type</th><th>Priority</th><th style="min-width:200px">Improvement</th><th style="min-width:220px">Current Behaviour</th><th style="min-width:220px">Expected / Desired</th><th>Status</th></tr></thead><tbody id="body-imp-${key}">`;
-  let count=0;
-  rows.forEach(r=>{
-    const id=(r[0]||'').trim();if(!id.match(/^ZK-IMP/))return;count++;
-    const bg=count%2===0?'var(--paper)':'';
-    const area=(r[1]||'').trim(), pri=(r[2]||'').trim(), type=(r[3]||'').trim();
-    html+=`<tr style="background:${bg}" data-pri="${impPriKey(pri)}" data-type="${impTypeKey(type)}" data-status="${isFixed(r[7])?'fixed':'open'}" data-q="${(r[4]+' '+area+' '+r[5]+' '+r[6]).toLowerCase()}">
+function buildImpTable(rows, key) {
+  let html = `<table><thead><tr class="imp-thead"><th>ID</th><th>Area</th><th>Type</th><th>Priority</th><th style="min-width:200px">Improvement</th><th style="min-width:220px">Current Behaviour</th><th style="min-width:220px">Expected / Desired</th><th>Status</th></tr></thead><tbody id="body-imp-${key}">`;
+  let count = 0;
+  rows.forEach(r => {
+    const id = (r[0]||'').trim();
+    if (!id.match(/^ZK-IMP/)) return;
+    count++;
+    const bg = count%2===0 ? 'var(--paper)' : '';
+    const area = (r[1]||'').trim(), pri = (r[2]||'').trim(), type = (r[3]||'').trim();
+    html += `<tr style="background:${bg}" data-pri="${impPriKey(pri)}" data-type="${impTypeKey(type)}" data-status="${isFixed(r[7])?'fixed':'open'}" data-q="${((r[4]||'')+' '+area+' '+(r[5]||'')+' '+(r[6]||'')).toLowerCase()}">
       <td class="tc-id imp-id">${e(id)}</td>
       <td>${areaBadge(area)}</td>
       <td>${typeBadge(type)}</td>
@@ -528,91 +563,95 @@ function buildImpTable(rows,key){
       <td class="steps" style="color:#0F6B5C">${e(r[6])}</td>
       <td>${impStatBadge(r[7])}</td></tr>`;
   });
-  return{html:html+'</tbody></table>',count};
+  return {html: html+'</tbody></table>', count};
 }
 
-// ── FILTERS ──────────────────────────────────────────────────────────────────
-function applyTCFilter(key){
-  const g=id=>{const el=document.getElementById(id);return el?el.value.toLowerCase().trim():'';};
-  const sf=g('f-tc-'+key+'-s'),pf=g('f-tc-'+key+'-p'),tf=g('f-tc-'+key+'-q');
-  const tb=document.getElementById('body-tc-'+key);if(!tb)return;
-  const rows=tb.querySelectorAll('tr');let shown=0,total=0;
-  rows.forEach(r=>{total++;let v=true;if(sf&&r.dataset.s!==sf)v=false;if(pf&&r.dataset.p!==pf)v=false;if(tf&&!r.dataset.q.includes(tf))v=false;r.style.display=v?'':'none';if(v)shown++;});
-  let idx=0;rows.forEach(r=>{if(r.style.display==='none')return;r.style.background=idx++%2===0?'':'var(--paper)';});
-  const c=document.getElementById('tc-'+key+'-c');if(c)c.textContent=shown===total?total+' test cases':'Showing '+shown+' of '+total;
+// ── FILTERS ───────────────────────────────────────────────────────────────────
+function applyTCFilter(key) {
+  const g = id => { const el=document.getElementById(id); return el?el.value.toLowerCase().trim():''; };
+  const sf=g('f-tc-'+key+'-s'), pf=g('f-tc-'+key+'-p'), tf=g('f-tc-'+key+'-q');
+  const tb = document.getElementById('body-tc-'+key); if (!tb) return;
+  const rows = tb.querySelectorAll('tr'); let shown=0, total=0;
+  rows.forEach(r => { total++; let v=true; if(sf&&r.dataset.s!==sf)v=false; if(pf&&r.dataset.p!==pf)v=false; if(tf&&!r.dataset.q.includes(tf))v=false; r.style.display=v?'':'none'; if(v)shown++; });
+  let idx=0; rows.forEach(r => { if(r.style.display==='none')return; r.style.background=idx++%2===0?'':'var(--paper)'; });
+  const c=document.getElementById('tc-'+key+'-c'); if(c) c.textContent=shown===total?total+' test cases':'Showing '+shown+' of '+total;
 }
 
-function applyBugFilter(key){
-  const g=id=>{const el=document.getElementById(id);return el?el.value.toLowerCase().trim():'';};
-  const sevf=g('f-bugs-'+key+'-sev'),areaf=g('f-bugs-'+key+'-area'),statf=g('f-bugs-'+key+'-status'),tf=g('f-bugs-'+key+'-q');
-  const tb=document.getElementById('body-bugs-'+key);if(!tb)return;
-  const rows=tb.querySelectorAll('tr');let shown=0,total=0;
-  rows.forEach(r=>{total++;let v=true;if(sevf&&r.dataset.sev!==sevf)v=false;if(areaf&&r.dataset.area!==areaf)v=false;if(statf&&r.dataset.status!==statf)v=false;if(tf&&!r.dataset.q.includes(tf))v=false;r.style.display=v?'':'none';if(v)shown++;});
-  let idx=0;rows.forEach(r=>{if(r.style.display==='none')return;r.style.background=idx++%2===0?'':'var(--paper)';});
-  const c=document.getElementById('bugs-'+key+'-c');if(c)c.textContent=shown===total?total+' bugs':'Showing '+shown+' of '+total;
+function applyBugFilter(key) {
+  const g = id => { const el=document.getElementById(id); return el?el.value.toLowerCase().trim():''; };
+  const sevf=g('f-bugs-'+key+'-sev'), areaf=g('f-bugs-'+key+'-area'), statf=g('f-bugs-'+key+'-status'), tf=g('f-bugs-'+key+'-q');
+  const tb = document.getElementById('body-bugs-'+key); if (!tb) return;
+  const rows = tb.querySelectorAll('tr'); let shown=0, total=0;
+  rows.forEach(r => { total++; let v=true; if(sevf&&r.dataset.sev!==sevf)v=false; if(areaf&&r.dataset.area!==areaf)v=false; if(statf&&r.dataset.status!==statf)v=false; if(tf&&!r.dataset.q.includes(tf))v=false; r.style.display=v?'':'none'; if(v)shown++; });
+  let idx=0; rows.forEach(r => { if(r.style.display==='none')return; r.style.background=idx++%2===0?'':'var(--paper)'; });
+  const c=document.getElementById('bugs-'+key+'-c'); if(c) c.textContent=shown===total?total+' bugs':'Showing '+shown+' of '+total;
 }
 
-function applyImpFilter(key){
-  const g=id=>{const el=document.getElementById(id);return el?el.value.toLowerCase().trim():'';};
-  const prf=g('f-imp-'+key+'-pri'),typef=g('f-imp-'+key+'-type'),statf=g('f-imp-'+key+'-status'),tf=g('f-imp-'+key+'-q');
-  const tb=document.getElementById('body-imp-'+key);if(!tb)return;
-  const rows=tb.querySelectorAll('tr');let shown=0,total=0;
-  rows.forEach(r=>{total++;let v=true;if(prf&&r.dataset.pri!==prf)v=false;if(typef&&r.dataset.type!==typef)v=false;if(statf&&r.dataset.status!==statf)v=false;if(tf&&!r.dataset.q.includes(tf))v=false;r.style.display=v?'':'none';if(v)shown++;});
-  let idx=0;rows.forEach(r=>{if(r.style.display==='none')return;r.style.background=idx++%2===0?'':'var(--paper)';});
-  const c=document.getElementById('imp-'+key+'-c');if(c)c.textContent=shown===total?total+' items':'Showing '+shown+' of '+total;
+function applyImpFilter(key) {
+  const g = id => { const el=document.getElementById(id); return el?el.value.toLowerCase().trim():''; };
+  const prf=g('f-imp-'+key+'-pri'), typef=g('f-imp-'+key+'-type'), statf=g('f-imp-'+key+'-status'), tf=g('f-imp-'+key+'-q');
+  const tb = document.getElementById('body-imp-'+key); if (!tb) return;
+  const rows = tb.querySelectorAll('tr'); let shown=0, total=0;
+  rows.forEach(r => { total++; let v=true; if(prf&&r.dataset.pri!==prf)v=false; if(typef&&r.dataset.type!==typef)v=false; if(statf&&r.dataset.status!==statf)v=false; if(tf&&!r.dataset.q.includes(tf))v=false; r.style.display=v?'':'none'; if(v)shown++; });
+  let idx=0; rows.forEach(r => { if(r.style.display==='none')return; r.style.background=idx++%2===0?'':'var(--paper)'; });
+  const c=document.getElementById('imp-'+key+'-c'); if(c) c.textContent=shown===total?total+' items':'Showing '+shown+' of '+total;
 }
 
-// ── SUMMARIES ─────────────────────────────────────────────────────────────────
-function buildTCSummary(){
-  const mods={};let tot=0,tp=0,tf=0,tn=0,tp1=0;
-  const mdesc={hm:'Homepage banner, flash deals, categories, brands, trending',fd:'Flash deal pricing, bottom sheet, timer, cart threshold',sr:'Search bar, typeahead, trending chips, results, empty state',ca:'Full categories page, subcategory drill-down, leaf nav',pr:'Profile tab, My Orders link, My Addresses link',or:'Order history, empty state, order card fields',ad:'Address list, add new address form, validation',ct:'Cart items, flash deal cart, order summary, checkout, payment',pd:'PDP pricing, variants, Add to Cart, quantity stepper',nv:'Bottom nav tabs, back behaviour, tab state',sy:'Shopify sync pricing rules, stale product hiding'};
-  TC_MODULES.forEach(({key,label,prefix})=>{
-    const rows=tcByKey[key]||[];let n=0,pass=0,fail=0,na=0,p1=0;
-    rows.forEach(r=>{if(!(r[0]||'').trim().match(/^ZK-/))return;n++;if(priKey(r[7])==='p1')p1++;const s=statusKey(r[8]);if(s==='pass')pass++;else if(s==='fail')fail++;else na++;});
-    mods[key]={n,pass,fail,na,p1,label};tot+=n;tp+=pass;tf+=fail;tn+=na;tp1+=p1;
+// ── SUMMARY BUILDERS ──────────────────────────────────────────────────────────
+function buildTCSummary() {
+  const mods = {};
+  let tot=0, tp=0, tf=0, tn=0, tp1=0;
+  const mdesc = {hm:'Homepage banner, flash deals, categories, brands, trending',fd:'Flash deal pricing, bottom sheet, timer, cart threshold',sr:'Search bar, typeahead, trending chips, results, empty state',ca:'Full categories page, subcategory drill-down, leaf nav',pr:'Profile tab, My Orders link, My Addresses link',or:'Order history, empty state, order card fields',ad:'Address list, add new address form, validation',ct:'Cart items, flash deal cart, order summary, checkout, payment',pd:'PDP pricing, variants, Add to Cart, quantity stepper',nv:'Bottom nav tabs, back behaviour, tab state',sy:'Shopify sync pricing rules, stale product hiding'};
+  TC_MODULES.forEach(({key, label}) => {
+    const rows = tcByKey[key]||[];
+    let n=0, pass=0, fail=0, na=0, p1=0;
+    rows.forEach(r => { if(!(r[0]||'').trim().match(/^ZK-/))return; n++; if(priKey(r[7])==='p1')p1++; const s=statusKey(r[8]); if(s==='pass')pass++; else if(s==='fail')fail++; else na++; });
+    mods[key] = {n, pass, fail, na, p1, label};
+    tot+=n; tp+=pass; tf+=fail; tn+=na; tp1+=p1;
   });
-  const prog=tot>0?Math.round((tp+tf)/tot*100):0;
-  ['total','pass','fail','na'].forEach(k=>document.getElementById('k-'+k).textContent={total:tot,pass:tp,fail:tf,na:tn}[k]);
-  document.getElementById('k-prog').textContent=prog+'%';
-  document.getElementById('k-p1').textContent=tp1;
-  document.getElementById('stb-tc').textContent=tot;
-  let html='<table class="sum-t"><thead><tr><th>Module</th><th style="text-align:center"># TCs</th><th style="text-align:center">Pass</th><th style="text-align:center">Fail</th><th style="text-align:center">Not Run</th><th style="min-width:180px">Progress</th><th>Coverage</th></tr></thead><tbody>';
-  TC_MODULES.forEach(({key,label})=>{
-    const c=mods[key]||{n:0,pass:0,fail:0,na:0};
-    const pp=c.n>0?Math.round(c.pass/c.n*100):0,fp=c.n>0?Math.round(c.fail/c.n*100):0,np=100-pp-fp,pct=c.n>0?Math.round((c.pass+c.fail)/c.n*100):0;
-    html+=`<tr><td><strong>${label}</strong></td><td style="text-align:center;font-weight:600">${c.n}</td>
+  const prog = tot>0 ? Math.round((tp+tf)/tot*100) : 0;
+  ['total','pass','fail','na'].forEach(k => document.getElementById('k-'+k).textContent = {total:tot,pass:tp,fail:tf,na:tn}[k]);
+  document.getElementById('k-prog').textContent = prog+'%';
+  document.getElementById('k-p1').textContent   = tp1;
+  document.getElementById('stb-tc').textContent = tot;
+  let html = '<table class="sum-t"><thead><tr><th>Module</th><th style="text-align:center"># TCs</th><th style="text-align:center">Pass</th><th style="text-align:center">Fail</th><th style="text-align:center">Not Run</th><th style="min-width:180px">Progress</th><th>Coverage</th></tr></thead><tbody>';
+  TC_MODULES.forEach(({key, label}) => {
+    const c = mods[key]||{n:0,pass:0,fail:0,na:0};
+    const pp=c.n>0?Math.round(c.pass/c.n*100):0, fp=c.n>0?Math.round(c.fail/c.n*100):0, np=100-pp-fp, pct=c.n>0?Math.round((c.pass+c.fail)/c.n*100):0;
+    html += `<tr><td><strong>${label}</strong></td><td style="text-align:center;font-weight:600">${c.n}</td>
       <td style="text-align:center">${c.pass?'<span class="status-badge s-pass">'+c.pass+'</span>':'<span style="color:var(--silver)">—</span>'}</td>
       <td style="text-align:center">${c.fail?'<span class="status-badge s-fail">'+c.fail+'</span>':'<span style="color:var(--silver)">—</span>'}</td>
       <td style="text-align:center">${c.na?'<span class="status-badge s-na">'+c.na+'</span>':'<span style="color:var(--silver)">—</span>'}</td>
       <td><div class="pb"><div class="pbr"><div class="pbf pbf-pass" style="width:${pp}%"></div><div class="pbf pbf-fail" style="width:${fp}%;left:${pp}%"></div><div class="pbf pbf-na" style="width:${np}%;left:${pp+fp}%"></div></div><span class="pb-text">${pct}% done</span></div></td>
       <td style="font-size:.71rem;color:var(--silver);font-style:italic">${mdesc[key]||''}</td></tr>`;
   });
-  html+=`<tr class="tr-total"><td><strong>TOTAL</strong></td><td style="text-align:center"><strong>${tot}</strong></td><td style="text-align:center"><strong>${tp}</strong></td><td style="text-align:center"><strong>${tf}</strong></td><td style="text-align:center"><strong>${tn}</strong></td><td><span class="pb-text" style="color:var(--white)"><strong>${prog}% Complete</strong></span></td><td></td></tr></tbody></table>`;
-  html+='<div class="legend"><span class="legend-lbl">Status</span><div class="legend-item"><div class="ldot" style="background:var(--pass)"></div>Pass</div><div class="legend-item"><div class="ldot" style="background:var(--fail)"></div>Fail</div><div class="legend-item"><div class="ldot" style="background:var(--na)"></div>Not Run</div></div>';
+  html += `<tr class="tr-total"><td><strong>TOTAL</strong></td><td style="text-align:center"><strong>${tot}</strong></td><td style="text-align:center"><strong>${tp}</strong></td><td style="text-align:center"><strong>${tf}</strong></td><td style="text-align:center"><strong>${tn}</strong></td><td><span class="pb-text" style="color:var(--white)"><strong>${prog}% Complete</strong></span></td><td></td></tr></tbody></table>`;
+  html += '<div class="legend"><span class="legend-lbl">Status</span><div class="legend-item"><div class="ldot" style="background:var(--pass)"></div>Pass</div><div class="legend-item"><div class="ldot" style="background:var(--fail)"></div>Fail</div><div class="legend-item"><div class="ldot" style="background:var(--na)"></div>Not Run</div></div>';
   return html;
 }
 
-function buildBugSummary(){
-  const areas={};let tot=0,th=0,tm=0,tl=0,to=0,tx=0;
-  bugRows.forEach(r=>{
-    const id=(r[0]||'').trim();if(!id.match(/^ZK-/))return;
-    const a=(r[1]||'').trim(),sk=sevKey(r[2]),fixed=isFixed(r[5]);
-    if(!areas[a])areas[a]={n:0,high:0,med:0,low:0,open:0,fixed:0};
-    areas[a].n++;areas[a][sk]++;fixed?areas[a].fixed++:areas[a].open++;
-    tot++;sk==='high'?th++:sk==='med'?tm++:tl++;fixed?tx++:to++;
+function buildBugSummary() {
+  const areas = {};
+  let tot=0, th=0, tm=0, tl=0, to=0, tx=0;
+  bugRows.forEach(r => {
+    const id=(r[0]||'').trim(); if(!id.match(/^ZK-/))return;
+    const a=(r[1]||'').trim(), sk=sevKey(r[2]), fixed=isFixed(r[5]);
+    if(!areas[a]) areas[a]={n:0,high:0,med:0,low:0,open:0,fixed:0};
+    areas[a].n++; areas[a][sk]++; fixed?areas[a].fixed++:areas[a].open++;
+    tot++; sk==='high'?th++:sk==='med'?tm++:tl++; fixed?tx++:to++;
   });
-  document.getElementById('bk-total').textContent=tot;
-  document.getElementById('bk-high').textContent=th;
-  document.getElementById('bk-med').textContent=tm;
-  document.getElementById('bk-low').textContent=tl;
-  document.getElementById('bk-open').textContent=to;
-  document.getElementById('bk-fixed').textContent=tx;
-  document.getElementById('stb-bugs').textContent=tot;
-  let html='<table class="sum-t"><thead><tr class="bug-thead"><th>Area</th><th style="text-align:center">Total</th><th style="text-align:center">High</th><th style="text-align:center">Med</th><th style="text-align:center">Low</th><th style="text-align:center">Open</th><th style="text-align:center">Fixed</th><th style="min-width:160px">Resolution</th></tr></thead><tbody>';
-  ['Address','Home','Search','Cart','Checkout','Orders','Navigation','PDP'].forEach(area=>{
-    const c=areas[area]||{n:0,high:0,med:0,low:0,open:0,fixed:0};if(!c.n)return;
-    const fp=c.n>0?Math.round(c.fixed/c.n*100):0,op=100-fp;
-    html+=`<tr><td><strong>${area}</strong></td><td style="text-align:center;font-weight:600">${c.n}</td>
+  document.getElementById('bk-total').textContent = tot;
+  document.getElementById('bk-high').textContent  = th;
+  document.getElementById('bk-med').textContent   = tm;
+  document.getElementById('bk-low').textContent   = tl;
+  document.getElementById('bk-open').textContent  = to;
+  document.getElementById('bk-fixed').textContent = tx;
+  document.getElementById('stb-bugs').textContent = tot;
+  let html = '<table class="sum-t"><thead><tr class="bug-thead"><th>Area</th><th style="text-align:center">Total</th><th style="text-align:center">High</th><th style="text-align:center">Med</th><th style="text-align:center">Low</th><th style="text-align:center">Open</th><th style="text-align:center">Fixed</th><th style="min-width:160px">Resolution</th></tr></thead><tbody>';
+  ['Address','Home','Search','Cart','Checkout','Orders','Navigation','PDP'].forEach(area => {
+    const c = areas[area]||{n:0,high:0,med:0,low:0,open:0,fixed:0}; if(!c.n) return;
+    const fp=c.n>0?Math.round(c.fixed/c.n*100):0, op=100-fp;
+    html += `<tr><td><strong>${area}</strong></td><td style="text-align:center;font-weight:600">${c.n}</td>
       <td style="text-align:center">${c.high?'<span class="sev-high">'+c.high+'</span>':'<span style="color:var(--silver)">—</span>'}</td>
       <td style="text-align:center">${c.med?'<span class="sev-med">'+c.med+'</span>':'<span style="color:var(--silver)">—</span>'}</td>
       <td style="text-align:center">${c.low?'<span class="sev-low">'+c.low+'</span>':'<span style="color:var(--silver)">—</span>'}</td>
@@ -620,106 +659,126 @@ function buildBugSummary(){
       <td style="text-align:center">${c.fixed?'<span class="bug-fixed">'+c.fixed+'</span>':'<span style="color:var(--silver)">—</span>'}</td>
       <td><div class="pb"><div class="pbr"><div class="pbf pbf-pass" style="width:${fp}%"></div><div class="pbf pbf-bug" style="width:${op}%;left:${fp}%"></div></div><span class="pb-text">${fp}% fixed</span></div></td></tr>`;
   });
-  html+=`<tr class="tr-total"><td><strong>TOTAL</strong></td><td style="text-align:center"><strong>${tot}</strong></td><td style="text-align:center"><strong>${th}</strong></td><td style="text-align:center"><strong>${tm}</strong></td><td style="text-align:center"><strong>${tl}</strong></td><td style="text-align:center"><strong>${to}</strong></td><td style="text-align:center"><strong>${tx}</strong></td><td></td></tr></tbody></table>`;
-  html+='<div class="legend"><span class="legend-lbl">Severity</span><div class="legend-item"><div class="ldot" style="background:var(--fail)"></div>High</div><div class="legend-item"><div class="ldot" style="background:var(--amber)"></div>Med</div><div class="legend-item"><div class="ldot" style="background:var(--pass)"></div>Low</div><span class="legend-lbl" style="margin-left:8px">Status</span><div class="legend-item"><div class="ldot" style="background:var(--bug-accent)"></div>Open</div><div class="legend-item"><div class="ldot" style="background:var(--pass)"></div>Fixed</div></div>';
+  html += `<tr class="tr-total"><td><strong>TOTAL</strong></td><td style="text-align:center"><strong>${tot}</strong></td><td style="text-align:center"><strong>${th}</strong></td><td style="text-align:center"><strong>${tm}</strong></td><td style="text-align:center"><strong>${tl}</strong></td><td style="text-align:center"><strong>${to}</strong></td><td style="text-align:center"><strong>${tx}</strong></td><td></td></tr></tbody></table>`;
+  html += '<div class="legend"><span class="legend-lbl">Severity</span><div class="legend-item"><div class="ldot" style="background:var(--fail)"></div>High</div><div class="legend-item"><div class="ldot" style="background:var(--amber)"></div>Med</div><div class="legend-item"><div class="ldot" style="background:var(--pass)"></div>Low</div><span class="legend-lbl" style="margin-left:8px">Status</span><div class="legend-item"><div class="ldot" style="background:var(--bug-accent)"></div>Open</div><div class="legend-item"><div class="ldot" style="background:var(--pass)"></div>Fixed</div></div>';
   return html;
 }
 
-function buildImpSummary(){
-  const types={ux:{n:0,high:0,med:0,low:0,open:0,done:0},copy:{n:0,high:0,med:0,low:0,open:0,done:0},nav:{n:0,high:0,med:0,low:0,open:0,done:0},feat:{n:0,high:0,med:0,low:0,open:0,done:0}};
-  let tot=0,th=0,tm=0,tl=0,to=0,td=0;
-  impRows.forEach(r=>{
-    const id=(r[0]||'').trim();if(!id.match(/^ZK-IMP/))return;
-    const tk=impTypeKey(r[3]),pk=impPriKey(r[2]),done=isFixed(r[7]);
-    const t=types[tk];if(!t)return;
-    t.n++;t[pk]++;done?t.done++:t.open++;
-    tot++;pk==='high'?th++:pk==='med'?tm++:tl++;done?td++:to++;
+function buildImpSummary() {
+  // FIX #3: The original had a dangling HTML string fragment here that broke the entire script
+  const types = {
+    ux:   {n:0,high:0,med:0,low:0,open:0,done:0},
+    copy: {n:0,high:0,med:0,low:0,open:0,done:0},
+    nav:  {n:0,high:0,med:0,low:0,open:0,done:0},
+    feat: {n:0,high:0,med:0,low:0,open:0,done:0},
+  };
+  let tot=0, th=0, tm=0, tl=0, to=0, td=0;
+  impRows.forEach(r => {
+    const id=(r[0]||'').trim(); if(!id.match(/^ZK-IMP/))return;
+    const tk=impTypeKey(r[3]), pk=impPriKey(r[2]), done=isFixed(r[7]);
+    const t=types[tk]; if(!t) return;
+    t.n++; t[pk]++; done?t.done++:t.open++;
+    tot++; pk==='high'?th++:pk==='med'?tm++:tl++; done?td++:to++;
   });
-  document.getElementById('ik-total').textContent=tot;
-  document.getElementById('ik-high').textContent=th;
-  document.getElementById('ik-med').textContent=tm;
-  document.getElementById('ik-low').textContent=tl;
-  document.getElementById('ik-open').textContent=to;
-  document.getElementById('ik-done').textContent=td;
-  document.getElementById('stb-imp').textContent=tot;
-
+  document.getElementById('ik-total').textContent = tot;
+  document.getElementById('ik-high').textContent  = th;
+  document.getElementById('ik-med').textContent   = tm;
+  document.getElementById('ik-low').textContent   = tl;
+  document.getElementById('ik-open').textContent  = to;
+  document.getElementById('ik-done').textContent  = td;
+  document.getElementById('stb-imp').textContent  = tot;
+  const tlabels = {ux:'UX & Layout', copy:'Copy & Labels', nav:'Navigation', feat:'Missing Features'};
+  const tnotes  = {ux:'Layout, spacing, visual design improvements',copy:'Text labels, placeholder copy, microcopy',nav:'Navigation flow, routing, back behaviour',feat:'Missing functionality identified during testing'};
+  let html = '<table class="sum-t"><thead><tr class="imp-thead"><th>Type</th><th style="text-align:center">Total</th><th style="text-align:center">High</th><th style="text-align:center">Med</th><th style="text-align:center">Low</th><th style="text-align:center">Open</th><th style="text-align:center">Done</th><th style="min-width:160px">Completion</th><th>Notes</th></tr></thead><tbody>';
+  ['ux','copy','nav','feat'].forEach(tk => {
+    const c = types[tk]; if(!c.n) return;
+    const dp=c.n>0?Math.round(c.done/c.n*100):0, op=100-dp;
+    html += `<tr><td><strong>${tlabels[tk]}</strong></td><td style="text-align:center;font-weight:600">${c.n}</td>
+      <td style="text-align:center">${c.high?'<span class="imp-high">'+c.high+'</span>':'<span style="color:var(--silver)">—</span>'}</td>
+      <td style="text-align:center">${c.med?'<span class="imp-med">'+c.med+'</span>':'<span style="color:var(--silver)">—</span>'}</td>
+      <td style="text-align:center">${c.low?'<span class="imp-low">'+c.low+'</span>':'<span style="color:var(--silver)">—</span>'}</td>
+      <td style="text-align:center">${c.open?'<span class="imp-open">'+c.open+'</span>':'<span style="color:var(--silver)">—</span>'}</td>
+      <td style="text-align:center">${c.done?'<span class="imp-done">'+c.done+'</span>':'<span style="color:var(--silver)">—</span>'}</td>
       <td><div class="pb"><div class="pbr"><div class="pbf pbf-imp" style="width:${dp}%"></div><div class="pbf pbf-na" style="width:${op}%;left:${dp}%"></div></div><span class="pb-text">${dp}% done</span></div></td>
       <td style="font-size:.71rem;color:var(--silver);font-style:italic">${tnotes[tk]}</td></tr>`;
   });
-  html+=`<tr class="tr-total"><td><strong>TOTAL</strong></td><td style="text-align:center"><strong>${tot}</strong></td><td style="text-align:center"><strong>${th}</strong></td><td style="text-align:center"><strong>${tm}</strong></td><td style="text-align:center"><strong>${tl}</strong></td><td style="text-align:center"><strong>${to}</strong></td><td style="text-align:center"><strong>${td}</strong></td><td></td><td></td></tr></tbody></table>`;
-  html+='<div class="legend"><span class="legend-lbl">Priority</span><div class="legend-item"><div class="ldot" style="background:#92400E"></div>High</div><div class="legend-item"><div class="ldot" style="background:var(--imp-accent)"></div>Med</div><div class="legend-item"><div class="ldot" style="background:var(--na)"></div>Low</div><span class="legend-lbl" style="margin-left:8px">Status</span><div class="legend-item"><div class="ldot" style="background:var(--imp-accent)"></div>Open</div><div class="legend-item"><div class="ldot" style="background:var(--pass)"></div>Done</div></div>';
+  html += `<tr class="tr-total"><td><strong>TOTAL</strong></td><td style="text-align:center"><strong>${tot}</strong></td><td style="text-align:center"><strong>${th}</strong></td><td style="text-align:center"><strong>${tm}</strong></td><td style="text-align:center"><strong>${tl}</strong></td><td style="text-align:center"><strong>${to}</strong></td><td style="text-align:center"><strong>${td}</strong></td><td></td><td></td></tr></tbody></table>`;
+  html += '<div class="legend"><span class="legend-lbl">Priority</span><div class="legend-item"><div class="ldot" style="background:#92400E"></div>High</div><div class="legend-item"><div class="ldot" style="background:var(--imp-accent)"></div>Med</div><div class="legend-item"><div class="ldot" style="background:var(--na)"></div>Low</div><span class="legend-lbl" style="margin-left:8px">Status</span><div class="legend-item"><div class="ldot" style="background:var(--imp-accent)"></div>Open</div><div class="legend-item"><div class="ldot" style="background:var(--pass)"></div>Done</div></div>';
   return html;
 }
 
-function showErr(id,msg){
-  const el=document.getElementById(id);if(!el)return;
-  el.innerHTML=`<div class="err-box">
+// ── ERROR / STATUS HELPERS ────────────────────────────────────────────────────
+function showErr(id, msg) {
+  const el = document.getElementById(id); if (!el) return;
+  el.innerHTML = `<div class="err-box">
     <h3>⚠ Could not load data from Google Sheets</h3>
-    <p style="margin-top:10px"><strong>Required steps to fix:</strong></p>
+    <p style="margin-top:10px"><strong>Required steps:</strong></p>
     <ol style="margin:8px 0 0 16px;line-height:2">
       <li>Open your Google Sheet</li>
-      <li>Go to <strong>File → Share → Publish to web</strong></li>
-      <li>In the first dropdown, select <strong>each tab one at a time</strong>:<br/>
-          <code>ZKart_TestCases_v3</code>, <code>Bugs</code>, <code>Improvements</code></li>
-      <li>In the second dropdown select <strong>Comma-separated values (.csv)</strong></li>
-      <li>Click <strong>Publish</strong> for each tab</li>
-      <li>Also confirm <strong>File → Share → Share with people</strong> is set to <em>Anyone with the link — Viewer</em></li>
+      <li><strong>File → Share → Share with people</strong> → Anyone with the link → Viewer → Done</li>
+      <li><strong>File → Share → Publish to web</strong> → select each tab → CSV → Publish</li>
+      <li>Wait 30 seconds, then click Refresh</li>
     </ol>
     <p style="margin-top:12px;font-size:.71rem;color:var(--mid);white-space:pre-wrap">Technical detail: ${msg.replace(/</g,'&lt;')}</p>
   </div>`;
 }
 
-function setLS(key, state, msg){
-  const icon = document.getElementById('ls-'+key+'-icon');
+function setLS(key, state, msg) {
+  const icon  = document.getElementById('ls-'+key+'-icon');
   const msgEl = document.getElementById('ls-'+key+'-msg');
-  if(icon){ icon.className = 'ls-icon '+(state==='ok'?'ok':state==='err'?'err':'spinning'); icon.textContent = state==='ok'?'✓':state==='err'?'✗':''; }
-  if(msgEl){ msgEl.textContent = msg; msgEl.className = 'ls-msg'+(state==='err'?' error':''); }
+  if (icon)  { icon.className  = 'ls-icon '+(state==='ok'?'ok':state==='err'?'err':'spinning'); icon.textContent = state==='ok'?'✓':state==='err'?'✗':''; }
+  if (msgEl) { msgEl.textContent = msg; msgEl.className = 'ls-msg'+(state==='err'?' error':''); }
 }
-function hideSetup(){
-  // Hide setup box once at least one sheet loads successfully
-  const box = document.getElementById('setup-instructions');
+
+function hideSetup() {
+  const box     = document.getElementById('setup-instructions');
   const spinner = document.getElementById('tc-initial-spinner');
-  if(box) box.style.display='none';
-  if(spinner) spinner.style.display='none';
+  if (box)     box.style.display     = 'none';
+  if (spinner) spinner.style.display = 'none';
 }
 
-async function loadAll(){
-  setSyncState('loading','Loading…');
-  setLS('tc','spinning','Connecting to Google Sheets…');
-  setLS('bugs','spinning','Connecting to Google Sheets…');
-  setLS('imp','spinning','Connecting to Google Sheets…');
+function setSyncState(s, l) {
+  document.getElementById('sync-dot').className = 'dot '+s;
+  document.getElementById('sync-lbl').textContent = l;
+}
 
-  // Fetch all 3 sheets independently — one failure will not block the others
+// ── MAIN LOAD ─────────────────────────────────────────────────────────────────
+async function loadAll() {
+  setSyncState('loading','Loading…');
+  setLS('tc',   'spinning','Connecting to Google Sheets…');
+  setLS('bugs', 'spinning','Connecting to Google Sheets…');
+  setLS('imp',  'spinning','Connecting to Google Sheets…');
+
   const [tcRes, bugRes, impRes] = await Promise.allSettled([
     fetchByGid('ZKart_TestCases_v3', GIDS['ZKart_TestCases_v3']),
-    fetchByGid('Bugs', GIDS['Bugs']),
-    fetchByGid('Improvements', GIDS['Improvements']),
+    fetchByGid('Bugs',               GIDS['Bugs']),
+    fetchByGid('Improvements',       GIDS['Improvements']),
   ]);
 
-  if(tcRes.status==='fulfilled'){
-    tcRows = tcRes.value.slice(2);
-    TC_MODULES.forEach(({key,prefix})=>{
-      tcByKey[key]=tcRows.filter(r=>(r[0]||'').trim().startsWith(prefix));
+  if (tcRes.status === 'fulfilled') {
+    tcRows = tcRes.value.slice(2); // skip title row + header row
+    TC_MODULES.forEach(({key, prefix}) => {
+      tcByKey[key] = tcRows.filter(r => (r[0]||'').trim().startsWith(prefix));
     });
-    setLS('tc','ok', tcRows.length + ' rows loaded');
+    setLS('tc','ok', tcRows.length+' rows loaded');
     hideSetup();
   } else {
     setLS('tc','err', tcRes.reason.message);
     showErr('tc-sum-area', tcRes.reason.message);
   }
 
-  if(bugRes.status==='fulfilled'){
-    bugRows = bugRes.value.slice(1);
-    setLS('bugs','ok', bugRows.length + ' bugs loaded');
+  if (bugRes.status === 'fulfilled') {
+    bugRows = bugRes.value.slice(1); // skip header row
+    setLS('bugs','ok', bugRows.length+' bugs loaded');
     hideSetup();
   } else {
     setLS('bugs','err', bugRes.reason.message);
     showErr('bug-sum-area', bugRes.reason.message);
   }
 
-  if(impRes.status==='fulfilled'){
-    impRows = impRes.value.slice(1);
-    setLS('imp','ok', impRows.length + ' improvements loaded');
+  if (impRes.status === 'fulfilled') {
+    impRows = impRes.value.slice(1); // skip header row
+    setLS('imp','ok', impRows.length+' improvements loaded');
     hideSetup();
   } else {
     setLS('imp','err', impRes.reason.message);
@@ -727,74 +786,68 @@ async function loadAll(){
   }
 
   const now = new Date();
-  const ts = 'Updated '+now.toLocaleTimeString();
-  const anyOk = tcRes.status==='fulfilled' || bugRes.status==='fulfilled' || impRes.status==='fulfilled';
+  const ts  = 'Updated '+now.toLocaleTimeString();
 
-  try{
-    if(tcRes.status==='fulfilled'){
-      document.getElementById('tc-sum-area').innerHTML=buildTCSummary();
-      document.getElementById('tc-sum-ts').textContent=ts;
-      TC_MODULES.forEach(({key})=>{
-        const{html,count}=buildTCTable(tcByKey[key]||[],key);
-        document.getElementById('wrap-tc-'+key).innerHTML=html;
-        document.getElementById('tc-'+key+'-c').textContent=count+' test cases';
-        const b=document.getElementById('tb-tc-'+key);if(b)b.textContent=count;
+  try {
+    if (tcRes.status === 'fulfilled') {
+      document.getElementById('tc-sum-area').innerHTML = buildTCSummary();
+      document.getElementById('tc-sum-ts').textContent = ts;
+      TC_MODULES.forEach(({key}) => {
+        const {html, count} = buildTCTable(tcByKey[key]||[], key);
+        document.getElementById('wrap-tc-'+key).innerHTML = html;
+        document.getElementById('tc-'+key+'-c').textContent = count+' test cases';
+        const b = document.getElementById('tb-tc-'+key); if(b) b.textContent = count;
         applyTCFilter(key);
       });
     }
 
-    if(bugRes.status==='fulfilled'){
-      document.getElementById('bug-sum-area').innerHTML=buildBugSummary();
-      document.getElementById('bug-sum-ts').textContent=ts;
-      {const{html,count}=buildBugTable(bugRows,'all');
-      document.getElementById('wrap-bugs-all').innerHTML=html;
-      document.getElementById('bugs-all-c').textContent=count+' bugs';
-      const b=document.getElementById('tb-bugs-all');if(b)b.textContent=count;
-      applyBugFilter('all');}
-      BUG_AREA_TABS.forEach(({key,match})=>{
-        const filtered=bugRows.filter(r=>(r[1]||'').trim().toLowerCase()===match);
-        const{html,count}=buildBugTable(filtered,key);
-        document.getElementById('wrap-bugs-'+key).innerHTML=html;
-        document.getElementById('bugs-'+key+'-c').textContent=count+' bugs';
-        const b=document.getElementById('tb-bugs-'+key);if(b)b.textContent=count;
+    if (bugRes.status === 'fulfilled') {
+      document.getElementById('bug-sum-area').innerHTML = buildBugSummary();
+      document.getElementById('bug-sum-ts').textContent = ts;
+      { const {html, count} = buildBugTable(bugRows,'all');
+        document.getElementById('wrap-bugs-all').innerHTML = html;
+        document.getElementById('bugs-all-c').textContent = count+' bugs';
+        const b = document.getElementById('tb-bugs-all'); if(b) b.textContent = count;
+        applyBugFilter('all'); }
+      BUG_AREA_TABS.forEach(({key, match}) => {
+        const filtered = bugRows.filter(r => (r[1]||'').trim().toLowerCase() === match);
+        const {html, count} = buildBugTable(filtered, key);
+        document.getElementById('wrap-bugs-'+key).innerHTML = html;
+        document.getElementById('bugs-'+key+'-c').textContent = count+' bugs';
+        const b = document.getElementById('tb-bugs-'+key); if(b) b.textContent = count;
         applyBugFilter(key);
       });
     }
 
-    if(impRes.status==='fulfilled'){
-      document.getElementById('imp-sum-area').innerHTML=buildImpSummary();
-      document.getElementById('imp-sum-ts').textContent=ts;
-      {const{html,count}=buildImpTable(impRows,'all');
-      document.getElementById('wrap-imp-all').innerHTML=html;
-      document.getElementById('imp-all-c').textContent=count+' items';
-      const b=document.getElementById('tb-imp-all');if(b)b.textContent=count;
-      applyImpFilter('all');}
-      IMP_TYPE_TABS.forEach(({key})=>{
-        const filtered=impRows.filter(r=>impTypeKey(r[3])===key);
-        const{html,count}=buildImpTable(filtered,key);
-        document.getElementById('wrap-imp-'+key).innerHTML=html;
-        document.getElementById('imp-'+key+'-c').textContent=count+' items';
-        const b=document.getElementById('tb-imp-'+key);if(b)b.textContent=count;
+    if (impRes.status === 'fulfilled') {
+      document.getElementById('imp-sum-area').innerHTML = buildImpSummary();
+      document.getElementById('imp-sum-ts').textContent = ts;
+      { const {html, count} = buildImpTable(impRows,'all');
+        document.getElementById('wrap-imp-all').innerHTML = html;
+        document.getElementById('imp-all-c').textContent = count+' items';
+        const b = document.getElementById('tb-imp-all'); if(b) b.textContent = count;
+        applyImpFilter('all'); }
+      IMP_TYPE_TABS.forEach(({key}) => {
+        const filtered = impRows.filter(r => impTypeKey(r[3]) === key);
+        const {html, count} = buildImpTable(filtered, key);
+        document.getElementById('wrap-imp-'+key).innerHTML = html;
+        document.getElementById('imp-'+key+'-c').textContent = count+' items';
+        const b = document.getElementById('tb-imp-'+key); if(b) b.textContent = count;
         applyImpFilter(key);
       });
     }
 
-    document.getElementById('last-sync').textContent='Synced '+now.toLocaleTimeString();
+    document.getElementById('last-sync').textContent = 'Synced '+now.toLocaleTimeString();
     const allOk = tcRes.status==='fulfilled' && bugRes.status==='fulfilled' && impRes.status==='fulfilled';
     setSyncState(allOk?'live':'error', allOk?'Live':'Partial — check errors');
-  } catch(err){
+  } catch(err) {
     console.error(err);
-    setSyncState('error','Error');
+    setSyncState('error','JS Error — check console');
   }
 }
 
-function setSyncState(s,l){
-  document.getElementById('sync-dot').className='dot '+s;
-  document.getElementById('sync-lbl').textContent=l;
-}
-
 loadAll();
-setInterval(loadAll,60000);
+setInterval(loadAll, 60000);
 </script>
 </body>
 </html>
