@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="icon" type="image/png" href="image.png"> 
 <title>ZKart — QA Dashboard</title>
-<link rel="icon" type="image/png" href="image.png">
 <style>
 :root{
   --black:#1A1A1A;--ink:#2C2C2C;--charcoal:#4A4A4A;--mid:#7A7A7A;
@@ -14,12 +14,15 @@
   --green:#2D6A4F;--green2:#EAF3EE;--blue:#1D4E89;--blue2:#EBF2FB;
   --pass:#2D6A4F;--fail:#B03A2E;--na:#7A7A7A;
   --brd:#E2DDD6;--brd2:#CCC8C0;
-  --r:6px;--r2:10px;--sh:0 1px 8px rgba(0,0,0,.06);--sh2:0 2px 18px rgba(0,0,0,.09);
-  --ui-accent:#4B3B8C;--ui-accent2:#EEEAF8;--ui-pill:#4B3B8C;
+  --r:6px;--r2:10px;--sh2:0 2px 18px rgba(0,0,0,.09);
+  --bug-accent:#7B2235;--bug-accent2:#FAEDEE;
   --imp-accent:#0F6B5C;--imp-accent2:#E6F4F1;
+  --tc-accent:#1A1A1A;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
+
+/* ── HEADER ── */
 .hdr{background:var(--black);padding:20px 40px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;border-bottom:1px solid #333}
 .hdr-brand{display:flex;align-items:center;gap:12px}
 .hdr-logo{width:34px;height:34px;border-radius:6px;background:linear-gradient(135deg,#4B3B8C,#7C5CBF);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;letter-spacing:-1px;flex-shrink:0}
@@ -27,34 +30,41 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;background:
 .hdr p{color:var(--silver);font-size:.72rem;margin-top:2px}
 .hdr-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .sync-pill{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);color:var(--silver);padding:5px 13px;border-radius:20px;font-size:.7rem;font-weight:500;border:1px solid rgba(255,255,255,.12);white-space:nowrap}
-.dot{width:7px;height:7px;border-radius:50%;background:#6EE7B7;flex-shrink:0}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
 .dot.loading{background:#FCD34D;animation:blink .9s ease-in-out infinite}
-.dot.error{background:#F87171;animation:none}
+.dot.error{background:#F87171}
 .dot.live{background:#6EE7B7;animation:glow 2.5s ease-in-out infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
 @keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(110,231,183,.4)}60%{box-shadow:0 0 0 4px rgba(110,231,183,.1)}}
 .refresh-btn{background:rgba(255,255,255,.08);color:var(--silver);border:1px solid rgba(255,255,255,.14);padding:5px 13px;border-radius:20px;font-size:.7rem;font-weight:500;cursor:pointer;transition:all .15s}
 .refresh-btn:hover{background:rgba(255,255,255,.14);color:var(--white)}
 #last-sync{color:rgba(255,255,255,.35);font-size:.68rem;white-space:nowrap}
+
+/* ── SUPER TABS ── */
 .super-tab-bar{background:var(--black);padding:0 40px;display:flex;gap:0;border-bottom:2px solid #333}
 .super-tab{padding:10px 22px;cursor:pointer;font-size:.78rem;font-weight:500;color:rgba(255,255,255,.45);border:none;background:transparent;border-bottom:3px solid transparent;transition:all .18s;letter-spacing:.2px;user-select:none;white-space:nowrap;margin-bottom:-2px}
 .super-tab:hover{color:rgba(255,255,255,.75)}
 .super-tab.active{color:var(--white);border-bottom-color:var(--white);font-weight:600}
-.super-tab .st-badge{display:inline-block;background:rgba(255,255,255,.12);color:rgba(255,255,255,.6);border-radius:20px;padding:1px 8px;font-size:.62rem;margin-left:6px;font-weight:600;vertical-align:middle}
+.st-badge{display:inline-block;background:rgba(255,255,255,.12);color:rgba(255,255,255,.6);border-radius:20px;padding:1px 8px;font-size:.62rem;margin-left:6px;font-weight:600;vertical-align:middle}
 .super-tab.active .st-badge{background:var(--white);color:var(--black)}
-.super-tab.st-bug .st-icon{display:inline-block;width:6px;height:6px;background:#F87171;border-radius:50%;margin-left:5px;vertical-align:middle}
-.super-tab.st-imp .st-icon{display:inline-block;width:6px;height:6px;background:#6EE7B7;border-radius:50%;margin-left:5px;vertical-align:middle}
-.kpi-bar{display:flex;gap:1px;background:var(--brd);border-bottom:1px solid var(--brd);transition:opacity .2s}
+.st-dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-left:5px;vertical-align:middle}
+.st-dot.red{background:#F87171}
+.st-dot.teal{background:#6EE7B7}
+
+/* ── KPI BAR ── */
+.kpi-bar{display:flex;gap:1px;background:var(--brd);border-bottom:1px solid var(--brd)}
 .kpi{background:var(--white);padding:18px 24px;flex:1;min-width:110px;display:flex;flex-direction:column;gap:5px;transition:background .15s;border-top:3px solid transparent}
 .kpi:hover{background:var(--linen)}
-.kpi.k-total{border-color:var(--black)}.kpi.k-pass{border-color:var(--pass)}.kpi.k-fail{border-color:var(--fail)}.kpi.k-na{border-color:var(--na)}.kpi.k-prog{border-color:var(--blue)}.kpi.k-p0{border-color:var(--red)}.kpi.k-imp{border-color:var(--imp-accent)}
-.kn{font-size:1.9rem;font-weight:700;line-height:1;color:var(--black);letter-spacing:-.5px;transition:all .3s;font-variant-numeric:tabular-nums}
+.kpi.k-total{border-color:var(--black)}.kpi.k-pass{border-color:var(--pass)}.kpi.k-fail{border-color:var(--fail)}.kpi.k-na{border-color:var(--na)}.kpi.k-prog{border-color:var(--blue)}.kpi.k-hi{border-color:var(--red)}.kpi.k-imp{border-color:var(--imp-accent)}
+.kn{font-size:1.9rem;font-weight:700;line-height:1;color:var(--black);letter-spacing:-.5px;font-variant-numeric:tabular-nums}
 .kl{font-size:.67rem;color:var(--mid);text-transform:uppercase;letter-spacing:.8px;font-weight:500}
-.kpi.k-pass .kn{color:var(--pass)}.kpi.k-fail .kn{color:var(--fail)}.kpi.k-na .kn{color:var(--na)}.kpi.k-prog .kn{color:var(--blue)}.kpi.k-p0 .kn{color:var(--red)}.kpi.k-imp .kn{color:var(--imp-accent)}
-.kpi-bar.ui-kpis .kpi.k-total{border-color:var(--ui-accent)}
-.kpi-bar.ui-kpis .kpi.k-total .kn{color:var(--ui-accent)}
-.kpi-bar.imp-kpis .kpi.k-total{border-color:var(--imp-accent)}
+.kpi.k-pass .kn{color:var(--pass)}.kpi.k-fail .kn{color:var(--fail)}.kpi.k-na .kn{color:var(--na)}.kpi.k-prog .kn{color:var(--blue)}.kpi.k-hi .kn{color:var(--red)}.kpi.k-imp .kn{color:var(--imp-accent)}
+.kpi-bar.bug-kpis .kpi.k-total .kn{color:var(--bug-accent)}
+.kpi-bar.bug-kpis .kpi.k-total{border-color:var(--bug-accent)}
 .kpi-bar.imp-kpis .kpi.k-total .kn{color:var(--imp-accent)}
+.kpi-bar.imp-kpis .kpi.k-total{border-color:var(--imp-accent)}
+
+/* ── SUB TABS ── */
 .tab-bar{display:flex;padding:0 40px;gap:0;overflow-x:auto;background:var(--linen);border-bottom:1px solid var(--brd);scrollbar-width:none}
 .tab-bar::-webkit-scrollbar{display:none}
 .tab{padding:12px 16px;cursor:pointer;font-size:.77rem;font-weight:500;color:var(--mid);background:transparent;border:none;border-bottom:2px solid transparent;transition:all .15s;user-select:none;white-space:nowrap;flex-shrink:0}
@@ -62,48 +72,61 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;background:
 .tab.active{color:var(--black);border-bottom-color:var(--black);font-weight:600;background:var(--white)}
 .tab-badge{display:inline-block;background:var(--bone);color:var(--charcoal);border-radius:20px;padding:1px 7px;font-size:.62rem;margin-left:5px;font-weight:600}
 .tab.active .tab-badge{background:var(--black);color:var(--white)}
-.tab-bar.ui-tabs .tab.active{color:var(--ui-accent);border-bottom-color:var(--ui-accent)}
-.tab-bar.ui-tabs .tab.active .tab-badge{background:var(--ui-accent);color:var(--white)}
+/* Bug tab colours */
+.tab-bar.bug-tabs .tab.active{color:var(--bug-accent);border-bottom-color:var(--bug-accent)}
+.tab-bar.bug-tabs .tab.active .tab-badge{background:var(--bug-accent);color:var(--white)}
+/* Imp tab colours */
 .tab-bar.imp-tabs .tab.active{color:var(--imp-accent);border-bottom-color:var(--imp-accent)}
 .tab-bar.imp-tabs .tab.active .tab-badge{background:var(--imp-accent);color:var(--white)}
+
+/* ── CONTENT ── */
 .content{background:var(--white);margin:0 40px 40px;border-radius:0 0 var(--r2) var(--r2);box-shadow:var(--sh2);border:1px solid var(--brd);border-top:none;overflow:hidden;min-height:360px}
-.content.ui-content{border-top:2px solid var(--ui-accent)}
+.content.bug-content{border-top:2px solid var(--bug-accent)}
 .content.imp-content{border-top:2px solid var(--imp-accent)}
 .pane{display:none}.pane.active{display:block}
 .loading-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;gap:14px;color:var(--silver)}
 .spinner{width:30px;height:30px;border:2px solid var(--bone);border-top-color:var(--charcoal);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.loading-wrap p{font-size:.8rem;letter-spacing:.2px}
+.loading-wrap p{font-size:.8rem}
 .err-box{margin:28px;padding:18px 22px;background:var(--red2);border:1px solid #ECC5C2;border-radius:var(--r);border-left:3px solid var(--red)}
 .err-box h3{color:var(--red);font-size:.85rem;margin-bottom:7px;font-weight:600}
 .err-box p{font-size:.78rem;color:#7B2A23;line-height:1.7}
 .err-box code{background:#F2D3D0;padding:2px 6px;border-radius:3px;font-size:.72rem;font-family:'Courier New',monospace}
+
+/* ── FILTER BAR ── */
 .fb{display:flex;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid var(--brd);flex-wrap:wrap;background:var(--paper)}
-.fb.ui-fb{background:var(--ui-accent2)}
+.fb.bug-fb{background:var(--bug-accent2)}
 .fb.imp-fb{background:var(--imp-accent2)}
 .fb label{font-size:.69rem;font-weight:600;color:var(--silver);text-transform:uppercase;letter-spacing:.5px}
 .fb select,.fb input{padding:5px 10px;border:1px solid var(--brd);border-radius:var(--r);font-size:.74rem;background:var(--white);color:var(--ink);outline:none;transition:border .15s;font-family:inherit}
 .fb select:focus,.fb input:focus{border-color:var(--charcoal)}
-.ui-fb select:focus,.ui-fb input:focus{border-color:var(--ui-accent)}
+.bug-fb select:focus,.bug-fb input:focus{border-color:var(--bug-accent)}
 .imp-fb select:focus,.imp-fb input:focus{border-color:var(--imp-accent)}
 .fb input{min-width:190px}
 .fc{margin-left:auto;font-size:.7rem;color:var(--silver);font-style:italic}
+
+/* ── TABLES ── */
 .tbl-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:.78rem}
 thead tr{background:var(--black)}
-thead tr.ui-thead{background:var(--ui-accent)}
+thead tr.bug-thead{background:var(--bug-accent)}
 thead tr.imp-thead{background:var(--imp-accent)}
 thead th{color:var(--white);font-weight:500;padding:10px 13px;text-align:left;white-space:nowrap;font-size:.68rem;text-transform:uppercase;letter-spacing:.6px}
 tbody td{padding:10px 13px;border-bottom:1px solid var(--linen);vertical-align:top;line-height:1.55}
 tbody tr:hover{background:var(--paper)!important}
 .tc-id{font-family:'Courier New',monospace;font-weight:700;color:var(--charcoal);font-size:.72rem;white-space:nowrap}
-.tc-id.ui-id{color:var(--ui-accent)}
+.tc-id.bug-id{color:var(--bug-accent)}
 .tc-id.imp-id{color:var(--imp-accent)}
-.pri{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.64rem;font-weight:600;white-space:nowrap;letter-spacing:.2px}
+.steps{white-space:pre-line;font-size:.72rem;color:var(--charcoal);line-height:1.6}
+.exp{font-size:.72rem;color:#1E4D35;line-height:1.55}
+.notes{font-size:.68rem;color:var(--silver);font-style:italic}
+
+/* ── BADGES ── */
+.pri{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.64rem;font-weight:600;white-space:nowrap}
 .p1{background:var(--amber2);color:var(--amber);border:1px solid #D4B87A}
 .p2{background:var(--linen);color:var(--charcoal);border:1px solid var(--brd2)}
 .p3{background:var(--green2);color:var(--green);border:1px solid #A8CFB8}
-.status{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.65rem;font-weight:600;white-space:nowrap;letter-spacing:.3px;text-transform:uppercase}
+.status-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.65rem;font-weight:600;white-space:nowrap;letter-spacing:.3px;text-transform:uppercase}
 .s-pass{background:var(--green2);color:var(--pass);border:1px solid #A8CFB8}
 .s-fail{background:var(--red2);color:var(--fail);border:1px solid #DBA9A5}
 .s-na{background:var(--linen);color:var(--na);border:1px solid var(--brd2)}
@@ -112,15 +135,16 @@ tbody tr:hover{background:var(--paper)!important}
 .sev-med{background:var(--amber2);color:var(--amber);border:1px solid #D4B87A;display:inline-block;padding:2px 9px;border-radius:20px;font-size:.64rem;font-weight:600}
 .sev-low{background:var(--green2);color:var(--green);border:1px solid #A8CFB8;display:inline-block;padding:2px 9px;border-radius:20px;font-size:.64rem;font-weight:600}
 /* bug status */
-.bug-open{background:#EEEAF8;color:var(--ui-accent);border:1px solid #C9BEF0;display:inline-block;padding:3px 10px;border-radius:20px;font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.bug-open{background:var(--bug-accent2);color:var(--bug-accent);border:1px solid #E8B4BB;display:inline-block;padding:3px 10px;border-radius:20px;font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
 .bug-fixed{background:var(--green2);color:var(--pass);border:1px solid #A8CFB8;display:inline-block;padding:3px 10px;border-radius:20px;font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
-/* improvement priority & status */
+/* improvement priority */
 .imp-high{background:#FEF3E2;color:#92400E;border:1px solid #F6C97A;display:inline-block;padding:2px 9px;border-radius:20px;font-size:.64rem;font-weight:600}
 .imp-med{background:var(--imp-accent2);color:var(--imp-accent);border:1px solid #9DD6CC;display:inline-block;padding:2px 9px;border-radius:20px;font-size:.64rem;font-weight:600}
 .imp-low{background:var(--linen);color:var(--mid);border:1px solid var(--brd2);display:inline-block;padding:2px 9px;border-radius:20px;font-size:.64rem;font-weight:600}
+/* improvement status */
 .imp-open{background:var(--imp-accent2);color:var(--imp-accent);border:1px solid #9DD6CC;display:inline-block;padding:3px 10px;border-radius:20px;font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
 .imp-done{background:var(--green2);color:var(--pass);border:1px solid #A8CFB8;display:inline-block;padding:3px 10px;border-radius:20px;font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
-/* area badges */
+/* area badge */
 .area-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.62rem;font-weight:600;white-space:nowrap}
 .a-address{background:#FBF5E6;color:#8A5A00;border:1px solid #D4B87A}
 .a-home{background:#EEEAF8;color:#4B3B8C;border:1px solid #C9BEF0}
@@ -130,20 +154,20 @@ tbody tr:hover{background:var(--paper)!important}
 .a-orders{background:#EAF3EE;color:#2D6A4F;border:1px solid #A8CFB8}
 .a-navigation{background:#F3E8FF;color:#6B21A8;border:1px solid #D8B4FE}
 .a-pdp{background:#E6F4F1;color:#0F6B5C;border:1px solid #9DD6CC}
-/* impact badge for improvements */
+/* improvement type badge */
 .type-ux{background:#FEF9E7;color:#7D5A00;border:1px solid #F0D580;display:inline-block;padding:2px 8px;border-radius:20px;font-size:.62rem;font-weight:600}
 .type-copy{background:#EBF5FB;color:#1A6E9E;border:1px solid #A8D5EE;display:inline-block;padding:2px 8px;border-radius:20px;font-size:.62rem;font-weight:600}
 .type-nav{background:#F3E8FF;color:#6B21A8;border:1px solid #D8B4FE;display:inline-block;padding:2px 8px;border-radius:20px;font-size:.62rem;font-weight:600}
 .type-feat{background:var(--imp-accent2);color:var(--imp-accent);border:1px solid #9DD6CC;display:inline-block;padding:2px 8px;border-radius:20px;font-size:.62rem;font-weight:600}
-.type-perf{background:#F8F0FB;color:#7E3AA0;border:1px solid #D9ABEE;display:inline-block;padding:2px 8px;border-radius:20px;font-size:.62rem;font-weight:600}
-/* summary table */
+
+/* ── SUMMARY SECTION ── */
 .sw{padding:28px 32px}
 .sw-hdr{display:flex;align-items:baseline;gap:16px;margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid var(--brd);flex-wrap:wrap}
 .sw-hdr h2{font-size:1rem;font-weight:600;color:var(--black);letter-spacing:-.2px}
 .sw-hdr span{font-size:.72rem;color:var(--silver)}
 .sum-t{width:100%;border-collapse:collapse;font-size:.8rem}
 .sum-t thead tr{background:var(--black)}
-.sum-t thead tr.ui-thead{background:var(--ui-accent)}
+.sum-t thead tr.bug-thead{background:var(--bug-accent)}
 .sum-t thead tr.imp-thead{background:var(--imp-accent)}
 .sum-t thead th{color:var(--white);padding:10px 14px;text-align:left;font-size:.68rem;text-transform:uppercase;letter-spacing:.6px;font-weight:500}
 .sum-t tbody td{padding:11px 14px;border-bottom:1px solid var(--linen);color:var(--ink)}
@@ -154,19 +178,17 @@ tbody tr:hover{background:var(--paper)!important}
 .pb{display:flex;align-items:center;gap:8px}
 .pbr{height:6px;border-radius:3px;background:var(--bone);flex:1;overflow:hidden;min-width:100px;position:relative}
 .pbf{height:100%;position:absolute;top:0;left:0;transition:width .6s ease}
-.pbf-pass{background:var(--pass)}.pbf-fail{background:var(--fail)}.pbf-na{background:var(--na)}.pbf-imp{background:var(--imp-accent)}
+.pbf-pass{background:var(--pass)}.pbf-fail{background:var(--fail)}.pbf-na{background:var(--na)}.pbf-imp{background:var(--imp-accent)}.pbf-bug{background:var(--bug-accent)}
 .pb-text{font-size:.69rem;color:var(--mid);min-width:70px;font-weight:500;font-variant-numeric:tabular-nums}
 .legend{margin-top:26px;padding-top:20px;border-top:1px solid var(--brd);display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .legend-lbl{font-size:.7rem;font-weight:600;color:var(--mid);text-transform:uppercase;letter-spacing:.5px;margin-right:4px}
 .legend-item{display:flex;align-items:center;gap:7px;background:var(--paper);border:1px solid var(--brd);padding:6px 12px;border-radius:var(--r);font-size:.74rem}
 .ldot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.steps{white-space:pre-line;font-size:.72rem;color:var(--charcoal);line-height:1.6}
-.exp{font-size:.72rem;color:#1E4D35;line-height:1.55}
-.notes{font-size:.68rem;color:var(--silver);font-style:italic}
 @media(max-width:860px){
-  .hdr{padding:16px 18px}.kpi{min-width:90px;padding:14px 16px}
-  .super-tab-bar,.tab-bar,.content{margin-left:0;margin-right:0}
-  .super-tab-bar{padding:0 12px}.sw{padding:18px 16px}.tab-bar{padding:0 12px}
+  .hdr,.super-tab-bar,.tab-bar{padding-left:16px;padding-right:16px}
+  .content{margin-left:0;margin-right:0}
+  .sw{padding:18px 16px}
+  .kpi{min-width:90px;padding:14px 16px}
 }
 </style>
 </head>
@@ -174,7 +196,6 @@ tbody tr:hover{background:var(--paper)!important}
 
 <div class="hdr">
   <div class="hdr-brand">
-    <div class="hdr-logo">ZK</div>
     <img src="image.png" class="hdr-logo" alt="Zolve"/>
     <div>
       <h1>ZKart — QA Test Dashboard</h1>
@@ -183,7 +204,7 @@ tbody tr:hover{background:var(--paper)!important}
   </div>
   <div class="hdr-right">
     <span id="last-sync"></span>
-    <button class="refresh-btn" onclick="loadActive()">&#8635; Refresh</button>
+    <button class="refresh-btn" onclick="loadAll()">&#8635; Refresh</button>
     <div class="sync-pill">
       <div class="dot loading" id="sync-dot"></div>
       <span id="sync-lbl">Loading&#8230;</span>
@@ -193,279 +214,190 @@ tbody tr:hover{background:var(--paper)!important}
 
 <div class="super-tab-bar">
   <div class="super-tab active" id="st-tc" onclick="switchSuper('tc')">
-    Test Cases <span class="st-badge" id="stb-tc">&#8212;</span>
+    Test Cases <span class="st-badge" id="stb-tc">—</span>
   </div>
-  <div class="super-tab st-bug" id="st-bugs" onclick="switchSuper('bugs')">
-    Bugs <span class="st-icon"></span><span class="st-badge" id="stb-bugs">&#8212;</span>
+  <div class="super-tab" id="st-bugs" onclick="switchSuper('bugs')">
+    Bugs <span class="st-dot red"></span><span class="st-badge" id="stb-bugs">—</span>
   </div>
-  <div class="super-tab st-imp" id="st-imp" onclick="switchSuper('imp')">
-    Improvements <span class="st-icon"></span><span class="st-badge" id="stb-imp">&#8212;</span>
+  <div class="super-tab" id="st-imp" onclick="switchSuper('imp')">
+    Improvements <span class="st-dot teal"></span><span class="st-badge" id="stb-imp">—</span>
   </div>
 </div>
 
 <!-- ══════════════════════ TEST CASES ══════════════════════ -->
 <div id="section-tc">
   <div class="kpi-bar">
-    <div class="kpi k-total"><div class="kn" id="k-total">&#8212;</div><div class="kl">Total TCs</div></div>
-    <div class="kpi k-pass">  <div class="kn" id="k-pass">&#8212;</div><div class="kl">&#10003; Passed</div></div>
-    <div class="kpi k-fail">  <div class="kn" id="k-fail">&#8212;</div><div class="kl">&#10007; Failed</div></div>
-    <div class="kpi k-na">    <div class="kn" id="k-na">&#8212;</div>  <div class="kl">&#8212; Not Run</div></div>
-    <div class="kpi k-prog">  <div class="kn" id="k-prog">&#8212;</div><div class="kl">% Progress</div></div>
-    <div class="kpi k-p0">    <div class="kn" id="k-p0">&#8212;</div>  <div class="kl">P1 Critical</div></div>
+    <div class="kpi k-total"><div class="kn" id="k-total">—</div><div class="kl">Total TCs</div></div>
+    <div class="kpi k-pass">  <div class="kn" id="k-pass">—</div> <div class="kl">✓ Passed</div></div>
+    <div class="kpi k-fail">  <div class="kn" id="k-fail">—</div> <div class="kl">✗ Failed</div></div>
+    <div class="kpi k-na">    <div class="kn" id="k-na">—</div>   <div class="kl">— Not Run</div></div>
+    <div class="kpi k-prog">  <div class="kn" id="k-prog">—</div> <div class="kl">% Progress</div></div>
+    <div class="kpi k-hi">    <div class="kn" id="k-p1">—</div>   <div class="kl">P1 Critical</div></div>
   </div>
   <div class="tab-bar" id="tabbar-tc">
-    <div class="tab active" onclick="showTab(this,'summary','tc')">Summary</div>
-    <div class="tab" onclick="showTab(this,'hm','tc')">Homepage <span class="tab-badge" id="tb-hm">&#8212;</span></div>
-    <div class="tab" onclick="showTab(this,'fd','tc')">Flash Deals <span class="tab-badge" id="tb-fd">&#8212;</span></div>
-    <div class="tab" onclick="showTab(this,'sr','tc')">Search <span class="tab-badge" id="tb-sr">&#8212;</span></div>
-    <div class="tab" onclick="showTab(this,'ca','tc')">Categories <span class="tab-badge" id="tb-ca">&#8212;</span></div>
-    <div class="tab" onclick="showTab(this,'pr','tc')">Profile <span class="tab-badge" id="tb-pr">&#8212;</span></div>
-    <div class="tab" onclick="showTab(this,'or','tc')">My Orders <span class="tab-badge" id="tb-or">&#8212;</span></div>
-    <div class="tab" onclick="showTab(this,'ad','tc')">Address <span class="tab-badge" id="tb-ad">&#8212;</span></div>
-    <div class="tab" onclick="showTab(this,'ct','tc')">Cart &amp; Checkout <span class="tab-badge" id="tb-ct">&#8212;</span></div>
-    <div class="tab" onclick="showTab(this,'pd','tc')">PDP <span class="tab-badge" id="tb-pd">&#8212;</span></div>
-    <div class="tab" onclick="showTab(this,'nv','tc')">Navigation <span class="tab-badge" id="tb-nv">&#8212;</span></div>
-    <div class="tab" onclick="showTab(this,'sy','tc')">Sync <span class="tab-badge" id="tb-sy">&#8212;</span></div>
+    <div class="tab active" onclick="showTab(this,'tc','summary')">Summary</div>
+    <div class="tab" onclick="showTab(this,'tc','hm')">Homepage <span class="tab-badge" id="tb-tc-hm">—</span></div>
+    <div class="tab" onclick="showTab(this,'tc','fd')">Flash Deals <span class="tab-badge" id="tb-tc-fd">—</span></div>
+    <div class="tab" onclick="showTab(this,'tc','sr')">Search <span class="tab-badge" id="tb-tc-sr">—</span></div>
+    <div class="tab" onclick="showTab(this,'tc','ca')">Categories <span class="tab-badge" id="tb-tc-ca">—</span></div>
+    <div class="tab" onclick="showTab(this,'tc','pr')">Profile <span class="tab-badge" id="tb-tc-pr">—</span></div>
+    <div class="tab" onclick="showTab(this,'tc','or')">My Orders <span class="tab-badge" id="tb-tc-or">—</span></div>
+    <div class="tab" onclick="showTab(this,'tc','ad')">Address <span class="tab-badge" id="tb-tc-ad">—</span></div>
+    <div class="tab" onclick="showTab(this,'tc','ct')">Cart &amp; Checkout <span class="tab-badge" id="tb-tc-ct">—</span></div>
+    <div class="tab" onclick="showTab(this,'tc','pd')">PDP <span class="tab-badge" id="tb-tc-pd">—</span></div>
+    <div class="tab" onclick="showTab(this,'tc','nv')">Navigation <span class="tab-badge" id="tb-tc-nv">—</span></div>
+    <div class="tab" onclick="showTab(this,'tc','sy')">Sync <span class="tab-badge" id="tb-tc-sy">—</span></div>
   </div>
   <div class="content" id="content-tc">
-    <div class="pane active" id="pane-tc-summary"><div class="sw"><div class="sw-hdr"><h2>Test Execution Progress by Module</h2><span id="sum-ts">Fetching live data&#8230;</span></div><div id="sum-area"><div class="loading-wrap"><div class="spinner"></div><p>Loading from Google Sheets&#8230;</p></div></div></div></div>
-    <div class="pane" id="pane-tc-hm"><div class="fb"><label>Status:</label><select id="f-hm-s" onchange="applyFilter('hm')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-hm-p" onchange="applyFilter('hm')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option><option value="p3">P3</option></select><input id="f-hm-q" type="text" placeholder="Search&#8230;" oninput="applyFilter('hm')"/><span class="fc" id="hm-c"></span></div><div class="tbl-wrap" id="wrap-hm"><div class="loading-wrap"><div class="spinner"></div><p>Loading&#8230;</p></div></div></div>
-    <div class="pane" id="pane-tc-fd"><div class="fb"><label>Status:</label><select id="f-fd-s" onchange="applyFilter('fd')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-fd-p" onchange="applyFilter('fd')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option></select><input id="f-fd-q" type="text" placeholder="Search&#8230;" oninput="applyFilter('fd')"/><span class="fc" id="fd-c"></span></div><div class="tbl-wrap" id="wrap-fd"><div class="loading-wrap"><div class="spinner"></div><p>Loading&#8230;</p></div></div></div>
-    <div class="pane" id="pane-tc-sr"><div class="fb"><label>Status:</label><select id="f-sr-s" onchange="applyFilter('sr')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-sr-p" onchange="applyFilter('sr')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option></select><input id="f-sr-q" type="text" placeholder="Search&#8230;" oninput="applyFilter('sr')"/><span class="fc" id="sr-c"></span></div><div class="tbl-wrap" id="wrap-sr"><div class="loading-wrap"><div class="spinner"></div><p>Loading&#8230;</p></div></div></div>
-    <div class="pane" id="pane-tc-ca"><div class="fb"><label>Status:</label><select id="f-ca-s" onchange="applyFilter('ca')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-ca-p" onchange="applyFilter('ca')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option></select><input id="f-ca-q" type="text" placeholder="Search&#8230;" oninput="applyFilter('ca')"/><span class="fc" id="ca-c"></span></div><div class="tbl-wrap" id="wrap-ca"><div class="loading-wrap"><div class="spinner"></div><p>Loading&#8230;</p></div></div></div>
-    <div class="pane" id="pane-tc-pr"><div class="fb"><label>Status:</label><select id="f-pr-s" onchange="applyFilter('pr')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-pr-p" onchange="applyFilter('pr')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option><option value="p3">P3</option></select><input id="f-pr-q" type="text" placeholder="Search&#8230;" oninput="applyFilter('pr')"/><span class="fc" id="pr-c"></span></div><div class="tbl-wrap" id="wrap-pr"><div class="loading-wrap"><div class="spinner"></div><p>Loading&#8230;</p></div></div></div>
-    <div class="pane" id="pane-tc-or"><div class="fb"><label>Status:</label><select id="f-or-s" onchange="applyFilter('or')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-or-p" onchange="applyFilter('or')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option></select><input id="f-or-q" type="text" placeholder="Search&#8230;" oninput="applyFilter('or')"/><span class="fc" id="or-c"></span></div><div class="tbl-wrap" id="wrap-or"><div class="loading-wrap"><div class="spinner"></div><p>Loading&#8230;</p></div></div></div>
-    <div class="pane" id="pane-tc-ad"><div class="fb"><label>Status:</label><select id="f-ad-s" onchange="applyFilter('ad')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-ad-p" onchange="applyFilter('ad')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option></select><input id="f-ad-q" type="text" placeholder="Search&#8230;" oninput="applyFilter('ad')"/><span class="fc" id="ad-c"></span></div><div class="tbl-wrap" id="wrap-ad"><div class="loading-wrap"><div class="spinner"></div><p>Loading&#8230;</p></div></div></div>
-    <div class="pane" id="pane-tc-ct"><div class="fb"><label>Status:</label><select id="f-ct-s" onchange="applyFilter('ct')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-ct-p" onchange="applyFilter('ct')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option></select><input id="f-ct-q" type="text" placeholder="Search&#8230;" oninput="applyFilter('ct')"/><span class="fc" id="ct-c"></span></div><div class="tbl-wrap" id="wrap-ct"><div class="loading-wrap"><div class="spinner"></div><p>Loading&#8230;</p></div></div></div>
-    <div class="pane" id="pane-tc-pd"><div class="fb"><label>Status:</label><select id="f-pd-s" onchange="applyFilter('pd')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-pd-p" onchange="applyFilter('pd')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option></select><input id="f-pd-q" type="text" placeholder="Search&#8230;" oninput="applyFilter('pd')"/><span class="fc" id="pd-c"></span></div><div class="tbl-wrap" id="wrap-pd"><div class="loading-wrap"><div class="spinner"></div><p>Loading&#8230;</p></div></div></div>
-    <div class="pane" id="pane-tc-nv"><div class="fb"><label>Status:</label><select id="f-nv-s" onchange="applyFilter('nv')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-nv-p" onchange="applyFilter('nv')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option></select><input id="f-nv-q" type="text" placeholder="Search&#8230;" oninput="applyFilter('nv')"/><span class="fc" id="nv-c"></span></div><div class="tbl-wrap" id="wrap-nv"><div class="loading-wrap"><div class="spinner"></div><p>Loading&#8230;</p></div></div></div>
-    <div class="pane" id="pane-tc-sy"><div class="fb"><label>Status:</label><select id="f-sy-s" onchange="applyFilter('sy')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-sy-p" onchange="applyFilter('sy')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option></select><input id="f-sy-q" type="text" placeholder="Search&#8230;" oninput="applyFilter('sy')"/><span class="fc" id="sy-c"></span></div><div class="tbl-wrap" id="wrap-sy"><div class="loading-wrap"><div class="spinner"></div><p>Loading&#8230;</p></div></div></div>
+    <div class="pane active" id="pane-tc-summary"><div class="sw"><div class="sw-hdr"><h2>Test Execution Progress by Module</h2><span id="tc-sum-ts">Fetching&#8230;</span></div><div id="tc-sum-area"><div class="loading-wrap"><div class="spinner"></div><p>Loading from Google Sheets…</p></div></div></div></div>
+    <div class="pane" id="pane-tc-hm"><div class="fb"><label>Status:</label><select id="f-tc-hm-s" onchange="applyTCFilter('hm')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-tc-hm-p" onchange="applyTCFilter('hm')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option><option value="p3">P3</option></select><input id="f-tc-hm-q" type="text" placeholder="Search…" oninput="applyTCFilter('hm')"/><span class="fc" id="tc-hm-c"></span></div><div class="tbl-wrap" id="wrap-tc-hm"><div class="loading-wrap"><div class="spinner"></div><p>Loading…</p></div></div></div>
+    <div class="pane" id="pane-tc-fd"><div class="fb"><label>Status:</label><select id="f-tc-fd-s" onchange="applyTCFilter('fd')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-tc-fd-p" onchange="applyTCFilter('fd')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option></select><input id="f-tc-fd-q" type="text" placeholder="Search…" oninput="applyTCFilter('fd')"/><span class="fc" id="tc-fd-c"></span></div><div class="tbl-wrap" id="wrap-tc-fd"><div class="loading-wrap"><div class="spinner"></div><p>Loading…</p></div></div></div>
+    <div class="pane" id="pane-tc-sr"><div class="fb"><label>Status:</label><select id="f-tc-sr-s" onchange="applyTCFilter('sr')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-tc-sr-p" onchange="applyTCFilter('sr')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option></select><input id="f-tc-sr-q" type="text" placeholder="Search…" oninput="applyTCFilter('sr')"/><span class="fc" id="tc-sr-c"></span></div><div class="tbl-wrap" id="wrap-tc-sr"><div class="loading-wrap"><div class="spinner"></div><p>Loading…</p></div></div></div>
+    <div class="pane" id="pane-tc-ca"><div class="fb"><label>Status:</label><select id="f-tc-ca-s" onchange="applyTCFilter('ca')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-tc-ca-p" onchange="applyTCFilter('ca')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option></select><input id="f-tc-ca-q" type="text" placeholder="Search…" oninput="applyTCFilter('ca')"/><span class="fc" id="tc-ca-c"></span></div><div class="tbl-wrap" id="wrap-tc-ca"><div class="loading-wrap"><div class="spinner"></div><p>Loading…</p></div></div></div>
+    <div class="pane" id="pane-tc-pr"><div class="fb"><label>Status:</label><select id="f-tc-pr-s" onchange="applyTCFilter('pr')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-tc-pr-p" onchange="applyTCFilter('pr')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option><option value="p3">P3</option></select><input id="f-tc-pr-q" type="text" placeholder="Search…" oninput="applyTCFilter('pr')"/><span class="fc" id="tc-pr-c"></span></div><div class="tbl-wrap" id="wrap-tc-pr"><div class="loading-wrap"><div class="spinner"></div><p>Loading…</p></div></div></div>
+    <div class="pane" id="pane-tc-or"><div class="fb"><label>Status:</label><select id="f-tc-or-s" onchange="applyTCFilter('or')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-tc-or-p" onchange="applyTCFilter('or')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option></select><input id="f-tc-or-q" type="text" placeholder="Search…" oninput="applyTCFilter('or')"/><span class="fc" id="tc-or-c"></span></div><div class="tbl-wrap" id="wrap-tc-or"><div class="loading-wrap"><div class="spinner"></div><p>Loading…</p></div></div></div>
+    <div class="pane" id="pane-tc-ad"><div class="fb"><label>Status:</label><select id="f-tc-ad-s" onchange="applyTCFilter('ad')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-tc-ad-p" onchange="applyTCFilter('ad')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option></select><input id="f-tc-ad-q" type="text" placeholder="Search…" oninput="applyTCFilter('ad')"/><span class="fc" id="tc-ad-c"></span></div><div class="tbl-wrap" id="wrap-tc-ad"><div class="loading-wrap"><div class="spinner"></div><p>Loading…</p></div></div></div>
+    <div class="pane" id="pane-tc-ct"><div class="fb"><label>Status:</label><select id="f-tc-ct-s" onchange="applyTCFilter('ct')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-tc-ct-p" onchange="applyTCFilter('ct')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option></select><input id="f-tc-ct-q" type="text" placeholder="Search…" oninput="applyTCFilter('ct')"/><span class="fc" id="tc-ct-c"></span></div><div class="tbl-wrap" id="wrap-tc-ct"><div class="loading-wrap"><div class="spinner"></div><p>Loading…</p></div></div></div>
+    <div class="pane" id="pane-tc-pd"><div class="fb"><label>Status:</label><select id="f-tc-pd-s" onchange="applyTCFilter('pd')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-tc-pd-p" onchange="applyTCFilter('pd')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option></select><input id="f-tc-pd-q" type="text" placeholder="Search…" oninput="applyTCFilter('pd')"/><span class="fc" id="tc-pd-c"></span></div><div class="tbl-wrap" id="wrap-tc-pd"><div class="loading-wrap"><div class="spinner"></div><p>Loading…</p></div></div></div>
+    <div class="pane" id="pane-tc-nv"><div class="fb"><label>Status:</label><select id="f-tc-nv-s" onchange="applyTCFilter('nv')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-tc-nv-p" onchange="applyTCFilter('nv')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option></select><input id="f-tc-nv-q" type="text" placeholder="Search…" oninput="applyTCFilter('nv')"/><span class="fc" id="tc-nv-c"></span></div><div class="tbl-wrap" id="wrap-tc-nv"><div class="loading-wrap"><div class="spinner"></div><p>Loading…</p></div></div></div>
+    <div class="pane" id="pane-tc-sy"><div class="fb"><label>Status:</label><select id="f-tc-sy-s" onchange="applyTCFilter('sy')"><option value="">All</option><option value="pass">Pass</option><option value="fail">Fail</option><option value="na">Not Run</option></select><label>Priority:</label><select id="f-tc-sy-p" onchange="applyTCFilter('sy')"><option value="">All</option><option value="p1">P1</option><option value="p2">P2</option></select><input id="f-tc-sy-q" type="text" placeholder="Search…" oninput="applyTCFilter('sy')"/><span class="fc" id="tc-sy-c"></span></div><div class="tbl-wrap" id="wrap-tc-sy"><div class="loading-wrap"><div class="spinner"></div><p>Loading…</p></div></div></div>
   </div>
 </div>
 
 <!-- ══════════════════════ BUGS ══════════════════════ -->
 <div id="section-bugs" style="display:none">
-  <div class="kpi-bar ui-kpis">
-    <div class="kpi k-total"><div class="kn" id="bk-total">&#8212;</div><div class="kl">Total Bugs</div></div>
-    <div class="kpi k-fail">  <div class="kn" id="bk-high">&#8212;</div> <div class="kl">&#10007; High Sev</div></div>
-    <div class="kpi k-na">    <div class="kn" id="bk-med">&#8212;</div>  <div class="kl">&#8212; Medium Sev</div></div>
-    <div class="kpi k-pass">  <div class="kn" id="bk-low">&#8212;</div>  <div class="kl">&#10003; Low Sev</div></div>
-    <div class="kpi k-p0">    <div class="kn" id="bk-open">&#8212;</div> <div class="kl">Open</div></div>
-    <div class="kpi k-prog">  <div class="kn" id="bk-fixed">&#8212;</div><div class="kl">Fixed</div></div>
+  <div class="kpi-bar bug-kpis">
+    <div class="kpi k-total"><div class="kn" id="bk-total">—</div><div class="kl">Total Bugs</div></div>
+    <div class="kpi k-hi">   <div class="kn" id="bk-high">—</div> <div class="kl">✗ High</div></div>
+    <div class="kpi k-na">   <div class="kn" id="bk-med">—</div>  <div class="kl">— Medium</div></div>
+    <div class="kpi k-pass"> <div class="kn" id="bk-low">—</div>  <div class="kl">✓ Low</div></div>
+    <div class="kpi k-fail"> <div class="kn" id="bk-open">—</div> <div class="kl">Open</div></div>
+    <div class="kpi k-prog"> <div class="kn" id="bk-fixed">—</div><div class="kl">Fixed</div></div>
   </div>
-  <div class="tab-bar ui-tabs" id="tabbar-bugs">
-    <div class="tab active" onclick="showBugTab(this,'bugs-summary')">Summary</div>
-    <div class="tab" onclick="showBugTab(this,'bugs-all')">All Bugs <span class="tab-badge" id="tb-bugs-all">&#8212;</span></div>
-    <div class="tab" onclick="showBugTab(this,'bugs-addr')">Address <span class="tab-badge" id="tb-bugs-addr">&#8212;</span></div>
-    <div class="tab" onclick="showBugTab(this,'bugs-home')">Home <span class="tab-badge" id="tb-bugs-home">&#8212;</span></div>
-    <div class="tab" onclick="showBugTab(this,'bugs-search')">Search <span class="tab-badge" id="tb-bugs-search">&#8212;</span></div>
-    <div class="tab" onclick="showBugTab(this,'bugs-cart')">Cart <span class="tab-badge" id="tb-bugs-cart">&#8212;</span></div>
-    <div class="tab" onclick="showBugTab(this,'bugs-checkout')">Checkout <span class="tab-badge" id="tb-bugs-checkout">&#8212;</span></div>
-    <div class="tab" onclick="showBugTab(this,'bugs-orders')">Orders <span class="tab-badge" id="tb-bugs-orders">&#8212;</span></div>
-    <div class="tab" onclick="showBugTab(this,'bugs-nav')">Navigation <span class="tab-badge" id="tb-bugs-nav">&#8212;</span></div>
-    <div class="tab" onclick="showBugTab(this,'bugs-pdp')">PDP <span class="tab-badge" id="tb-bugs-pdp">&#8212;</span></div>
+  <div class="tab-bar bug-tabs" id="tabbar-bugs">
+    <div class="tab active" onclick="showTab(this,'bugs','summary')">Summary</div>
+    <div class="tab" onclick="showTab(this,'bugs','all')">All Bugs <span class="tab-badge" id="tb-bugs-all">—</span></div>
+    <div class="tab" onclick="showTab(this,'bugs','addr')">Address <span class="tab-badge" id="tb-bugs-addr">—</span></div>
+    <div class="tab" onclick="showTab(this,'bugs','home')">Home <span class="tab-badge" id="tb-bugs-home">—</span></div>
+    <div class="tab" onclick="showTab(this,'bugs','search')">Search <span class="tab-badge" id="tb-bugs-search">—</span></div>
+    <div class="tab" onclick="showTab(this,'bugs','cart')">Cart <span class="tab-badge" id="tb-bugs-cart">—</span></div>
+    <div class="tab" onclick="showTab(this,'bugs','checkout')">Checkout <span class="tab-badge" id="tb-bugs-checkout">—</span></div>
+    <div class="tab" onclick="showTab(this,'bugs','orders')">Orders <span class="tab-badge" id="tb-bugs-orders">—</span></div>
+    <div class="tab" onclick="showTab(this,'bugs','nav')">Navigation <span class="tab-badge" id="tb-bugs-nav">—</span></div>
+    <div class="tab" onclick="showTab(this,'bugs','pdp')">PDP <span class="tab-badge" id="tb-bugs-pdp">—</span></div>
   </div>
-  <div class="content ui-content" id="content-bugs">
-    <div class="pane active" id="pane-bugs-bugs-summary"><div class="sw"><div class="sw-hdr"><h2>Bug Report Summary by Area</h2><span id="bug-sum-ts">Fetching&#8230;</span></div><div id="bug-sum-area"><div class="loading-wrap"><div class="spinner"></div><p>Loading&#8230;</p></div></div></div></div>
-    <div class="pane" id="pane-bugs-bugs-all"><div class="fb ui-fb"><label>Severity:</label><select id="f-bugs-all-sev" onchange="applyBugFilter('all')"><option value="">All</option><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select><label>Area:</label><select id="f-bugs-all-area" onchange="applyBugFilter('all')"><option value="">All</option><option value="address">Address</option><option value="home">Home</option><option value="search">Search</option><option value="cart">Cart</option><option value="checkout">Checkout</option><option value="orders">Orders</option><option value="navigation">Navigation</option><option value="pdp">PDP</option></select><label>Status:</label><select id="f-bugs-all-status" onchange="applyBugFilter('all')"><option value="">All</option><option value="open">Open</option><option value="fixed">Fixed</option></select><input id="f-bugs-all-q" type="text" placeholder="Search&#8230;" oninput="applyBugFilter('all')"/><span class="fc" id="bugs-all-c"></span></div><div class="tbl-wrap" id="wrap-bugs-all"></div></div>
-    <div class="pane" id="pane-bugs-bugs-addr"><div class="fb ui-fb"><label>Severity:</label><select id="f-bugs-addr-sev" onchange="applyBugFilter('addr')"><option value="">All</option><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select><input id="f-bugs-addr-q" type="text" placeholder="Search&#8230;" oninput="applyBugFilter('addr')"/><span class="fc" id="bugs-addr-c"></span></div><div class="tbl-wrap" id="wrap-bugs-addr"></div></div>
-    <div class="pane" id="pane-bugs-bugs-home"><div class="fb ui-fb"><label>Severity:</label><select id="f-bugs-home-sev" onchange="applyBugFilter('home')"><option value="">All</option><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select><input id="f-bugs-home-q" type="text" placeholder="Search&#8230;" oninput="applyBugFilter('home')"/><span class="fc" id="bugs-home-c"></span></div><div class="tbl-wrap" id="wrap-bugs-home"></div></div>
-    <div class="pane" id="pane-bugs-bugs-search"><div class="fb ui-fb"><label>Severity:</label><select id="f-bugs-search-sev" onchange="applyBugFilter('search')"><option value="">All</option><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select><input id="f-bugs-search-q" type="text" placeholder="Search&#8230;" oninput="applyBugFilter('search')"/><span class="fc" id="bugs-search-c"></span></div><div class="tbl-wrap" id="wrap-bugs-search"></div></div>
-    <div class="pane" id="pane-bugs-bugs-cart"><div class="fb ui-fb"><label>Severity:</label><select id="f-bugs-cart-sev" onchange="applyBugFilter('cart')"><option value="">All</option><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select><input id="f-bugs-cart-q" type="text" placeholder="Search&#8230;" oninput="applyBugFilter('cart')"/><span class="fc" id="bugs-cart-c"></span></div><div class="tbl-wrap" id="wrap-bugs-cart"></div></div>
-    <div class="pane" id="pane-bugs-bugs-checkout"><div class="fb ui-fb"><label>Severity:</label><select id="f-bugs-checkout-sev" onchange="applyBugFilter('checkout')"><option value="">All</option><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select><input id="f-bugs-checkout-q" type="text" placeholder="Search&#8230;" oninput="applyBugFilter('checkout')"/><span class="fc" id="bugs-checkout-c"></span></div><div class="tbl-wrap" id="wrap-bugs-checkout"></div></div>
-    <div class="pane" id="pane-bugs-bugs-orders"><div class="fb ui-fb"><label>Severity:</label><select id="f-bugs-orders-sev" onchange="applyBugFilter('orders')"><option value="">All</option><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select><input id="f-bugs-orders-q" type="text" placeholder="Search&#8230;" oninput="applyBugFilter('orders')"/><span class="fc" id="bugs-orders-c"></span></div><div class="tbl-wrap" id="wrap-bugs-orders"></div></div>
-    <div class="pane" id="pane-bugs-bugs-nav"><div class="fb ui-fb"><label>Severity:</label><select id="f-bugs-nav-sev" onchange="applyBugFilter('nav')"><option value="">All</option><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select><input id="f-bugs-nav-q" type="text" placeholder="Search&#8230;" oninput="applyBugFilter('nav')"/><span class="fc" id="bugs-nav-c"></span></div><div class="tbl-wrap" id="wrap-bugs-nav"></div></div>
-    <div class="pane" id="pane-bugs-bugs-pdp"><div class="fb ui-fb"><label>Severity:</label><select id="f-bugs-pdp-sev" onchange="applyBugFilter('pdp')"><option value="">All</option><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select><input id="f-bugs-pdp-q" type="text" placeholder="Search&#8230;" oninput="applyBugFilter('pdp')"/><span class="fc" id="bugs-pdp-c"></span></div><div class="tbl-wrap" id="wrap-bugs-pdp"></div></div>
+  <div class="content bug-content" id="content-bugs">
+    <div class="pane active" id="pane-bugs-summary"><div class="sw"><div class="sw-hdr"><h2>Bug Report Summary by Area</h2><span id="bug-sum-ts">Fetching&#8230;</span></div><div id="bug-sum-area"><div class="loading-wrap"><div class="spinner"></div><p>Loading…</p></div></div></div></div>
+    <div class="pane" id="pane-bugs-all"><div class="fb bug-fb"><label>Severity:</label><select id="f-bugs-all-sev" onchange="applyBugFilter('all')"><option value="">All</option><option value="high">High</option><option value="med">Med</option><option value="low">Low</option></select><label>Area:</label><select id="f-bugs-all-area" onchange="applyBugFilter('all')"><option value="">All</option><option value="address">Address</option><option value="home">Home</option><option value="search">Search</option><option value="cart">Cart</option><option value="checkout">Checkout</option><option value="orders">Orders</option><option value="navigation">Navigation</option><option value="pdp">PDP</option></select><label>Status:</label><select id="f-bugs-all-status" onchange="applyBugFilter('all')"><option value="">All</option><option value="open">Open</option><option value="fixed">Fixed</option></select><input id="f-bugs-all-q" type="text" placeholder="Search…" oninput="applyBugFilter('all')"/><span class="fc" id="bugs-all-c"></span></div><div class="tbl-wrap" id="wrap-bugs-all"></div></div>
+    <div class="pane" id="pane-bugs-addr"><div class="fb bug-fb"><label>Severity:</label><select id="f-bugs-addr-sev" onchange="applyBugFilter('addr')"><option value="">All</option><option value="high">High</option><option value="med">Med</option><option value="low">Low</option></select><label>Status:</label><select id="f-bugs-addr-status" onchange="applyBugFilter('addr')"><option value="">All</option><option value="open">Open</option><option value="fixed">Fixed</option></select><input id="f-bugs-addr-q" type="text" placeholder="Search…" oninput="applyBugFilter('addr')"/><span class="fc" id="bugs-addr-c"></span></div><div class="tbl-wrap" id="wrap-bugs-addr"></div></div>
+    <div class="pane" id="pane-bugs-home"><div class="fb bug-fb"><label>Severity:</label><select id="f-bugs-home-sev" onchange="applyBugFilter('home')"><option value="">All</option><option value="high">High</option><option value="med">Med</option><option value="low">Low</option></select><label>Status:</label><select id="f-bugs-home-status" onchange="applyBugFilter('home')"><option value="">All</option><option value="open">Open</option><option value="fixed">Fixed</option></select><input id="f-bugs-home-q" type="text" placeholder="Search…" oninput="applyBugFilter('home')"/><span class="fc" id="bugs-home-c"></span></div><div class="tbl-wrap" id="wrap-bugs-home"></div></div>
+    <div class="pane" id="pane-bugs-search"><div class="fb bug-fb"><label>Severity:</label><select id="f-bugs-search-sev" onchange="applyBugFilter('search')"><option value="">All</option><option value="high">High</option><option value="med">Med</option><option value="low">Low</option></select><label>Status:</label><select id="f-bugs-search-status" onchange="applyBugFilter('search')"><option value="">All</option><option value="open">Open</option><option value="fixed">Fixed</option></select><input id="f-bugs-search-q" type="text" placeholder="Search…" oninput="applyBugFilter('search')"/><span class="fc" id="bugs-search-c"></span></div><div class="tbl-wrap" id="wrap-bugs-search"></div></div>
+    <div class="pane" id="pane-bugs-cart"><div class="fb bug-fb"><label>Severity:</label><select id="f-bugs-cart-sev" onchange="applyBugFilter('cart')"><option value="">All</option><option value="high">High</option><option value="med">Med</option><option value="low">Low</option></select><label>Status:</label><select id="f-bugs-cart-status" onchange="applyBugFilter('cart')"><option value="">All</option><option value="open">Open</option><option value="fixed">Fixed</option></select><input id="f-bugs-cart-q" type="text" placeholder="Search…" oninput="applyBugFilter('cart')"/><span class="fc" id="bugs-cart-c"></span></div><div class="tbl-wrap" id="wrap-bugs-cart"></div></div>
+    <div class="pane" id="pane-bugs-checkout"><div class="fb bug-fb"><label>Severity:</label><select id="f-bugs-checkout-sev" onchange="applyBugFilter('checkout')"><option value="">All</option><option value="high">High</option><option value="med">Med</option><option value="low">Low</option></select><label>Status:</label><select id="f-bugs-checkout-status" onchange="applyBugFilter('checkout')"><option value="">All</option><option value="open">Open</option><option value="fixed">Fixed</option></select><input id="f-bugs-checkout-q" type="text" placeholder="Search…" oninput="applyBugFilter('checkout')"/><span class="fc" id="bugs-checkout-c"></span></div><div class="tbl-wrap" id="wrap-bugs-checkout"></div></div>
+    <div class="pane" id="pane-bugs-orders"><div class="fb bug-fb"><label>Severity:</label><select id="f-bugs-orders-sev" onchange="applyBugFilter('orders')"><option value="">All</option><option value="high">High</option><option value="med">Med</option><option value="low">Low</option></select><label>Status:</label><select id="f-bugs-orders-status" onchange="applyBugFilter('orders')"><option value="">All</option><option value="open">Open</option><option value="fixed">Fixed</option></select><input id="f-bugs-orders-q" type="text" placeholder="Search…" oninput="applyBugFilter('orders')"/><span class="fc" id="bugs-orders-c"></span></div><div class="tbl-wrap" id="wrap-bugs-orders"></div></div>
+    <div class="pane" id="pane-bugs-nav"><div class="fb bug-fb"><label>Severity:</label><select id="f-bugs-nav-sev" onchange="applyBugFilter('nav')"><option value="">All</option><option value="high">High</option><option value="med">Med</option><option value="low">Low</option></select><label>Status:</label><select id="f-bugs-nav-status" onchange="applyBugFilter('nav')"><option value="">All</option><option value="open">Open</option><option value="fixed">Fixed</option></select><input id="f-bugs-nav-q" type="text" placeholder="Search…" oninput="applyBugFilter('nav')"/><span class="fc" id="bugs-nav-c"></span></div><div class="tbl-wrap" id="wrap-bugs-nav"></div></div>
+    <div class="pane" id="pane-bugs-pdp"><div class="fb bug-fb"><label>Severity:</label><select id="f-bugs-pdp-sev" onchange="applyBugFilter('pdp')"><option value="">All</option><option value="high">High</option><option value="med">Med</option><option value="low">Low</option></select><label>Status:</label><select id="f-bugs-pdp-status" onchange="applyBugFilter('pdp')"><option value="">All</option><option value="open">Open</option><option value="fixed">Fixed</option></select><input id="f-bugs-pdp-q" type="text" placeholder="Search…" oninput="applyBugFilter('pdp')"/><span class="fc" id="bugs-pdp-c"></span></div><div class="tbl-wrap" id="wrap-bugs-pdp"></div></div>
   </div>
 </div>
 
 <!-- ══════════════════════ IMPROVEMENTS ══════════════════════ -->
 <div id="section-imp" style="display:none">
   <div class="kpi-bar imp-kpis">
-    <div class="kpi k-total"><div class="kn" id="ik-total">&#8212;</div><div class="kl">Total Items</div></div>
-    <div class="kpi k-fail">  <div class="kn" id="ik-high">&#8212;</div> <div class="kl">High Priority</div></div>
-    <div class="kpi k-imp">   <div class="kn" id="ik-med">&#8212;</div>  <div class="kl">Medium Priority</div></div>
-    <div class="kpi k-pass">  <div class="kn" id="ik-low">&#8212;</div>  <div class="kl">Low Priority</div></div>
-    <div class="kpi k-p0">    <div class="kn" id="ik-open">&#8212;</div> <div class="kl">Open</div></div>
-    <div class="kpi k-prog">  <div class="kn" id="ik-done">&#8212;</div> <div class="kl">Done</div></div>
+    <div class="kpi k-total"><div class="kn" id="ik-total">—</div><div class="kl">Total Items</div></div>
+    <div class="kpi k-hi">   <div class="kn" id="ik-high">—</div> <div class="kl">High Priority</div></div>
+    <div class="kpi k-imp">  <div class="kn" id="ik-med">—</div>  <div class="kl">Medium Priority</div></div>
+    <div class="kpi k-pass"> <div class="kn" id="ik-low">—</div>  <div class="kl">Low Priority</div></div>
+    <div class="kpi k-fail"> <div class="kn" id="ik-open">—</div> <div class="kl">Open</div></div>
+    <div class="kpi k-prog"> <div class="kn" id="ik-done">—</div> <div class="kl">Done</div></div>
   </div>
   <div class="tab-bar imp-tabs" id="tabbar-imp">
-    <div class="tab active" onclick="showImpTab(this,'imp-summary')">Summary</div>
-    <div class="tab" onclick="showImpTab(this,'imp-all')">All <span class="tab-badge" id="tb-imp-all">&#8212;</span></div>
-    <div class="tab" onclick="showImpTab(this,'imp-ux')">UX &amp; Layout <span class="tab-badge" id="tb-imp-ux">&#8212;</span></div>
-    <div class="tab" onclick="showImpTab(this,'imp-copy')">Copy &amp; Labels <span class="tab-badge" id="tb-imp-copy">&#8212;</span></div>
-    <div class="tab" onclick="showImpTab(this,'imp-nav')">Navigation <span class="tab-badge" id="tb-imp-nav">&#8212;</span></div>
-    <div class="tab" onclick="showImpTab(this,'imp-feat')">Missing Features <span class="tab-badge" id="tb-imp-feat">&#8212;</span></div>
+    <div class="tab active" onclick="showTab(this,'imp','summary')">Summary</div>
+    <div class="tab" onclick="showTab(this,'imp','all')">All <span class="tab-badge" id="tb-imp-all">—</span></div>
+    <div class="tab" onclick="showTab(this,'imp','ux')">UX &amp; Layout <span class="tab-badge" id="tb-imp-ux">—</span></div>
+    <div class="tab" onclick="showTab(this,'imp','copy')">Copy &amp; Labels <span class="tab-badge" id="tb-imp-copy">—</span></div>
+    <div class="tab" onclick="showTab(this,'imp','nav')">Navigation <span class="tab-badge" id="tb-imp-nav">—</span></div>
+    <div class="tab" onclick="showTab(this,'imp','feat')">Missing Features <span class="tab-badge" id="tb-imp-feat">—</span></div>
   </div>
   <div class="content imp-content" id="content-imp">
-    <div class="pane active" id="pane-imp-imp-summary"><div class="sw"><div class="sw-hdr"><h2>Improvement Items by Type</h2><span id="imp-sum-ts">Loading&#8230;</span></div><div id="imp-sum-area"><div class="loading-wrap"><div class="spinner"></div><p>Loading&#8230;</p></div></div></div></div>
-    <div class="pane" id="pane-imp-imp-all"><div class="fb imp-fb"><label>Priority:</label><select id="f-imp-all-pri" onchange="applyImpFilter('all')"><option value="">All</option><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select><label>Type:</label><select id="f-imp-all-type" onchange="applyImpFilter('all')"><option value="">All</option><option value="ux">UX &amp; Layout</option><option value="copy">Copy &amp; Labels</option><option value="nav">Navigation</option><option value="feat">Missing Feature</option></select><label>Status:</label><select id="f-imp-all-status" onchange="applyImpFilter('all')"><option value="">All</option><option value="open">Open</option><option value="done">Done</option></select><input id="f-imp-all-q" type="text" placeholder="Search&#8230;" oninput="applyImpFilter('all')"/><span class="fc" id="imp-all-c"></span></div><div class="tbl-wrap" id="wrap-imp-all"></div></div>
-    <div class="pane" id="pane-imp-imp-ux"><div class="fb imp-fb"><label>Priority:</label><select id="f-imp-ux-pri" onchange="applyImpFilter('ux')"><option value="">All</option><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select><input id="f-imp-ux-q" type="text" placeholder="Search&#8230;" oninput="applyImpFilter('ux')"/><span class="fc" id="imp-ux-c"></span></div><div class="tbl-wrap" id="wrap-imp-ux"></div></div>
-    <div class="pane" id="pane-imp-imp-copy"><div class="fb imp-fb"><label>Priority:</label><select id="f-imp-copy-pri" onchange="applyImpFilter('copy')"><option value="">All</option><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select><input id="f-imp-copy-q" type="text" placeholder="Search&#8230;" oninput="applyImpFilter('copy')"/><span class="fc" id="imp-copy-c"></span></div><div class="tbl-wrap" id="wrap-imp-copy"></div></div>
-    <div class="pane" id="pane-imp-imp-nav"><div class="fb imp-fb"><label>Priority:</label><select id="f-imp-nav-pri" onchange="applyImpFilter('nav')"><option value="">All</option><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select><input id="f-imp-nav-q" type="text" placeholder="Search&#8230;" oninput="applyImpFilter('nav')"/><span class="fc" id="imp-nav-c"></span></div><div class="tbl-wrap" id="wrap-imp-nav"></div></div>
-    <div class="pane" id="pane-imp-imp-feat"><div class="fb imp-fb"><label>Priority:</label><select id="f-imp-feat-pri" onchange="applyImpFilter('feat')"><option value="">All</option><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select><input id="f-imp-feat-q" type="text" placeholder="Search&#8230;" oninput="applyImpFilter('feat')"/><span class="fc" id="imp-feat-c"></span></div><div class="tbl-wrap" id="wrap-imp-feat"></div></div>
+    <div class="pane active" id="pane-imp-summary"><div class="sw"><div class="sw-hdr"><h2>Improvement Items by Type</h2><span id="imp-sum-ts">Fetching&#8230;</span></div><div id="imp-sum-area"><div class="loading-wrap"><div class="spinner"></div><p>Loading…</p></div></div></div></div>
+    <div class="pane" id="pane-imp-all"><div class="fb imp-fb"><label>Priority:</label><select id="f-imp-all-pri" onchange="applyImpFilter('all')"><option value="">All</option><option value="high">High</option><option value="med">Med</option><option value="low">Low</option></select><label>Type:</label><select id="f-imp-all-type" onchange="applyImpFilter('all')"><option value="">All</option><option value="ux">UX &amp; Layout</option><option value="copy">Copy &amp; Labels</option><option value="nav">Navigation</option><option value="feat">Missing Feature</option></select><label>Status:</label><select id="f-imp-all-status" onchange="applyImpFilter('all')"><option value="">All</option><option value="open">Open</option><option value="fixed">Fixed/Done</option></select><input id="f-imp-all-q" type="text" placeholder="Search…" oninput="applyImpFilter('all')"/><span class="fc" id="imp-all-c"></span></div><div class="tbl-wrap" id="wrap-imp-all"></div></div>
+    <div class="pane" id="pane-imp-ux"><div class="fb imp-fb"><label>Priority:</label><select id="f-imp-ux-pri" onchange="applyImpFilter('ux')"><option value="">All</option><option value="high">High</option><option value="med">Med</option><option value="low">Low</option></select><label>Status:</label><select id="f-imp-ux-status" onchange="applyImpFilter('ux')"><option value="">All</option><option value="open">Open</option><option value="fixed">Fixed/Done</option></select><input id="f-imp-ux-q" type="text" placeholder="Search…" oninput="applyImpFilter('ux')"/><span class="fc" id="imp-ux-c"></span></div><div class="tbl-wrap" id="wrap-imp-ux"></div></div>
+    <div class="pane" id="pane-imp-copy"><div class="fb imp-fb"><label>Priority:</label><select id="f-imp-copy-pri" onchange="applyImpFilter('copy')"><option value="">All</option><option value="high">High</option><option value="med">Med</option><option value="low">Low</option></select><label>Status:</label><select id="f-imp-copy-status" onchange="applyImpFilter('copy')"><option value="">All</option><option value="open">Open</option><option value="fixed">Fixed/Done</option></select><input id="f-imp-copy-q" type="text" placeholder="Search…" oninput="applyImpFilter('copy')"/><span class="fc" id="imp-copy-c"></span></div><div class="tbl-wrap" id="wrap-imp-copy"></div></div>
+    <div class="pane" id="pane-imp-nav"><div class="fb imp-fb"><label>Priority:</label><select id="f-imp-nav-pri" onchange="applyImpFilter('nav')"><option value="">All</option><option value="high">High</option><option value="med">Med</option><option value="low">Low</option></select><label>Status:</label><select id="f-imp-nav-status" onchange="applyImpFilter('nav')"><option value="">All</option><option value="open">Open</option><option value="fixed">Fixed/Done</option></select><input id="f-imp-nav-q" type="text" placeholder="Search…" oninput="applyImpFilter('nav')"/><span class="fc" id="imp-nav-c"></span></div><div class="tbl-wrap" id="wrap-imp-nav"></div></div>
+    <div class="pane" id="pane-imp-feat"><div class="fb imp-fb"><label>Priority:</label><select id="f-imp-feat-pri" onchange="applyImpFilter('feat')"><option value="">All</option><option value="high">High</option><option value="med">Med</option><option value="low">Low</option></select><label>Status:</label><select id="f-imp-feat-status" onchange="applyImpFilter('feat')"><option value="">All</option><option value="open">Open</option><option value="fixed">Fixed/Done</option></select><input id="f-imp-feat-q" type="text" placeholder="Search…" oninput="applyImpFilter('feat')"/><span class="fc" id="imp-feat-c"></span></div><div class="tbl-wrap" id="wrap-imp-feat"></div></div>
   </div>
 </div>
 
 <script>
 // ── CONFIG ───────────────────────────────────────────────────────────────────
 const SHEET_ID = '1q9Ho0aqzK0YbSxzZzkXKaTByUC4N1GNKKxiWRxsxDco';
-const PROXY = 'https://corsproxy.io/?';
-
-// ── IMPROVEMENTS DATA (hardcoded — classified from Issues sheet) ─────────────
-// Bugs = broken behaviour | Improvements = UX/copy/nav/feature requests
-// Classification logic:
-//   COPY: wrong label, copy mismatch          → just a text change, nothing is broken
-//   UX:   layout issue, spacing, visual polish → nothing is broken, looks bad
-//   NAV:  back-stack/scroll position UX asks   → app works but flow is awkward
-//   FEAT: missing feature that was never there → not a regression
-const IMPROVEMENTS = [
-  {
-    id:'ZK-IMP-01', area:'Address', type:'copy', priority:'low',
-    title:'Rename "Pincode" field label to "Zipcode"',
-    description:'The address form uses the label "Pincode" which is the Indian convention. Since ZKart targets the US market, this should read "Zipcode" to match user expectations and consistency with Zolve\'s other flows.',
-    current:'Field label reads "Pincode"',
-    expected:'Field label should read "Zipcode" (or "ZIP Code")',
-    status:'Open'
-  },
-  {
-    id:'ZK-IMP-02', area:'Home', type:'copy', priority:'med',
-    title:'Cap flash deal discount badge at 99% off instead of 100% off',
-    description:'Flash deals currently show a "-100% OFF" badge. Displaying 100% off is misleading since the product still costs $1. Cap the badge at 99% (or "Up to 99% off") to set correct expectations and avoid user confusion at checkout.',
-    current:'Flash deal badge shows "-100% OFF"',
-    expected:'Badge should show "-99% OFF" or equivalent',
-    status:'Open'
-  },
-  {
-    id:'ZK-IMP-03', area:'Home', type:'ux', priority:'high',
-    title:'Flash deals bottom sheet should show flash price ($1), not regular price',
-    description:'When the user taps "See All" on Flash Deals, the bottom sheet shows the regular product price (e.g. $297). While technically the $1 price only applies in cart, this creates a jarring and confusing experience — the user just came from seeing "$1" on the homepage. The sheet should either show the flash price or clearly explain the $1 is a cart-level discount.',
-    current:'Bottom sheet shows regular sellingPrice (e.g. $297.07) with no context',
-    expected:'Show "$1 at checkout" or display flash price with an explanatory tooltip',
-    status:'Open'
-  },
-  {
-    id:'ZK-IMP-04', area:'Home', type:'ux', priority:'med',
-    title:'Retain homepage scroll position when returning from Brand tile',
-    description:'Tapping a Brand tile and navigating back resets the ZKart homepage scroll position to the top. This is disorienting when the user was deep in the page. The scroll position should be preserved on back navigation.',
-    current:'Returning from Brands screen bounces homepage back to top',
-    expected:'Homepage should restore to the same scroll position the user was at before tapping the brand tile',
-    status:'Open'
-  },
-  {
-    id:'ZK-IMP-05', area:'Navigation', type:'nav', priority:'high',
-    title:'Clear back stack when entering cart to prevent confusing multi-level back navigation',
-    description:'When a user navigates Product → Cart → PDP → Cart → PDP and then presses back repeatedly, the nav stack grows in a way that confuses the user. The cart should act as a navigation root — entering it should clear the preceding back trace so back always returns to a predictable screen.',
-    current:'Back stack accumulates: cart → pdp → cart → pdp, resulting in unexpected nav on multiple back presses',
-    expected:'Entering cart should clear prior navigation history. Back from cart goes home, not to a prior PDP',
-    status:'Open'
-  },
-  {
-    id:'ZK-IMP-06', area:'Checkout', type:'feat', priority:'med',
-    title:'"Spread the Savings" should open the referral flow, not copy to clipboard',
-    description:'On the order success screen, tapping "Spread the Savings" silently copies a link to the clipboard. This is a missed engagement opportunity — the intended behaviour is to open the referral share sheet so the user can actively share with friends.',
-    current:'Tapping "Spread the Savings" copies a referral link to clipboard with no feedback',
-    expected:'Open the native share sheet or in-app referral flow. If clipboard is a fallback, show a clear "Copied!" toast',
-    status:'Open'
-  },
-  {
-    id:'ZK-IMP-07', area:'Search', type:'feat', priority:'med',
-    title:'Display total result count on search results page',
-    description:'Search results load but show no indication of how many products matched the query. Adding a result count (e.g. "24 results for \'headphones\'") helps users calibrate their search and decide whether to refine it.',
-    current:'Results page shows products but no count or summary line',
-    expected:'Show "X results for [query]" at the top of the results list',
-    status:'Open'
-  },
-  {
-    id:'ZK-IMP-08', area:'Search', type:'feat', priority:'low',
-    title:'Add a search field on the Categories page',
-    description:'The Categories page only shows a grid of categories with no way to search within them. A search bar at the top would let users jump directly to a product or category without having to drill through the hierarchy.',
-    current:'No search input on the Categories page',
-    expected:'Search bar at top of Categories page that triggers the global search flow',
-    status:'Open'
-  },
-  {
-    id:'ZK-IMP-09', area:'Orders', type:'ux', priority:'low',
-    title:'Add visual feedback to radio button selection on My Orders view',
-    description:'The radio button on the My Orders > View screen shows no selected state when tapped — it looks broken even if the action worked. The button should animate or fill to confirm the selection.',
-    current:'Radio button has no visual feedback on tap',
-    expected:'Radio button fills/highlights on selection with appropriate transition',
-    status:'Open'
-  },
-  {
-    id:'ZK-IMP-10', area:'Home', type:'ux', priority:'med',
-    title:'Remove excess padding around the Flash Deal countdown timer',
-    description:'The countdown timer ("Deal ends in HH : MM : SS") has too much internal padding between the characters and separators, making it look visually spaced out and unpolished. Tightening the spacing will make the timer more compact and legible.',
-    current:'Timer digits and colons have excessive gaps between them',
-    expected:'Timer rendered with tight, compact spacing — consistent with how countdown timers are typically displayed',
-    status:'Open'
-  }
-];
+const PROXY    = 'https://corsproxy.io/?';
 
 const TC_MODULES = [
-  {key:'hm',prefix:'ZK-HM',label:'Homepage',         badge:'tb-hm'},
-  {key:'fd',prefix:'ZK-FD',label:'Flash Deals',      badge:'tb-fd'},
-  {key:'sr',prefix:'ZK-SR',label:'Search',           badge:'tb-sr'},
-  {key:'ca',prefix:'ZK-CA',label:'Categories',       badge:'tb-ca'},
-  {key:'pr',prefix:'ZK-PR',label:'Profile',          badge:'tb-pr'},
-  {key:'or',prefix:'ZK-OR',label:'My Orders',        badge:'tb-or'},
-  {key:'ad',prefix:'ZK-AD',label:'Address',          badge:'tb-ad'},
-  {key:'ct',prefix:'ZK-CT',label:'Cart & Checkout',  badge:'tb-ct'},
-  {key:'pd',prefix:'ZK-PD',label:'PDP',              badge:'tb-pd'},
-  {key:'nv',prefix:'ZK-NV',label:'Navigation',       badge:'tb-nv'},
-  {key:'sy',prefix:'ZK-SY',label:'Sync',             badge:'tb-sy'},
+  {key:'hm',prefix:'ZK-HM',label:'Homepage'},
+  {key:'fd',prefix:'ZK-FD',label:'Flash Deals'},
+  {key:'sr',prefix:'ZK-SR',label:'Search'},
+  {key:'ca',prefix:'ZK-CA',label:'Categories'},
+  {key:'pr',prefix:'ZK-PR',label:'Profile'},
+  {key:'or',prefix:'ZK-OR',label:'My Orders'},
+  {key:'ad',prefix:'ZK-AD',label:'Address'},
+  {key:'ct',prefix:'ZK-CT',label:'Cart & Checkout'},
+  {key:'pd',prefix:'ZK-PD',label:'PDP'},
+  {key:'nv',prefix:'ZK-NV',label:'Navigation'},
+  {key:'sy',prefix:'ZK-SY',label:'Sync'},
 ];
-const BUG_AREAS   = ['all','addr','home','search','cart','checkout','orders','nav','pdp'];
-const BUG_AREA_MAP= {addr:'Address',home:'Home',search:'Search',cart:'Cart',checkout:'Checkout',orders:'Orders',nav:'Navigation',pdp:'PDP'};
-const IMP_TYPES   = ['all','ux','copy','nav','feat'];
 
-let activeSuperTab='tc';
-let tcRows=[], bugRows=[], tcDataByKey={};
+// Bug areas: key → display label → area string in data
+const BUG_AREA_TABS = [
+  {key:'addr',    label:'Address',    match:'address'},
+  {key:'home',    label:'Home',       match:'home'},
+  {key:'search',  label:'Search',     match:'search'},
+  {key:'cart',    label:'Cart',       match:'cart'},
+  {key:'checkout',label:'Checkout',   match:'checkout'},
+  {key:'orders',  label:'Orders',     match:'orders'},
+  {key:'nav',     label:'Navigation', match:'navigation'},
+  {key:'pdp',     label:'PDP',        match:'pdp'},
+];
 
-// ── TABS ────────────────────────────────────────────────────────────────────
-function switchSuper(tab) {
-  activeSuperTab=tab;
-  ['tc','bugs','imp'].forEach(t=>{
-    document.getElementById('st-'+t).classList.toggle('active',t===tab);
-    document.getElementById('section-'+t).style.display=t===tab?'':'none';
+const IMP_TYPE_TABS = [
+  {key:'ux',   match:'ux & layout',     label:'UX & Layout'},
+  {key:'copy', match:'copy & labels',   label:'Copy & Labels'},
+  {key:'nav',  match:'navigation',      label:'Navigation'},
+  {key:'feat', match:'missing feature', label:'Missing Feature'},
+];
+
+let tcRows=[], bugRows=[], impRows=[], tcByKey={};
+
+// ── SUPER TAB SWITCH ─────────────────────────────────────────────────────────
+function switchSuper(t){
+  ['tc','bugs','imp'].forEach(x=>{
+    document.getElementById('st-'+x).classList.toggle('active',x===t);
+    document.getElementById('section-'+x).style.display=x===t?'':'none';
   });
 }
-function showTab(el,id,section){
+
+// ── SUB TAB SWITCH ───────────────────────────────────────────────────────────
+function showTab(el,section,id){
   document.querySelectorAll('#tabbar-'+section+' .tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
   document.querySelectorAll('#content-'+section+' .pane').forEach(p=>p.classList.remove('active'));
-  const pane=document.getElementById('pane-'+section+'-'+id);
-  if(pane) pane.classList.add('active');
-}
-function showBugTab(el,id){
-  document.querySelectorAll('#tabbar-bugs .tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  document.querySelectorAll('#content-bugs .pane').forEach(p=>p.classList.remove('active'));
-  const pane=document.getElementById('pane-bugs-'+id);
-  if(pane) pane.classList.add('active');
-}
-function showImpTab(el,id){
-  document.querySelectorAll('#tabbar-imp .tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  document.querySelectorAll('#content-imp .pane').forEach(p=>p.classList.remove('active'));
-  const pane=document.getElementById('pane-imp-'+id);
-  if(pane) pane.classList.add('active');
+  const p=document.getElementById('pane-'+section+'-'+id);
+  if(p) p.classList.add('active');
 }
 
-// ── PARSE ───────────────────────────────────────────────────────────────────
+// ── CSV PARSER ───────────────────────────────────────────────────────────────
 function parseCSV(txt){
   const rows=[];let i=0,n=txt.length;
   while(i<n){
     const row=[];
     while(i<n&&txt[i]!=='\n'){
       if(txt[i]==='"'){
-        let cell='';i++;
-        while(i<n){if(txt[i]==='"'&&txt[i+1]==='"'){cell+='"';i+=2;}else if(txt[i]==='"'){i++;break;}else cell+=txt[i++];}
-        row.push(cell.trim());
+        let c='';i++;
+        while(i<n){if(txt[i]==='"'&&txt[i+1]==='"'){c+='"';i+=2;}else if(txt[i]==='"'){i++;break;}else c+=txt[i++];}
+        row.push(c.trim());
       }else{
-        let cell='';
-        while(i<n&&txt[i]!==','&&txt[i]!=='\n')cell+=txt[i++];
-        row.push(cell.trim());
+        let c='';while(i<n&&txt[i]!==','&&txt[i]!=='\n')c+=txt[i++];
+        row.push(c.trim());
       }
       if(i<n&&txt[i]===',')i++;
     }
@@ -474,234 +406,293 @@ function parseCSV(txt){
   }
   return rows;
 }
-function encodeSheet(n){return n.split('').map(c=>c===' '?'%20':c==='&'?'%26':c==='+' ?'%2B':c==='/'?'%2F':c==='?'?'%3F':c==='#'?'%23':c==='%'?'%25':c).join('');}
+
+function encodeSheet(n){return n.split('').map(c=>c===' '?'%20':c==='&'?'%26':c==='+'?'%2B':c==='/'?'%2F':c==='?'?'%3F':c==='#'?'%23':c==='%'?'%25':c).join('');}
+
 async function fetchSheet(name){
   const enc=encodeSheet(name);
   const url='https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:csv&sheet='+enc;
-  const tryF=async u=>{const r=await fetch(u);if(!r.ok)throw new Error('HTTP '+r.status);const t=await r.text();if(t.includes('<!DOCTYPE')||t.includes('<html'))throw new Error('HTML—sheet not published');return parseCSV(t);};
-  try{return await tryF(url);}catch(_){}
-  try{return await tryF(PROXY+encodeURIComponent(url));}catch(e){throw new Error('"'+name+'": '+e.message);}
+  const go=async u=>{const r=await fetch(u);if(!r.ok)throw new Error('HTTP '+r.status);const t=await r.text();if(t.includes('<!DOCTYPE')||t.includes('<html'))throw new Error('Sheet not published (got HTML). Use File → Share → Publish to web → CSV.');return parseCSV(t);};
+  try{return await go(url);}catch(_){}
+  try{return await go(PROXY+encodeURIComponent(url));}catch(e){throw new Error('"'+name+'": '+e.message);}
 }
 
-// ── BADGES ──────────────────────────────────────────────────────────────────
-const priBadge=p=>{const s=(p||'').trim();if(s.startsWith('P1'))return'<span class="pri p1">P1</span>';if(s.startsWith('P2'))return'<span class="pri p2">P2</span>';if(s.startsWith('P3'))return'<span class="pri p3">P3</span>';return'<span class="pri p2">'+(s||'—')+'</span>';};
-const priKey=p=>{const s=(p||'').trim();if(s.startsWith('P1'))return'p1';if(s.startsWith('P2'))return'p2';return'p3';};
-const statusBadge=s=>{const st=(s||'').trim().toLowerCase();if(st==='pass')return'<span class="status s-pass">Pass</span>';if(st==='fail')return'<span class="status s-fail">Fail</span>';return'<span class="status s-na">Not Run</span>';};
+// ── BADGE HELPERS ────────────────────────────────────────────────────────────
+const e=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const priKey=p=>{const s=(p||'').trim().toLowerCase();return s.startsWith('p1')?'p1':s.startsWith('p2')?'p2':'p3';};
 const statusKey=s=>{const st=(s||'').trim().toLowerCase();return st==='pass'?'pass':st==='fail'?'fail':'na';};
-const sevBadge=s=>{const st=(s||'').trim().toLowerCase();if(st==='high')return'<span class="sev-high">High</span>';if(st==='med'||st==='medium')return'<span class="sev-med">Med</span>';return'<span class="sev-low">Low</span>';};
 const sevKey=s=>{const st=(s||'').trim().toLowerCase();return st==='high'?'high':st==='med'||st==='medium'?'med':'low';};
-const bugStatBadge=s=>{const st=(s||'').trim().toLowerCase();return(st==='fixed'||st==='closed')?'<span class="bug-fixed">Fixed</span>':'<span class="bug-open">Open</span>';};
-const impPriBadge=p=>{if(p==='high')return'<span class="imp-high">High</span>';if(p==='med')return'<span class="imp-med">Med</span>';return'<span class="imp-low">Low</span>';};
-const impStatBadge=s=>{return s==='done'?'<span class="imp-done">Done</span>':'<span class="imp-open">Open</span>';};
-const typeBadge=t=>{const m={ux:'<span class="type-ux">UX &amp; Layout</span>',copy:'<span class="type-copy">Copy &amp; Labels</span>',nav:'<span class="type-nav">Navigation</span>',feat:'<span class="type-feat">Missing Feature</span>'};return m[t]||t;};
-const areaClass=a=>{const m={address:'a-address',home:'a-home',search:'a-search',cart:'a-cart',checkout:'a-checkout',orders:'a-orders',navigation:'a-navigation',pdp:'a-pdp'};return m[(a||'').toLowerCase()]||'a-home';};
+const impPriKey=p=>{const s=(p||'').trim().toLowerCase();return s==='high'?'high':s==='med'?'med':'low';};
+const impTypeKey=t=>{const s=(t||'').trim().toLowerCase();if(s.includes('ux'))return'ux';if(s.includes('copy'))return'copy';if(s.includes('nav'))return'nav';return'feat';};
+const isFixed=s=>{const st=(s||'').trim().toLowerCase();return st==='fixed'||st==='done'||st==='closed';};
 
-// ── TC TABLE ─────────────────────────────────────────────────────────────────
+function priBadge(p){const k=priKey(p);return`<span class="pri ${k}">${k.toUpperCase()}</span>`;}
+function statusBadge(s){const k=statusKey(s);const l={pass:'Pass',fail:'Fail',na:'Not Run'};const c={pass:'s-pass',fail:'s-fail',na:'s-na'};return`<span class="status-badge ${c[k]}">${l[k]}</span>`;}
+function sevBadge(s){const k=sevKey(s);const c={high:'sev-high',med:'sev-med',low:'sev-low'};return`<span class="${c[k]}">${k==='med'?'Med':k.charAt(0).toUpperCase()+k.slice(1)}</span>`;}
+function bugStatBadge(s){return isFixed(s)?'<span class="bug-fixed">Fixed</span>':'<span class="bug-open">Open</span>';}
+function impPriBadge(p){const k=impPriKey(p);const c={high:'imp-high',med:'imp-med',low:'imp-low'};return`<span class="${c[k]}">${k.charAt(0).toUpperCase()+k.slice(1)}</span>`;}
+function impStatBadge(s){return isFixed(s)?'<span class="imp-done">Done</span>':'<span class="imp-open">Open</span>';}
+function typeBadge(t){const k=impTypeKey(t);const m={ux:'<span class="type-ux">UX &amp; Layout</span>',copy:'<span class="type-copy">Copy &amp; Labels</span>',nav:'<span class="type-nav">Navigation</span>',feat:'<span class="type-feat">Missing Feature</span>'};return m[k]||t;}
+function areaBadge(a){const k=(a||'').toLowerCase().replace(/\s+/g,'');const m={address:'a-address',home:'a-home',search:'a-search',cart:'a-cart',checkout:'a-checkout',orders:'a-orders',navigation:'a-navigation',pdp:'a-pdp'};return`<span class="area-badge ${m[k]||'a-home'}">${e(a)}</span>`;}
+
+// ── BUILD: TC TABLE ───────────────────────────────────────────────────────────
 function buildTCTable(rows,key){
-  let html='<table><thead><tr><th>TC ID</th><th>Status</th><th style="min-width:110px">Module</th><th style="min-width:210px">Test Case Title</th><th style="min-width:150px">Preconditions</th><th style="min-width:200px">Test Steps</th><th style="min-width:190px">Expected Result</th><th>Priority</th><th style="min-width:80px">API</th><th style="min-width:150px">Notes</th></tr></thead><tbody id="body-'+key+'">';
+  let html=`<table><thead><tr><th>TC ID</th><th>Status</th><th style="min-width:110px">Module</th><th style="min-width:210px">Test Case Title</th><th style="min-width:150px">Preconditions</th><th style="min-width:200px">Test Steps</th><th style="min-width:190px">Expected Result</th><th>Priority</th><th style="min-width:70px">API</th><th style="min-width:140px">Notes</th></tr></thead><tbody id="body-tc-${key}">`;
   let count=0;
   rows.forEach(r=>{
     const id=(r[0]||'').trim();if(!id.match(/^ZK-/))return;count++;
-    const module=r[1]||'',title=r[2]||'',pre=r[3]||'',steps=(r[4]||'').replace(/\\n/g,'\n'),exp=r[5]||'',api=r[6]||'',pri=r[7]||'',status=r[8]||'',notes=r[9]||'';
-    const rowBg=count%2===0?'var(--paper)':'';
-    html+='<tr style="background:'+rowBg+'" data-p="'+priKey(pri)+'" data-s="'+statusKey(status)+'" data-q="'+(title+' '+module+' '+notes).toLowerCase().replace(/"/g,'&quot;')+'"><td class="tc-id">'+id+'</td><td>'+statusBadge(status)+'</td><td style="font-size:.71rem;color:var(--mid);font-weight:500">'+module+'</td><td style="font-weight:500;color:var(--ink)">'+title+'</td><td style="font-size:.71rem;color:var(--charcoal)">'+pre+'</td><td class="steps">'+steps+'</td><td class="exp">'+exp+'</td><td>'+priBadge(pri)+'</td><td style="font-size:.68rem;color:var(--blue);font-family:monospace">'+api+'</td><td class="notes">'+notes+'</td></tr>';
+    const bg=count%2===0?'var(--paper)':'';
+    html+=`<tr style="background:${bg}" data-s="${statusKey(r[8])}" data-p="${priKey(r[7])}" data-q="${(r[2]+' '+r[1]+' '+r[9]).toLowerCase()}">
+      <td class="tc-id">${e(id)}</td><td>${statusBadge(r[8])}</td>
+      <td style="font-size:.71rem;color:var(--mid);font-weight:500">${e(r[1])}</td>
+      <td style="font-weight:500">${e(r[2])}</td>
+      <td style="font-size:.71rem;color:var(--charcoal)">${e(r[3])}</td>
+      <td class="steps">${e(r[4])}</td>
+      <td class="exp">${e(r[5])}</td>
+      <td>${priBadge(r[7])}</td>
+      <td style="font-size:.68rem;color:var(--blue);font-family:monospace">${e(r[6])}</td>
+      <td class="notes">${e(r[9])}</td></tr>`;
   });
-  html+='</tbody></table>';
-  return{html,count};
+  return{html:html+'</tbody></table>',count};
 }
 
-// ── BUG TABLE ─────────────────────────────────────────────────────────────────
+// ── BUILD: BUG TABLE ──────────────────────────────────────────────────────────
 function buildBugTable(rows,key){
-  let html='<table><thead><tr class="ui-thead"><th>Bug ID</th><th>Area</th><th>Severity</th><th style="min-width:270px">Description</th><th style="min-width:270px">Steps to Reproduce</th><th>Status</th></tr></thead><tbody id="bbody-'+key+'">';
+  let html=`<table><thead><tr class="bug-thead"><th>Bug ID</th><th>Area</th><th>Severity</th><th style="min-width:270px">Description</th><th style="min-width:270px">Steps to Reproduce</th><th>Status</th></tr></thead><tbody id="body-bugs-${key}">`;
   let count=0;
   rows.forEach(r=>{
     const id=(r[0]||'').trim();if(!id.match(/^ZK-/))return;count++;
-    const area=r[1]||'',sev=r[2]||'',desc=r[3]||'',steps=r[4]||'',status=r[5]||'';
-    const rowBg=count%2===0?'var(--paper)':'';
-    html+='<tr style="background:'+rowBg+'" data-sev="'+sevKey(sev)+'" data-area="'+(area||'').toLowerCase()+'" data-status="'+(status||'').toLowerCase()+'" data-q="'+(desc+' '+area+' '+steps).toLowerCase().replace(/"/g,'&quot;')+'"><td class="tc-id ui-id">'+id+'</td><td><span class="area-badge '+areaClass(area)+'">'+area+'</span></td><td>'+sevBadge(sev)+'</td><td style="font-weight:500;color:var(--ink);font-size:.75rem">'+desc+'</td><td class="steps">'+steps+'</td><td>'+bugStatBadge(status)+'</td></tr>';
+    const bg=count%2===0?'var(--paper)':'';
+    const area=(r[1]||'').trim();
+    html+=`<tr style="background:${bg}" data-sev="${sevKey(r[2])}" data-area="${area.toLowerCase()}" data-status="${isFixed(r[5])?'fixed':'open'}" data-q="${(r[3]+' '+area+' '+r[4]).toLowerCase()}">
+      <td class="tc-id bug-id">${e(id)}</td>
+      <td>${areaBadge(area)}</td>
+      <td>${sevBadge(r[2])}</td>
+      <td style="font-weight:500;font-size:.75rem">${e(r[3])}</td>
+      <td class="steps">${e(r[4])}</td>
+      <td>${bugStatBadge(r[5])}</td></tr>`;
   });
-  html+='</tbody></table>';
-  return{html,count};
+  return{html:html+'</tbody></table>',count};
 }
 
-// ── IMPROVEMENT TABLE ─────────────────────────────────────────────────────────
-function buildImpTable(items,key){
-  let html='<table><thead><tr class="imp-thead"><th>ID</th><th>Area</th><th>Type</th><th>Priority</th><th style="min-width:200px">Improvement</th><th style="min-width:220px">Current Behaviour</th><th style="min-width:220px">Expected / Desired</th><th>Status</th></tr></thead><tbody id="ibody-'+key+'">';
-  items.forEach((imp,i)=>{
-    const rowBg=i%2===0?'':'var(--paper)';
-    html+='<tr style="background:'+rowBg+'" data-pri="'+imp.priority+'" data-type="'+imp.type+'" data-status="'+imp.status.toLowerCase()+'" data-q="'+(imp.title+' '+imp.area+' '+imp.description).toLowerCase().replace(/"/g,'&quot;')+'"><td class="tc-id imp-id">'+imp.id+'</td><td><span class="area-badge '+areaClass(imp.area)+'">'+imp.area+'</span></td><td>'+typeBadge(imp.type)+'</td><td>'+impPriBadge(imp.priority)+'</td><td style="font-weight:500;color:var(--ink);font-size:.75rem">'+imp.title+'</td><td class="steps" style="color:var(--charcoal)">'+imp.current+'</td><td class="steps" style="color:#0F6B5C">'+imp.expected+'</td><td>'+impStatBadge(imp.status.toLowerCase())+'</td></tr>';
+// ── BUILD: IMP TABLE ──────────────────────────────────────────────────────────
+function buildImpTable(rows,key){
+  // Columns from sheet: Imp ID | Area | Priority | Type | Title | Current Behaviour | Expected / Desired | Status
+  let html=`<table><thead><tr class="imp-thead"><th>ID</th><th>Area</th><th>Type</th><th>Priority</th><th style="min-width:200px">Improvement</th><th style="min-width:220px">Current Behaviour</th><th style="min-width:220px">Expected / Desired</th><th>Status</th></tr></thead><tbody id="body-imp-${key}">`;
+  let count=0;
+  rows.forEach(r=>{
+    const id=(r[0]||'').trim();if(!id.match(/^ZK-IMP/))return;count++;
+    const bg=count%2===0?'var(--paper)':'';
+    const area=(r[1]||'').trim(), pri=(r[2]||'').trim(), type=(r[3]||'').trim();
+    html+=`<tr style="background:${bg}" data-pri="${impPriKey(pri)}" data-type="${impTypeKey(type)}" data-status="${isFixed(r[7])?'fixed':'open'}" data-q="${(r[4]+' '+area+' '+r[5]+' '+r[6]).toLowerCase()}">
+      <td class="tc-id imp-id">${e(id)}</td>
+      <td>${areaBadge(area)}</td>
+      <td>${typeBadge(type)}</td>
+      <td>${impPriBadge(pri)}</td>
+      <td style="font-weight:500;font-size:.75rem">${e(r[4])}</td>
+      <td class="steps" style="color:var(--charcoal)">${e(r[5])}</td>
+      <td class="steps" style="color:#0F6B5C">${e(r[6])}</td>
+      <td>${impStatBadge(r[7])}</td></tr>`;
   });
-  html+='</tbody></table>';
-  return{html,count:items.length};
+  return{html:html+'</tbody></table>',count};
 }
 
 // ── FILTERS ──────────────────────────────────────────────────────────────────
-function applyFilter(key){
+function applyTCFilter(key){
   const g=id=>{const el=document.getElementById(id);return el?el.value.toLowerCase().trim():'';};
-  const statF=g('f-'+key+'-s'),priF=g('f-'+key+'-p'),textF=g('f-'+key+'-q');
-  const tbody=document.getElementById('body-'+key);if(!tbody)return;
-  const rows=tbody.querySelectorAll('tr');let shown=0,total=0;
-  rows.forEach(r=>{total++;let v=true;if(statF&&r.dataset.s!==statF)v=false;if(priF&&r.dataset.p!==priF)v=false;if(textF&&!r.dataset.q.includes(textF))v=false;r.style.display=v?'':'none';if(v)shown++;});
+  const sf=g('f-tc-'+key+'-s'),pf=g('f-tc-'+key+'-p'),tf=g('f-tc-'+key+'-q');
+  const tb=document.getElementById('body-tc-'+key);if(!tb)return;
+  const rows=tb.querySelectorAll('tr');let shown=0,total=0;
+  rows.forEach(r=>{total++;let v=true;if(sf&&r.dataset.s!==sf)v=false;if(pf&&r.dataset.p!==pf)v=false;if(tf&&!r.dataset.q.includes(tf))v=false;r.style.display=v?'':'none';if(v)shown++;});
   let idx=0;rows.forEach(r=>{if(r.style.display==='none')return;r.style.background=idx++%2===0?'':'var(--paper)';});
-  const el=document.getElementById(key+'-c');if(el)el.textContent=shown===total?total+' test cases':'Showing '+shown+' of '+total;
+  const c=document.getElementById('tc-'+key+'-c');if(c)c.textContent=shown===total?total+' test cases':'Showing '+shown+' of '+total;
 }
+
 function applyBugFilter(key){
   const g=id=>{const el=document.getElementById(id);return el?el.value.toLowerCase().trim():'';};
-  const sevF=g('f-bugs-'+key+'-sev'),areaF=g('f-bugs-'+key+'-area'),statusF=g('f-bugs-'+key+'-status'),textF=g('f-bugs-'+key+'-q');
-  const tbody=document.getElementById('bbody-'+key);if(!tbody)return;
-  const rows=tbody.querySelectorAll('tr');let shown=0,total=0;
-  rows.forEach(r=>{total++;let v=true;if(sevF&&r.dataset.sev!==sevF)v=false;if(areaF&&r.dataset.area!==areaF)v=false;if(statusF&&r.dataset.status!==statusF)v=false;if(textF&&!r.dataset.q.includes(textF))v=false;r.style.display=v?'':'none';if(v)shown++;});
+  const sevf=g('f-bugs-'+key+'-sev'),areaf=g('f-bugs-'+key+'-area'),statf=g('f-bugs-'+key+'-status'),tf=g('f-bugs-'+key+'-q');
+  const tb=document.getElementById('body-bugs-'+key);if(!tb)return;
+  const rows=tb.querySelectorAll('tr');let shown=0,total=0;
+  rows.forEach(r=>{total++;let v=true;if(sevf&&r.dataset.sev!==sevf)v=false;if(areaf&&r.dataset.area!==areaf)v=false;if(statf&&r.dataset.status!==statf)v=false;if(tf&&!r.dataset.q.includes(tf))v=false;r.style.display=v?'':'none';if(v)shown++;});
   let idx=0;rows.forEach(r=>{if(r.style.display==='none')return;r.style.background=idx++%2===0?'':'var(--paper)';});
-  const el=document.getElementById('bugs-'+key+'-c');if(el)el.textContent=shown===total?total+' bugs':'Showing '+shown+' of '+total;
+  const c=document.getElementById('bugs-'+key+'-c');if(c)c.textContent=shown===total?total+' bugs':'Showing '+shown+' of '+total;
 }
+
 function applyImpFilter(key){
   const g=id=>{const el=document.getElementById(id);return el?el.value.toLowerCase().trim():'';};
-  const priF=g('f-imp-'+key+'-pri'),typeF=g('f-imp-'+key+'-type'),statusF=g('f-imp-'+key+'-status'),textF=g('f-imp-'+key+'-q');
-  const tbody=document.getElementById('ibody-'+key);if(!tbody)return;
-  const rows=tbody.querySelectorAll('tr');let shown=0,total=0;
-  rows.forEach(r=>{total++;let v=true;if(priF&&r.dataset.pri!==priF)v=false;if(typeF&&r.dataset.type!==typeF)v=false;if(statusF&&r.dataset.status!==statusF)v=false;if(textF&&!r.dataset.q.includes(textF))v=false;r.style.display=v?'':'none';if(v)shown++;});
+  const prf=g('f-imp-'+key+'-pri'),typef=g('f-imp-'+key+'-type'),statf=g('f-imp-'+key+'-status'),tf=g('f-imp-'+key+'-q');
+  const tb=document.getElementById('body-imp-'+key);if(!tb)return;
+  const rows=tb.querySelectorAll('tr');let shown=0,total=0;
+  rows.forEach(r=>{total++;let v=true;if(prf&&r.dataset.pri!==prf)v=false;if(typef&&r.dataset.type!==typef)v=false;if(statf&&r.dataset.status!==statf)v=false;if(tf&&!r.dataset.q.includes(tf))v=false;r.style.display=v?'':'none';if(v)shown++;});
   let idx=0;rows.forEach(r=>{if(r.style.display==='none')return;r.style.background=idx++%2===0?'':'var(--paper)';});
-  const el=document.getElementById('imp-'+key+'-c');if(el)el.textContent=shown===total?total+' items':'Showing '+shown+' of '+total;
+  const c=document.getElementById('imp-'+key+'-c');if(c)c.textContent=shown===total?total+' items':'Showing '+shown+' of '+total;
 }
 
 // ── SUMMARIES ─────────────────────────────────────────────────────────────────
 function buildTCSummary(){
-  const modStats={};let totN=0,totPass=0,totFail=0,totNA=0,totP1=0;
-  const desc={hm:'Homepage sections, Flash Deals banner, Brand tiles, Trending',fd:'Flash deal pricing, bottom sheet, timer, cart threshold',sr:'Search bar, typeahead, trending chips, results count, empty state',ca:'Full categories page, subcategory drill-down, leaf navigation',pr:'Profile tab, My Orders link, My Addresses link',or:'Order history, empty state, order card fields',ad:'Address list, add new address form, validation, Zolve import',ct:'Cart items, flash deal cart, order summary, checkout flow, payment',pd:'PDP pricing, variant selector, Add to Cart, quantity stepper',nv:'Bottom nav tabs, back behaviour, cart persistence across tabs',sy:'Shopify sync pricing rules, stale product hiding'};
+  const mods={};let tot=0,tp=0,tf=0,tn=0,tp1=0;
+  const mdesc={hm:'Homepage banner, flash deals, categories, brands, trending',fd:'Flash deal pricing, bottom sheet, timer, cart threshold',sr:'Search bar, typeahead, trending chips, results, empty state',ca:'Full categories page, subcategory drill-down, leaf nav',pr:'Profile tab, My Orders link, My Addresses link',or:'Order history, empty state, order card fields',ad:'Address list, add new address form, validation',ct:'Cart items, flash deal cart, order summary, checkout, payment',pd:'PDP pricing, variants, Add to Cart, quantity stepper',nv:'Bottom nav tabs, back behaviour, tab state',sy:'Shopify sync pricing rules, stale product hiding'};
   TC_MODULES.forEach(({key,label,prefix})=>{
-    const rows=tcDataByKey[key]||[];let n=0,pass=0,fail=0,na=0,p1=0;
-    rows.forEach(r=>{const id=(r[0]||'').trim();if(!id.match(/^ZK-/))return;n++;if((r[7]||'').trim().startsWith('P1'))p1++;const st=(r[8]||'').trim().toLowerCase();if(st==='pass')pass++;else if(st==='fail')fail++;else na++;});
-    modStats[key]={n,pass,fail,na,p1,label};totN+=n;totPass+=pass;totFail+=fail;totNA+=na;totP1+=p1;
+    const rows=tcByKey[key]||[];let n=0,pass=0,fail=0,na=0,p1=0;
+    rows.forEach(r=>{if(!(r[0]||'').trim().match(/^ZK-/))return;n++;if(priKey(r[7])==='p1')p1++;const s=statusKey(r[8]);if(s==='pass')pass++;else if(s==='fail')fail++;else na++;});
+    mods[key]={n,pass,fail,na,p1,label};tot+=n;tp+=pass;tf+=fail;tn+=na;tp1+=p1;
   });
-  const prog=totN>0?Math.round((totPass+totFail)/totN*100):0;
-  document.getElementById('k-total').textContent=totN;document.getElementById('k-pass').textContent=totPass;document.getElementById('k-fail').textContent=totFail;document.getElementById('k-na').textContent=totNA;document.getElementById('k-prog').textContent=prog+'%';document.getElementById('k-p0').textContent=totP1;document.getElementById('stb-tc').textContent=totN;
+  const prog=tot>0?Math.round((tp+tf)/tot*100):0;
+  ['total','pass','fail','na'].forEach(k=>document.getElementById('k-'+k).textContent={total:tot,pass:tp,fail:tf,na:tn}[k]);
+  document.getElementById('k-prog').textContent=prog+'%';
+  document.getElementById('k-p1').textContent=tp1;
+  document.getElementById('stb-tc').textContent=tot;
   let html='<table class="sum-t"><thead><tr><th>Module</th><th style="text-align:center"># TCs</th><th style="text-align:center">Pass</th><th style="text-align:center">Fail</th><th style="text-align:center">Not Run</th><th style="min-width:180px">Progress</th><th>Coverage</th></tr></thead><tbody>';
   TC_MODULES.forEach(({key,label})=>{
-    const c=modStats[key]||{n:0,pass:0,fail:0,na:0};
+    const c=mods[key]||{n:0,pass:0,fail:0,na:0};
     const pp=c.n>0?Math.round(c.pass/c.n*100):0,fp=c.n>0?Math.round(c.fail/c.n*100):0,np=100-pp-fp,pct=c.n>0?Math.round((c.pass+c.fail)/c.n*100):0;
-    html+='<tr><td><strong>'+label+'</strong></td><td style="text-align:center;font-weight:600">'+c.n+'</td><td style="text-align:center">'+(c.pass?'<span class="status s-pass">'+c.pass+'</span>':'<span style="color:var(--silver)">—</span>')+'</td><td style="text-align:center">'+(c.fail?'<span class="status s-fail">'+c.fail+'</span>':'<span style="color:var(--silver)">—</span>')+'</td><td style="text-align:center">'+(c.na?'<span class="status s-na">'+c.na+'</span>':'<span style="color:var(--silver)">—</span>')+'</td><td><div class="pb"><div class="pbr"><div class="pbf pbf-pass" style="width:'+pp+'%"></div><div class="pbf pbf-fail" style="width:'+fp+'%;left:'+pp+'%"></div><div class="pbf pbf-na" style="width:'+np+'%;left:'+(pp+fp)+'%"></div></div><span class="pb-text">'+pct+'% done</span></div></td><td style="font-size:.71rem;color:var(--silver);font-style:italic">'+(desc[key]||'')+'</td></tr>';
+    html+=`<tr><td><strong>${label}</strong></td><td style="text-align:center;font-weight:600">${c.n}</td>
+      <td style="text-align:center">${c.pass?'<span class="status-badge s-pass">'+c.pass+'</span>':'<span style="color:var(--silver)">—</span>'}</td>
+      <td style="text-align:center">${c.fail?'<span class="status-badge s-fail">'+c.fail+'</span>':'<span style="color:var(--silver)">—</span>'}</td>
+      <td style="text-align:center">${c.na?'<span class="status-badge s-na">'+c.na+'</span>':'<span style="color:var(--silver)">—</span>'}</td>
+      <td><div class="pb"><div class="pbr"><div class="pbf pbf-pass" style="width:${pp}%"></div><div class="pbf pbf-fail" style="width:${fp}%;left:${pp}%"></div><div class="pbf pbf-na" style="width:${np}%;left:${pp+fp}%"></div></div><span class="pb-text">${pct}% done</span></div></td>
+      <td style="font-size:.71rem;color:var(--silver);font-style:italic">${mdesc[key]||''}</td></tr>`;
   });
-  html+='<tr class="tr-total"><td><strong>TOTAL</strong></td><td style="text-align:center"><strong>'+totN+'</strong></td><td style="text-align:center"><strong>'+totPass+'</strong></td><td style="text-align:center"><strong>'+totFail+'</strong></td><td style="text-align:center"><strong>'+totNA+'</strong></td><td><span class="pb-text" style="color:var(--white)"><strong>'+prog+'% Complete</strong></span></td><td></td></tr></tbody></table>';
+  html+=`<tr class="tr-total"><td><strong>TOTAL</strong></td><td style="text-align:center"><strong>${tot}</strong></td><td style="text-align:center"><strong>${tp}</strong></td><td style="text-align:center"><strong>${tf}</strong></td><td style="text-align:center"><strong>${tn}</strong></td><td><span class="pb-text" style="color:var(--white)"><strong>${prog}% Complete</strong></span></td><td></td></tr></tbody></table>`;
   html+='<div class="legend"><span class="legend-lbl">Status</span><div class="legend-item"><div class="ldot" style="background:var(--pass)"></div>Pass</div><div class="legend-item"><div class="ldot" style="background:var(--fail)"></div>Fail</div><div class="legend-item"><div class="ldot" style="background:var(--na)"></div>Not Run</div></div>';
   return html;
 }
 
-function buildBugSummary(rows){
-  const areaStats={};let totN=0,totHigh=0,totMed=0,totLow=0,totOpen=0,totFixed=0;
-  rows.forEach(r=>{
+function buildBugSummary(){
+  const areas={};let tot=0,th=0,tm=0,tl=0,to=0,tx=0;
+  bugRows.forEach(r=>{
     const id=(r[0]||'').trim();if(!id.match(/^ZK-/))return;
-    const area=(r[1]||'').trim(),sev=(r[2]||'').trim().toLowerCase(),status=(r[5]||'').trim().toLowerCase();
-    if(!areaStats[area])areaStats[area]={n:0,high:0,med:0,low:0,open:0,fixed:0};
-    areaStats[area].n++;sev==='high'?areaStats[area].high++:(sev==='med'||sev==='medium')?areaStats[area].med++:areaStats[area].low++;
-    (status==='fixed'||status==='closed')?areaStats[area].fixed++:areaStats[area].open++;
-    totN++;sev==='high'?totHigh++:(sev==='med'||sev==='medium')?totMed++:totLow++;(status==='fixed'||status==='closed')?totFixed++:totOpen++;
+    const a=(r[1]||'').trim(),sk=sevKey(r[2]),fixed=isFixed(r[5]);
+    if(!areas[a])areas[a]={n:0,high:0,med:0,low:0,open:0,fixed:0};
+    areas[a].n++;areas[a][sk]++;fixed?areas[a].fixed++:areas[a].open++;
+    tot++;sk==='high'?th++:sk==='med'?tm++:tl++;fixed?tx++:to++;
   });
-  document.getElementById('bk-total').textContent=totN;document.getElementById('bk-high').textContent=totHigh;document.getElementById('bk-med').textContent=totMed;document.getElementById('bk-low').textContent=totLow;document.getElementById('bk-open').textContent=totOpen;document.getElementById('bk-fixed').textContent=totFixed;document.getElementById('stb-bugs').textContent=totN;
-  let html='<table class="sum-t"><thead><tr class="ui-thead"><th>Area</th><th style="text-align:center">Total</th><th style="text-align:center">High</th><th style="text-align:center">Med</th><th style="text-align:center">Low</th><th style="text-align:center">Open</th><th style="text-align:center">Fixed</th><th style="min-width:160px">Resolution</th></tr></thead><tbody>';
+  document.getElementById('bk-total').textContent=tot;
+  document.getElementById('bk-high').textContent=th;
+  document.getElementById('bk-med').textContent=tm;
+  document.getElementById('bk-low').textContent=tl;
+  document.getElementById('bk-open').textContent=to;
+  document.getElementById('bk-fixed').textContent=tx;
+  document.getElementById('stb-bugs').textContent=tot;
+  let html='<table class="sum-t"><thead><tr class="bug-thead"><th>Area</th><th style="text-align:center">Total</th><th style="text-align:center">High</th><th style="text-align:center">Med</th><th style="text-align:center">Low</th><th style="text-align:center">Open</th><th style="text-align:center">Fixed</th><th style="min-width:160px">Resolution</th></tr></thead><tbody>';
   ['Address','Home','Search','Cart','Checkout','Orders','Navigation','PDP'].forEach(area=>{
-    const c=areaStats[area]||{n:0,high:0,med:0,low:0,open:0,fixed:0};if(!c.n)return;
+    const c=areas[area]||{n:0,high:0,med:0,low:0,open:0,fixed:0};if(!c.n)return;
     const fp=c.n>0?Math.round(c.fixed/c.n*100):0,op=100-fp;
-    html+='<tr><td><strong>'+area+'</strong></td><td style="text-align:center;font-weight:600">'+c.n+'</td><td style="text-align:center">'+(c.high?'<span class="sev-high">'+c.high+'</span>':'<span style="color:var(--silver)">—</span>')+'</td><td style="text-align:center">'+(c.med?'<span class="sev-med">'+c.med+'</span>':'<span style="color:var(--silver)">—</span>')+'</td><td style="text-align:center">'+(c.low?'<span class="sev-low">'+c.low+'</span>':'<span style="color:var(--silver)">—</span>')+'</td><td style="text-align:center">'+(c.open?'<span class="bug-open">'+c.open+'</span>':'<span style="color:var(--silver)">—</span>')+'</td><td style="text-align:center">'+(c.fixed?'<span class="bug-fixed">'+c.fixed+'</span>':'<span style="color:var(--silver)">—</span>')+'</td><td><div class="pb"><div class="pbr"><div class="pbf pbf-pass" style="width:'+fp+'%"></div><div class="pbf pbf-fail" style="width:'+op+'%;left:'+fp+'%"></div></div><span class="pb-text">'+fp+'% fixed</span></div></td></tr>';
+    html+=`<tr><td><strong>${area}</strong></td><td style="text-align:center;font-weight:600">${c.n}</td>
+      <td style="text-align:center">${c.high?'<span class="sev-high">'+c.high+'</span>':'<span style="color:var(--silver)">—</span>'}</td>
+      <td style="text-align:center">${c.med?'<span class="sev-med">'+c.med+'</span>':'<span style="color:var(--silver)">—</span>'}</td>
+      <td style="text-align:center">${c.low?'<span class="sev-low">'+c.low+'</span>':'<span style="color:var(--silver)">—</span>'}</td>
+      <td style="text-align:center">${c.open?'<span class="bug-open">'+c.open+'</span>':'<span style="color:var(--silver)">—</span>'}</td>
+      <td style="text-align:center">${c.fixed?'<span class="bug-fixed">'+c.fixed+'</span>':'<span style="color:var(--silver)">—</span>'}</td>
+      <td><div class="pb"><div class="pbr"><div class="pbf pbf-pass" style="width:${fp}%"></div><div class="pbf pbf-bug" style="width:${op}%;left:${fp}%"></div></div><span class="pb-text">${fp}% fixed</span></div></td></tr>`;
   });
-  html+='<tr class="tr-total"><td><strong>TOTAL</strong></td><td style="text-align:center"><strong>'+totN+'</strong></td><td style="text-align:center"><strong>'+totHigh+'</strong></td><td style="text-align:center"><strong>'+totMed+'</strong></td><td style="text-align:center"><strong>'+totLow+'</strong></td><td style="text-align:center"><strong>'+totOpen+'</strong></td><td style="text-align:center"><strong>'+totFixed+'</strong></td><td></td></tr></tbody></table>';
-  html+='<div class="legend"><span class="legend-lbl">Severity</span><div class="legend-item"><div class="ldot" style="background:var(--fail)"></div>High</div><div class="legend-item"><div class="ldot" style="background:var(--amber)"></div>Medium</div><div class="legend-item"><div class="ldot" style="background:var(--pass)"></div>Low</div><span class="legend-lbl" style="margin-left:8px">Status</span><div class="legend-item"><div class="ldot" style="background:var(--ui-accent)"></div>Open</div><div class="legend-item"><div class="ldot" style="background:var(--pass)"></div>Fixed</div></div>';
+  html+=`<tr class="tr-total"><td><strong>TOTAL</strong></td><td style="text-align:center"><strong>${tot}</strong></td><td style="text-align:center"><strong>${th}</strong></td><td style="text-align:center"><strong>${tm}</strong></td><td style="text-align:center"><strong>${tl}</strong></td><td style="text-align:center"><strong>${to}</strong></td><td style="text-align:center"><strong>${tx}</strong></td><td></td></tr></tbody></table>`;
+  html+='<div class="legend"><span class="legend-lbl">Severity</span><div class="legend-item"><div class="ldot" style="background:var(--fail)"></div>High</div><div class="legend-item"><div class="ldot" style="background:var(--amber)"></div>Med</div><div class="legend-item"><div class="ldot" style="background:var(--pass)"></div>Low</div><span class="legend-lbl" style="margin-left:8px">Status</span><div class="legend-item"><div class="ldot" style="background:var(--bug-accent)"></div>Open</div><div class="legend-item"><div class="ldot" style="background:var(--pass)"></div>Fixed</div></div>';
   return html;
 }
 
 function buildImpSummary(){
-  const typeStats={ux:{n:0,high:0,med:0,low:0,open:0,done:0},copy:{n:0,high:0,med:0,low:0,open:0,done:0},nav:{n:0,high:0,med:0,low:0,open:0,done:0},feat:{n:0,high:0,med:0,low:0,open:0,done:0}};
-  let totN=0,totHigh=0,totMed=0,totLow=0,totOpen=0,totDone=0;
-  IMPROVEMENTS.forEach(imp=>{
-    const t=typeStats[imp.type];if(!t)return;
-    t.n++;imp.priority==='high'?t.high++:imp.priority==='med'?t.med++:t.low++;
-    imp.status.toLowerCase()==='done'?t.done++:t.open++;
-    totN++;imp.priority==='high'?totHigh++:imp.priority==='med'?totMed++:totLow++;
-    imp.status.toLowerCase()==='done'?totDone++:totOpen++;
+  const types={ux:{n:0,high:0,med:0,low:0,open:0,done:0},copy:{n:0,high:0,med:0,low:0,open:0,done:0},nav:{n:0,high:0,med:0,low:0,open:0,done:0},feat:{n:0,high:0,med:0,low:0,open:0,done:0}};
+  let tot=0,th=0,tm=0,tl=0,to=0,td=0;
+  impRows.forEach(r=>{
+    const id=(r[0]||'').trim();if(!id.match(/^ZK-IMP/))return;
+    const tk=impTypeKey(r[3]),pk=impPriKey(r[2]),done=isFixed(r[7]);
+    const t=types[tk];if(!t)return;
+    t.n++;t[pk]++;done?t.done++:t.open++;
+    tot++;pk==='high'?th++:pk==='med'?tm++:tl++;done?td++:to++;
   });
-  document.getElementById('ik-total').textContent=totN;document.getElementById('ik-high').textContent=totHigh;document.getElementById('ik-med').textContent=totMed;document.getElementById('ik-low').textContent=totLow;document.getElementById('ik-open').textContent=totOpen;document.getElementById('ik-done').textContent=totDone;document.getElementById('stb-imp').textContent=totN;
-  const typeLabels={ux:'UX & Layout',copy:'Copy & Labels',nav:'Navigation',feat:'Missing Feature'};
-  const typeNote={ux:'Visual polish, spacing, layout clarity, responsive fixes',copy:'Label text, button copy, badge text corrections',nav:'Back stack, scroll restoration, tab routing improvements',feat:'Features missing from current build that were specified'};
-  let html='<table class="sum-t"><thead><tr class="imp-thead"><th>Type</th><th style="text-align:center">Total</th><th style="text-align:center">High</th><th style="text-align:center">Med</th><th style="text-align:center">Low</th><th style="text-align:center">Open</th><th style="text-align:center">Done</th><th style="min-width:180px">Progress</th><th>Description</th></tr></thead><tbody>';
-  ['ux','copy','nav','feat'].forEach(t=>{
-    const c=typeStats[t];const dp=c.n>0?Math.round(c.done/c.n*100):0,op=100-dp;
-    html+='<tr><td><strong>'+typeLabels[t]+'</strong></td><td style="text-align:center;font-weight:600">'+c.n+'</td><td style="text-align:center">'+(c.high?'<span class="imp-high">'+c.high+'</span>':'<span style="color:var(--silver)">—</span>')+'</td><td style="text-align:center">'+(c.med?'<span class="imp-med">'+c.med+'</span>':'<span style="color:var(--silver)">—</span>')+'</td><td style="text-align:center">'+(c.low?'<span class="imp-low">'+c.low+'</span>':'<span style="color:var(--silver)">—</span>')+'</td><td style="text-align:center">'+(c.open?'<span class="imp-open">'+c.open+'</span>':'<span style="color:var(--silver)">—</span>')+'</td><td style="text-align:center">'+(c.done?'<span class="imp-done">'+c.done+'</span>':'<span style="color:var(--silver)">—</span>')+'</td><td><div class="pb"><div class="pbr"><div class="pbf pbf-imp" style="width:'+dp+'%"></div><div class="pbf pbf-na" style="width:'+op+'%;left:'+dp+'%"></div></div><span class="pb-text">'+dp+'% done</span></div></td><td style="font-size:.71rem;color:var(--silver);font-style:italic">'+typeNote[t]+'</td></tr>';
+  document.getElementById('ik-total').textContent=tot;
+  document.getElementById('ik-high').textContent=th;
+  document.getElementById('ik-med').textContent=tm;
+  document.getElementById('ik-low').textContent=tl;
+  document.getElementById('ik-open').textContent=to;
+  document.getElementById('ik-done').textContent=td;
+  document.getElementById('stb-imp').textContent=tot;
+
+      <td><div class="pb"><div class="pbr"><div class="pbf pbf-imp" style="width:${dp}%"></div><div class="pbf pbf-na" style="width:${op}%;left:${dp}%"></div></div><span class="pb-text">${dp}% done</span></div></td>
+      <td style="font-size:.71rem;color:var(--silver);font-style:italic">${tnotes[tk]}</td></tr>`;
   });
-  html+='<tr class="tr-total"><td><strong>TOTAL</strong></td><td style="text-align:center"><strong>'+totN+'</strong></td><td style="text-align:center"><strong>'+totHigh+'</strong></td><td style="text-align:center"><strong>'+totMed+'</strong></td><td style="text-align:center"><strong>'+totLow+'</strong></td><td style="text-align:center"><strong>'+totOpen+'</strong></td><td style="text-align:center"><strong>'+totDone+'</strong></td><td></td><td></td></tr></tbody></table>';
-  html+='<div class="legend"><span class="legend-lbl">Priority</span><div class="legend-item"><div class="ldot" style="background:#92400E"></div>High</div><div class="legend-item"><div class="ldot" style="background:var(--imp-accent)"></div>Medium</div><div class="legend-item"><div class="ldot" style="background:var(--na)"></div>Low</div><span class="legend-lbl" style="margin-left:8px">Status</span><div class="legend-item"><div class="ldot" style="background:var(--imp-accent)"></div>Open</div><div class="legend-item"><div class="ldot" style="background:var(--pass)"></div>Done</div></div>';
+  html+=`<tr class="tr-total"><td><strong>TOTAL</strong></td><td style="text-align:center"><strong>${tot}</strong></td><td style="text-align:center"><strong>${th}</strong></td><td style="text-align:center"><strong>${tm}</strong></td><td style="text-align:center"><strong>${tl}</strong></td><td style="text-align:center"><strong>${to}</strong></td><td style="text-align:center"><strong>${td}</strong></td><td></td><td></td></tr></tbody></table>`;
+  html+='<div class="legend"><span class="legend-lbl">Priority</span><div class="legend-item"><div class="ldot" style="background:#92400E"></div>High</div><div class="legend-item"><div class="ldot" style="background:var(--imp-accent)"></div>Med</div><div class="legend-item"><div class="ldot" style="background:var(--na)"></div>Low</div><span class="legend-lbl" style="margin-left:8px">Status</span><div class="legend-item"><div class="ldot" style="background:var(--imp-accent)"></div>Open</div><div class="legend-item"><div class="ldot" style="background:var(--pass)"></div>Done</div></div>';
   return html;
 }
 
-function showErr(id,msg){const el=document.getElementById(id);if(!el)return;el.innerHTML='<div class="err-box"><h3>Could not load from Google Sheets</h3><p>Ensure sheet is published: <strong>File → Share → Publish to web → each tab → CSV → Publish</strong>. Also serve via HTTP/HTTPS, not file://.</p><p style="margin-top:8px;font-size:.71rem;color:var(--mid)">Error: '+msg+'</p></div>';}
+function showErr(id,msg){
+  const el=document.getElementById(id);if(!el)return;
+  el.innerHTML=`<div class="err-box"><h3>Could not load from Google Sheets</h3><p>Ensure the sheet is published: <strong>File → Share → Publish to web → select each tab → CSV format → Publish</strong>.<br/>Also serve via HTTP/HTTPS, not <code>file://</code>.</p><p style="margin-top:8px;font-size:.71rem;color:var(--mid)">Error: ${msg}</p></div>`;
+}
 
-// ── MAIN LOAD ────────────────────────────────────────────────────────────────
-async function loadActive(){
-  setSyncState('loading','Loading…');
+async function loadAll(){
+  setSyncState('loading','Loading\u2026');
   try{
-    const[tcRaw,bugRaw]=await Promise.all([fetchSheet('ZKart_TestCases_v3'),fetchSheet('Issues')]);
+    const[tcRaw,bugRaw,impRaw]=await Promise.all([
+      fetchSheet('ZKart_TestCases_v3'),
+      fetchSheet('Bugs'),
+      fetchSheet('Improvements'),
+    ]);
     tcRows=tcRaw.slice(2);
+    TC_MODULES.forEach(({key,prefix})=>{
+      tcByKey[key]=tcRows.filter(r=>(r[0]||'').trim().startsWith(prefix));
+    });
     bugRows=bugRaw.slice(1);
-
-    // Classify bugs: filter OUT issues that are improvements (ZK-IMP-*)
-    // The Issues sheet only has true bugs — improvements are hardcoded above
-    TC_MODULES.forEach(({key,prefix})=>{tcDataByKey[key]=tcRows.filter(r=>(r[0]||'').trim().startsWith(prefix));});
-
-    // TC summary + tabs
-    document.getElementById('sum-area').innerHTML=buildTCSummary();
-    const now=new Date();document.getElementById('sum-ts').textContent='Updated '+now.toLocaleTimeString();
-    TC_MODULES.forEach(({key,badge})=>{
-      const{html,count}=buildTCTable(tcDataByKey[key]||[],key);
-      document.getElementById('wrap-'+key).innerHTML=html;
-      document.getElementById(key+'-c').textContent=count+' test cases';
-      const b=document.getElementById(badge);if(b)b.textContent=count;
+    impRows=impRaw.slice(1);
+    const now=new Date();
+    const ts='Updated '+now.toLocaleTimeString();
+    document.getElementById('tc-sum-area').innerHTML=buildTCSummary();
+    document.getElementById('tc-sum-ts').textContent=ts;
+    TC_MODULES.forEach(({key})=>{
+      const{html,count}=buildTCTable(tcByKey[key]||[],key);
+      document.getElementById('wrap-tc-'+key).innerHTML=html;
+      document.getElementById('tc-'+key+'-c').textContent=count+' test cases';
+      const b=document.getElementById('tb-tc-'+key);if(b)b.textContent=count;
+      applyTCFilter(key);
     });
-
-    // Bug summary + tabs
-    document.getElementById('bug-sum-area').innerHTML=buildBugSummary(bugRows);
-    document.getElementById('bug-sum-ts').textContent='Updated '+now.toLocaleTimeString();
-    // All bugs
-    const{html:allH,count:allC}=buildBugTable(bugRows,'all');
-    document.getElementById('wrap-bugs-all').innerHTML=allH;document.getElementById('bugs-all-c').textContent=allC+' bugs';
-    const ab=document.getElementById('tb-bugs-all');if(ab)ab.textContent=allC;
-    // Per-area
-    Object.entries(BUG_AREA_MAP).forEach(([akey,label])=>{
-      const filtered=bugRows.filter(r=>(r[1]||'').trim().toLowerCase()===label.toLowerCase());
-      const{html,count}=buildBugTable(filtered,akey);
-      document.getElementById('wrap-bugs-'+akey).innerHTML=html;document.getElementById('bugs-'+akey+'-c').textContent=count+' bugs';
-      const b=document.getElementById('tb-bugs-'+akey);if(b)b.textContent=count;
+    document.getElementById('bug-sum-area').innerHTML=buildBugSummary();
+    document.getElementById('bug-sum-ts').textContent=ts;
+    {const{html,count}=buildBugTable(bugRows,'all');
+    document.getElementById('wrap-bugs-all').innerHTML=html;
+    document.getElementById('bugs-all-c').textContent=count+' bugs';
+    const b=document.getElementById('tb-bugs-all');if(b)b.textContent=count;
+    applyBugFilter('all');}
+    BUG_AREA_TABS.forEach(({key,match})=>{
+      const filtered=bugRows.filter(r=>(r[1]||'').trim().toLowerCase()===match);
+      const{html,count}=buildBugTable(filtered,key);
+      document.getElementById('wrap-bugs-'+key).innerHTML=html;
+      document.getElementById('bugs-'+key+'-c').textContent=count+' bugs';
+      const b=document.getElementById('tb-bugs-'+key);if(b)b.textContent=count;
+      applyBugFilter(key);
     });
-
-    // Improvements
     document.getElementById('imp-sum-area').innerHTML=buildImpSummary();
-    document.getElementById('imp-sum-ts').textContent='Updated '+now.toLocaleTimeString();
-    // All improvements
-    const{html:impAllH,count:impAllC}=buildImpTable(IMPROVEMENTS,'all');
-    document.getElementById('wrap-imp-all').innerHTML=impAllH;document.getElementById('imp-all-c').textContent=impAllC+' items';
-    const ib=document.getElementById('tb-imp-all');if(ib)ib.textContent=impAllC;
-    // Per-type
-    IMP_TYPES.filter(t=>t!=='all').forEach(t=>{
-      const filtered=IMPROVEMENTS.filter(i=>i.type===t);
-      const{html,count}=buildImpTable(filtered,t);
-      document.getElementById('wrap-imp-'+t).innerHTML=html;document.getElementById('imp-'+t+'-c').textContent=count+' items';
-      const b=document.getElementById('tb-imp-'+t);if(b)b.textContent=count;
+    document.getElementById('imp-sum-ts').textContent=ts;
+    {const{html,count}=buildImpTable(impRows,'all');
+    document.getElementById('wrap-imp-all').innerHTML=html;
+    document.getElementById('imp-all-c').textContent=count+' items';
+    const b=document.getElementById('tb-imp-all');if(b)b.textContent=count;
+    applyImpFilter('all');}
+    IMP_TYPE_TABS.forEach(({key})=>{
+      const filtered=impRows.filter(r=>impTypeKey(r[3])===key);
+      const{html,count}=buildImpTable(filtered,key);
+      document.getElementById('wrap-imp-'+key).innerHTML=html;
+      document.getElementById('imp-'+key+'-c').textContent=count+' items';
+      const b=document.getElementById('tb-imp-'+key);if(b)b.textContent=count;
+      applyImpFilter(key);
     });
-
-    // Re-apply filters
-    TC_MODULES.forEach(({key})=>applyFilter(key));
-    BUG_AREAS.forEach(k=>applyBugFilter(k));
-    IMP_TYPES.forEach(k=>applyImpFilter(k));
-
     document.getElementById('last-sync').textContent='Synced '+now.toLocaleTimeString();
     setSyncState('live','Live');
   }catch(err){
     console.error(err);
-    ['sum-area','bug-sum-area','imp-sum-area'].forEach(id=>showErr(id,err.message));
+    ['tc-sum-area','bug-sum-area','imp-sum-area'].forEach(id=>showErr(id,err.message));
     setSyncState('error','Error');
   }
 }
-function setSyncState(s,l){document.getElementById('sync-dot').className='dot '+s;document.getElementById('sync-lbl').textContent=l;}
 
-loadActive();
-setInterval(loadActive,60000);
+function setSyncState(s,l){
+  document.getElementById('sync-dot').className='dot '+s;
+  document.getElementById('sync-lbl').textContent=l;
+}
+
+loadAll();
+setInterval(loadAll,60000);
 </script>
 </body>
 </html>
